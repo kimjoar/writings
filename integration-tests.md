@@ -112,6 +112,30 @@ it("should show error message when pagination fails", function() {
 For those with experience with Ruby, the `fakeResponse` function almost
 feels like a block.
 
+Often we initialized some view the same way for a lot of tests, as we
+did with `PersonsView` in both test examples above. Often we ended up
+abstracting these into for example a `getPersonsViewFromResponse`, as
+follows:
+
+```javascript
+function getPersonsViewFromResponse(response, options) {
+  var view = new PersonsView({ collection: new Persons() });
+  view.render();
+
+  fakeResponse(response, options, function() {
+    view.collection.fetch();
+  });
+
+  return view;
+}
+```
+
+Thus, we can call `getPersonsViewFromResponse` to initialize our state,
+which makes our tests even easier to write.
+
+---
+
 We have written more than 200 of these tests, and, as they are not
 dependent on putting things in the DOM, they are blazingly fast. Ours
-run in about 1.3 seconds.
+run in about 1.3 seconds. Additionally, they work wonders for our
+certainty and our code.

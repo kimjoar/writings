@@ -1,7 +1,7 @@
 Integration testing Backbone.js
 ===============================
 
-Throuhout my last project we had an interesting approach to testing our
+Throughout my last project we had an interesting approach to testing our
 JavaScript code. Instead of unit testing each and every bit of our
 application, we mocked out Ajax requests and tested that the application
 worked end-to-end. Of course, for complex methods we also wrote unit

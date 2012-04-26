@@ -65,7 +65,7 @@ removed without being afraid of how it impacts the rest of the
 application.
 
 Just as an example, to test this bit of code, we can initialize it with
-`$('<div></div>)` instead of `$('.user')`. Thus, we can call `showImage`
+`$('<div></div>')` instead of `$('.user')`. Thus, we can call `showImage`
 and then check that the image is present in `view.el`, i.e. no DOM
 needed as every thing lives in the jQuery object. In code using Jasmine:
 
@@ -76,7 +76,7 @@ describe('user view', function() {
       image: "image"
     };
 
-    var view = new UserView($('<div></div>), user);
+    var view = new UserView($('<div></div>'), user);
     view.showImage();
 
     var image = view.el.find('img');

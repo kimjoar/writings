@@ -9,9 +9,10 @@ just `$('.sidebar').append("cool!")`. So — what's the problem?
 First of all, how do you test these views? Or, this is JavaScript, so
 you probably
 [don't](https://twitter.com/#!/jasminebdd/status/182322290464276480).
-The basic problem is that you need the DOM present to enable searching
-for selectors, and to have the DOM present you (often) need to set up
-the entire application (which, obviously slows down tests considerably).
+Cheekiness aside, the basic problem is that you need the DOM present to
+enable searching for selectors, and to have the DOM present you (often)
+need to set up the entire application (which, obviously slows down tests
+considerably).
 
 Secondly, who is allowed to change what? Can all functions change
 whatever part of the DOM they want? This wreaks havoc for your tests and
@@ -27,11 +28,11 @@ responsible for themselves.
 What's a view?
 --------------
 
-Basically, it's a component which handles a user interface. In my
-JavaScript code it is responsible for handling a subset of the DOM, e.g.
-adding text, removing nodes, listening to DOM events and so on. But it
-is never ever allowed access to something which is beyond its subset of
-the DOM.
+Basically, it's a component which handles some part of a user interface.
+In my JavaScript code a view is responsible for handling a subset of the
+DOM, e.g. tasks such as adding text, removing nodes, listening to DOM
+events and so on. But it is never ever allowed to access something which
+is beyond its subset of the DOM.
 
 Let's look at an example of a view:
 
@@ -56,6 +57,8 @@ var view = new UserView($('.user'), user);
 // ... and now we can do stuff which changes the DOM
 view.showImage();
 ```
+
+This `view` is never ever to go outside of `.user`. Ever.
 
 No frameworks or libraries are needed, just being strict with how you
 write your code. With these small changes, we have contained a subset of

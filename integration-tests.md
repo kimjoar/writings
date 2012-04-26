@@ -2,21 +2,20 @@ Integration testing Backbone.js
 ===============================
 
 Throughout my last project we had an interesting approach to testing our
-JavaScript code. Instead of unit testing each and every bit of our
+JavaScript code. Instead of unit testing each and every bit of the
 application, we mocked out Ajax requests and tested that the application
 worked end-to-end. Of course, for complex methods we also wrote unit
 tests. Our main goal, however, was not to write a lot of tests, but to
 be more confident that the application worked as expected from a user's
 standpoint.
 
-We got three primary benefits from these tests:
+We experienced three primary benefits from these tests:
 
-* They were not implementation-oriented, but focused on the end result.
-  Thus, when changing code we seldom got failing tests when the
-  application worked as before end-to-end (I have fixing tests when I
-  actually haven't broken anything).
+* Rather than being implementation-oriented, they focus on the end result.
+  This means that restrcturing and changing code rarely makes tests break, 
+  as long as it doesn't break the application's end-to-end behaviour.
 * They were very easy to write using Backbone's abstractions. They
-  also felt easier to write as they entailed a focus on the end result.
+  also more natural to write as they focus on the end result.
 * They were fast, so we could run them all the freakin' time.
 
 Let's look at an example:
@@ -29,7 +28,7 @@ it("should list all persons in response", function() {
   var headers = {};
 
   var view = new PersonsView({ collection: new Persons() });
-  view.render(); // show headline and other static stuff
+  view.render(); // show header and other static stuff
 
   // mock out all requests (this is our core test abstraction)
   fakeResponse(response, headers, function() {
@@ -44,15 +43,15 @@ it("should list all persons in response", function() {
 
 So, basically, we test the end result given a specific response.
 
-To write these tests we used the libraries:
+We used the following libraries for writing tests:
 
 * [Jasmine](http://pivotal.github.com/jasmine/) as our test framework.
 * [Jasmine-jQuery](https://github.com/velesin/jasmine-jquery) for
   fixtures.
 * [Sinon.js](http://sinonjs.org/) for test spies, stubs and mocks.
 
-The core test abstraction in the example is `fakeResponse`. What this
-method does is mocking out all AJAX requests using Sinon.js. This is a
+The core test abstraction in the example is `fakeResponse`. This
+method creates mocks responses for AJAX requests using Sinon.js. This is a
 simplified implementation of the function:
 
 ```javascript
@@ -72,9 +71,9 @@ function fakeResponse(response, options, callback) {
 }
 ```
 
-With this, relatively simple, abstraction we can do a lot of powerful
-stuff in our tests. Let's look at a new example were we interact with
-the view and have several AJAX requests:
+With this relatively simple abstraction we can do a lot of powerful
+stuff in our tests. Let's look at a new example where we interact with
+the view and do several AJAX requests:
 
 ```javascript
 it("should show error message when pagination fails", function() {
@@ -85,7 +84,7 @@ it("should show error message when pagination fails", function() {
 
   // create our initial view
   var view = new PersonsView({ collection: new Persons() });
-  view.render(); // show headline and other static stuff
+  view.render(); // show header and other static stuff
 
   // mock out all requests
   fakeResponse(response, headers, function() {
@@ -109,13 +108,9 @@ it("should show error message when pagination fails", function() {
 });
 ```
 
-(For those with experience with Ruby, the `fakeResponse` function almost
-feels like a block.)
-
-Often we initialized some view the same way for a lot of tests, as we
-did with `PersonsView` in both test examples above. Often we ended up
-abstracting these into, for example, a `getPersonsViewFromResponse` as
-follows:
+We often initialize views the same way for several tests, as with `PersonsView` 
+in the examples above. It is usually a good idea to create abstractions for these at some point.
+For example we can create a `getPersonsViewFromResponse` as follows:
 
 ```javascript
 function getPersonsViewFromResponse(response, options) {

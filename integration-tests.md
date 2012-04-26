@@ -52,7 +52,7 @@ To write these tests we used the libraries:
 * [Sinon.js](http://sinonjs.org/) for test spies, stubs and mocks.
 
 The core test abstraction in the example is `fakeResponse`. What this
-method does, is mocking out all AJAX requests using Sinon.js. This is a
+method does is mocking out all AJAX requests using Sinon.js. This is a
 simplified implementation of the function:
 
 ```javascript
@@ -72,7 +72,7 @@ function fakeResponse(response, options, callback) {
 }
 ```
 
-With this, relatively simple, abstraction, we can do a lot of powerful
+With this, relatively simple, abstraction we can do a lot of powerful
 stuff in our tests. Let's look at a new example were we interact with
 the view and have several AJAX requests:
 
@@ -109,12 +109,12 @@ it("should show error message when pagination fails", function() {
 });
 ```
 
-For those with experience with Ruby, the `fakeResponse` function almost
-feels like a block.
+(For those with experience with Ruby, the `fakeResponse` function almost
+feels like a block.)
 
 Often we initialized some view the same way for a lot of tests, as we
 did with `PersonsView` in both test examples above. Often we ended up
-abstracting these into for example a `getPersonsViewFromResponse`, as
+abstracting these into, for example, a `getPersonsViewFromResponse` as
 follows:
 
 ```javascript

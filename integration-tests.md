@@ -6,7 +6,7 @@ JavaScript code. Instead of unit testing each and every bit of our
 application, we mocked out Ajax requests and tested that the application
 worked end-to-end. Of course, for complex methods we also wrote unit
 tests. Our main goal, however, was not to write a lot of tests, but to
-be more certain that the application worked as expected from a user's
+be more confident that the application worked as expected from a user's
 standpoint.
 
 We got three primary benefits from these tests:
@@ -130,7 +130,7 @@ function getPersonsViewFromResponse(response, options) {
 }
 ```
 
-Thus, we can call `getPersonsViewFromResponse` to initialize our state,
+Thus, we can call `getPersonsViewFromResponse` to initialize our view,
 which makes our tests even easier to write.
 
 ---
@@ -138,4 +138,4 @@ which makes our tests even easier to write.
 We have written more than 200 of these tests, and, as they are not
 dependent on putting things in the DOM, they are blazingly fast. Ours
 run in about 1.3 seconds. Additionally, they work wonders for our
-certainty and our code.
+confidence and our code.

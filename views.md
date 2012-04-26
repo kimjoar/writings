@@ -10,12 +10,13 @@ First of all, how do you test these views? Or, this is JavaScript, so
 you probably
 [don't](https://twitter.com/#!/jasminebdd/status/182322290464276480).
 The basic problem is that you need the DOM present to enable searching
-for selectors this way, and to have the DOM present you (often) need to
-set up the entire application (which, obviously slows down tests).
+for selectors, and to have the DOM present you (often) need to set up
+the entire application (which, obviously slows down tests considerably).
 
 Secondly, who is allowed to change what? Can all functions change
 whatever part of the DOM they want? This wreaks havoc for your tests and
-creates uncertainty as to where something occurs.
+creates uncertainty as to where something occurs. And once again, you
+most likely need to set up the entire application to test the view.
 
 The solution: **A view is responsible for one HTML element and
 everything inside it.**
@@ -26,7 +27,7 @@ responsible for themselves.
 What's a view?
 --------------
 
-Basically, it's a component which handles user interface. In my
+Basically, it's a component which handles a user interface. In my
 JavaScript code it is responsible for handling a subset of the DOM, e.g.
 adding text, removing nodes, listening to DOM events and so on. But it
 is never ever allowed access to something which is beyond its subset of
@@ -57,14 +58,34 @@ view.showImage();
 ```
 
 No frameworks or libraries are needed, just being strict with how you
-write your code. With these small changes, this `UserView` is easily
-testable and can easily be moved around on the page, or even be removed
-without being afraid of how it impacts the rest of the application.
+write your code. With these small changes, we have contained a subset of
+the user interface to a specific view, and this `UserView` is easily
+testable and can easily be moved around on the page. It can even be
+removed without being afraid of how it impacts the rest of the
+application.
 
 Just as an example, to test this bit of code, we can initialize it with
 `$('<div></div>)` instead of `$('.user')`. Thus, we can call `showImage`
 and then check that the image is present in `view.el`, i.e. no DOM
-needed as every thing lives in the jQuery object.
+needed as every thing lives in the jQuery object. In code using Jasmine:
+
+```javascript
+describe('user view', function() {
+  it('should show image', function() {
+    var user = {
+      image: "image"
+    };
+
+    var view = new UserView($('<div></div>), user);
+    view.showImage();
+
+    var image = view.el.find('img');
+    
+    expect(image).toExist();
+    expect(image.attr("src")).toEqual("image");
+  });
+});
+```
 
 But I need to change something 'over there'
 -------------------------------------------

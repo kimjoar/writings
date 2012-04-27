@@ -83,7 +83,7 @@ Utils.optionsMapper = function (array, opts) {
 
 // Using the optionsMapper
 // ... and let's just say we have a persons array
-Utils.optionsMapper(persons, {
+var options = Utils.optionsMapper(persons, {
   value: 'id',
   text: 'name'
 });

@@ -27,9 +27,10 @@ it is suprisingly easy to do.)
 Creating new components
 -----------------------
 
-Backbone.js uses `extend` to create new components. Let's look at how we
-can create a `UserView` which inherit from `View` and has a `showUser`
-method using Backbone.js:
+Backbone.js uses
+[`extend`](http://documentcloud.github.com/backbone/#Model-extend) to
+create new components. Let's look at how we can create a `UserView`
+which inherit from `View` and has a `showUser` method using Backbone.js:
 
 ```javascript
 var UserView = Backbone.View.extend({
@@ -42,7 +43,8 @@ var userView = new UserView();
 userView.showUser(); // showing user
 ```
 
-To create something similar, we can use `$.extend`:
+To create something similar, we can use
+[`$.extend`](http://api.jquery.com/jQuery.extend/):
 
 ```javascript
 var View = function() {};

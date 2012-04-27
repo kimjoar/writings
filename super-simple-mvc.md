@@ -9,7 +9,8 @@ For me these are the most important aspects of Backbone.js:
 
 * A simple way of creating new components which inherit functionality
   from a parent.
-* Creating [responsible views](), so each view *owns* an HTML element.
+* Creating [responsible views](views.md), so each view *owns* an HTML
+  element.
 * Views which wrap DOM-events, so we can specify all our DOM bindings
   for a view in one place.
 * Models that abstract Ajax, so we don't have to perform `$.ajax`

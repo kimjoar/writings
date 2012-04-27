@@ -126,10 +126,12 @@ it is properly tested.
 Less dependent on one person
 ----------------------------
 
-A lot of the JavaScript I've seen is so complex, it's really just the
-person that wrote it that can work efficiently with it.
+A lot of the JavaScript I've seen is so complex it's really just the
+person that wrote it that can work efficiently with it. And that's not
+ok when we start writing more and more JavaScript every day.
 
-Because it's easy
------------------
+Because you would if it was Java
+--------------------------------
 
-
+So just apply the same reasons you apply when convincing yourself that
+testing your Java code is the right thing to do.

@@ -96,7 +96,7 @@ var options = Utils.optionsMapper(persons, {
 
 This is highly reusable and very easy to test. And it does *one* thing.
 
-In the beginning it feels like the wrong thing to do. To solve all the
+In the beginning this feels like the wrong thing to do. To solve all the
 four aspects of the first example, we will end up with far more than 9
 lines of code. But the important aspect is thinking 3k lines ahead. At
 some point you will have so many reusable bits of code that developing
@@ -105,12 +105,18 @@ will feel so much easier and so much faster.
 Maintainability
 ---------------
 
-Additionally, when creating simpler more focused functions, that are far
+Additionally, when creating simpler more focused functions they are far
 easier to maintain. It's easier to work with a function that does one
-thing, than one that does four.
+thing than one that does four.
 
 Documentation
 -------------
+
+Good tests document why the code does what it does. When I'm no longer
+on the project and someone else need to understand why this one function
+does what it does, they can look at the tests and most likely get the
+answer. At least they won't break the intended functionality as long as
+it is properly tested.
 
 Less dependent on one person
 ----------------------------

@@ -99,6 +99,23 @@ var userView = new UserView({ text: "test" });
 // this logs { text: "test" } as expected
 ```
 
+Now that we have a way of creating views, we can create models using the
+exact same logic:
+
+```javascript
+var Model = function() {
+  if (this.initialize) {
+    // ensure that `initialize` is called with the correct arguments
+    this.initialize.apply(this, arguments);
+  }
+};
+
+Model.extend = function (properties) {
+  var obj = $.extend.call({}, this.prototype, properties);
+  return obj.constructor;
+};
+```
+
 Responsible views
 -----------------
 

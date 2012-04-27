@@ -50,8 +50,8 @@ To create something similar, we can use
 var View = function() {};
 
 View.extend = function (properties) {
-  var obj = $.extend.call({}, this.prototype, properties);
-  return obj.constructor;
+  var child = $.extend.call({}, this.prototype, properties);
+  return child.constructor;
 };
 ```
 
@@ -80,8 +80,8 @@ var View = function() {
 };
 
 View.extend = function (properties) {
-  var obj = $.extend.call({}, this.prototype, properties);
-  return obj.constructor;
+  var child = $.extend.call({}, this.prototype, properties);
+  return child.constructor;
 };
 ```
 
@@ -111,8 +111,8 @@ var Model = function() {
 };
 
 Model.extend = function (properties) {
-  var obj = $.extend.call({}, this.prototype, properties);
-  return obj.constructor;
+  var child = $.extend.call({}, this.prototype, properties);
+  return child.constructor;
 };
 ```
 

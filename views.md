@@ -30,9 +30,10 @@ What's a view?
 
 Basically, it's a component which handles some part of a user interface.
 In my JavaScript code a view is responsible for handling a subset of the
-DOM, e.g. tasks such as adding text, removing nodes, listening to DOM
-events and so on. But it is never ever allowed to access something which
-is beyond its subset of the DOM.
+DOM. This includes tasks such as changing the DOM, listening for DOM
+events, and ensuring that the user interface behaves as expected. It is,
+however, never ever allowed to access something which is beyond its
+subset of the DOM.
 
 Let's look at an example of a view:
 
@@ -67,10 +68,11 @@ testable and can easily be moved around on the page. It can even be
 removed without being afraid of how it impacts the rest of the
 application.
 
-Just as an example, to test this bit of code, we can initialize it with
+Just as an example, to test this bit of code we can initialize it with
 `$('<div></div>')` instead of `$('.user')`. Thus, we can call `showImage`
-and then check that the image is present in `view.el`, i.e. no DOM
-needed as every thing lives in the jQuery object. In code using Jasmine:
+and then check that the image is present in `view.el`, i.e. no DOM is
+needed as every thing lives in the jQuery object. Let's look at a code
+example using Jasmine:
 
 ```javascript
 describe('user view', function() {
@@ -82,6 +84,8 @@ describe('user view', function() {
     var view = new UserView($('<div></div>'), user);
     view.showImage();
 
+    // remember that `view.el` is a jQuery object. So now we can call
+    // `find` on it directly instead of looking for `img` in the DOM.
     var image = view.el.find('img');
     
     expect(image).toExist();
@@ -128,7 +132,22 @@ var UserView = function(el, user) {
 }
 ```
 
-Thus, whenever you are interested in something outside a view, you can
+Now, whenever you are interested in something outside a view, you can
 listen for events, and you can also let other views know when something
 has occured. This creates a highly decoupled application which is easy
 to test and easy to extend.
+
+---
+
+To sum up, there are three primary benefits of writing your JavaScript
+in this way:
+
+* You always know who is responsible for some subset of the DOM. Thus,
+  changing another view will *never* impact the DOM outside of its
+  "walls".
+* You can have localized DOM lookup. Instead of looking for 
+  `.user img` you can look for `img` on the user view. With this change
+  you have decoupled your app significantly.
+* It's so amazingly simple to test. And your tests will be blazingly
+  fast as they do not depend on the DOM or on the entire app being set
+  up.

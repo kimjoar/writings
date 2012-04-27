@@ -72,6 +72,7 @@ instantiated. So let's add this little bit of functionality:
 ```javascript
 var View = function() {
   if (this.initialize) {
+    // ensure that `initialize` is called with the correct arguments
     this.initialize.apply(this, arguments);
   }
 };

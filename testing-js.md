@@ -64,8 +64,13 @@ JavaScript. (That last one is my subjective view, of course.)
 When driving JavaScript code through tests I (almost) never write code
 like this.
 
-For example, what if we moved the `select` and `option` stuff into an
-`optionsMapper`?
+Reusability
+-----------
+
+When your code is more focused, it's easier to reuse. Let's try to split
+out one aspect of the previous example into a function that does one
+thing. For example, what if we moved the `select` and `option` stuff
+into an `optionsMapper`?
 
 ```javascript
 var Utils = Utils || {};
@@ -91,11 +96,18 @@ var options = Utils.optionsMapper(persons, {
 
 This is highly reusable and very easy to test. And it does *one* thing.
 
-Reusability
------------
+In the beginning it feels like the wrong thing to do. To solve all the
+four aspects of the first example, we will end up with far more than 9
+lines of code. But the important aspect is thinking 3k lines ahead. At
+some point you will have so many reusable bits of code that developing
+will feel so much easier and so much faster.
 
 Maintainability
 ---------------
+
+Additionally, when creating simpler more focused functions, that are far
+easier to maintain. It's easier to work with a function that does one
+thing, than one that does four.
 
 Documentation
 -------------
@@ -103,6 +115,10 @@ Documentation
 Less dependent on one person
 ----------------------------
 
+A lot of the JavaScript I've seen is so complex, it's really just the
+person that wrote it that can work efficiently with it.
+
 Because it's easy
 -----------------
+
 

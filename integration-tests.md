@@ -2,12 +2,12 @@ Integration testing Backbone.js
 ===============================
 
 Throughout my last project we have had an interesting approach to
-testing our JavaScript code. Instead of unit testing each and every bit
+testing our Backbone.js code. Instead of unit testing each and every bit
 of the application, we mock out Ajax requests and test that the
 application works end-to-end. Of course, for complex methods we also
 write unit tests. Our main goal, however, is not to write a lot of
 tests, but to be more confident that the application work as expected
-from a user's standpoint.
+from a user's point of view.
 
 We have experienced three primary benefits from these tests:
 
@@ -17,7 +17,7 @@ We have experienced three primary benefits from these tests:
   behaviour.
 * They are very easy to write using Backbone's abstractions. They are
   also more natural to write as they focus on the end result.
-* They are fast, so we could run them all the freakin' time.
+* They are very fast, so we could run them all the freakin' time.
 
 Let's look at an example:
 
@@ -59,22 +59,22 @@ simplified implementation of the function:
 function fakeResponse(response, options, callback) {
   var statusCode, headers, server, resp;
 
-  // some default values, so we don't have to set those options all
-  // the time.
+  // some default values, so we don't have to set status code and
+  // content type all the time.
   statusCode = options.statusCode || 200;
   headers = options.headers || { "Content-Type": "application/json" }
 
-  // we create what sinon.js calls a fake server. This is basically just
+  // we create what Sinon.js calls a fake server. This is basically just
   // a name for mocking out all XMLHttpRequests. (There are no actual
-  // servers involved)
+  // servers involved.)
   server = sinon.fakeServer.create();
   
-  // we tell sinon.js what we want to respond with
+  // we tell Sinon.js what we want to respond with
   server.respondWith([statusCode, headers, response]);
 
   callback();
 
-  // this actually makes sinon.js respond to the ajax request. As we can
+  // this actually makes Sinon.js respond to the Ajax request. As we can
   // choose when to respond to a request, it is for example possible to
   // test that spinners start and stop and so on.
   server.respond();
@@ -103,7 +103,7 @@ it("should show error message when pagination fails", function() {
     view.collection.fetch(); // trigger Ajax request
   });
 
-  // now we have set up out initial state, and can go on to doing things
+  // now we have set up our initial state, and can go on to doing things
   // in the view.
 
   // we ensure that errors are not present

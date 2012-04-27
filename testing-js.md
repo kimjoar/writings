@@ -37,12 +37,14 @@ Code quality
 
 The last project I worked at had, by far, the best JavaScript I have
 ever worked with. It was also the first long project I have worked on
-that really put an effort into testing the JavaScript code.
+that really put an effort into testing the JavaScript code. Throughout
+the next sections we will see some reasons as to why JavaScript tests
+might help with improving your JavaScript code.
 
 Less complexity
 ---------------
 
-This looks like JavaScript code I find in my old projects:
+This looks like JavaScript I find in my old projects:
 
 ```javascript
 function populateDropdownWithPersons(select) {
@@ -115,7 +117,14 @@ Maintainability
 
 Additionally, when creating simpler more focused functions they are far
 easier to maintain. It's easier to work with a function that does one
-thing than one that does four.
+thing than one that does four. And, remember, you will most likely use
+far more time on maintaining your JavaScript than on writing new code.
+
+So what does it mean to write maintainable JavaScript code? There are at
+least three aspects that spring to my mind; it should be understandable,
+intuitive and extendable. One essential aspect of this is having a loose
+coupling between components. I propose that driving your JavaScript
+through tests will help in all these regards.
 
 Documentation
 -------------
@@ -138,3 +147,10 @@ Because you would if it was Java
 
 So just apply the same reasons you apply when convincing yourself that
 testing your Java code is the right thing to do.
+
+It's not some magic potion
+--------------------------
+
+Writing good tests is not simple. It's actually quite hard. And writing
+tests will not magically make your code fantastic. But it will help. At
+least it did for me.

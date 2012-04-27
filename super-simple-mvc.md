@@ -20,13 +20,81 @@ For me these are the most important aspects of Backbone.js:
   code.
 
 Let's go through these in order, and see how we can create a super
-simple MVC in less than 50 lines of code while using some great existing
-libraries. (The essence of this is not that it is short, but that it is
-suprisingly simple to do.)
+simple MVC in less than 50 lines of code while using some great and
+widely used libraries. (The essence of this is not its brevity, but that
+it is suprisingly easy to do.)
 
 Creating new components
 -----------------------
 
+Backbone.js uses `extend` to create new components. Let's look at how we
+can create a `UserView` which inherit from `View` and has a `showUser`
+method using Backbone.js:
+
+```javascript
+var UserView = Backbone.View.extend({
+  showUser: function() {
+    console.log("showing user");
+  }
+});
+
+var userView = new UserView();
+userView.showUser(); // showing user
+```
+
+To create something similar, we can use `$.extend`:
+
+```javascript
+var View = function() {};
+
+View.extend = function (properties) {
+  var obj = $.extend.call({}, this.prototype, properties);
+  return obj.constructor;
+};
+```
+
+Now we can create a `UserView` using this abstraction:
+
+```javascript
+var UserView = View.extend({
+  showUser: function() {
+    console.log("showing user");
+  }
+});
+
+var userView = new UserView();
+userView.showUser(); // showing user
+```
+
+In Backbone.js, however, `initialize` is called when a component is
+instantiated. So let's add this little bit of functionality:
+
+```javascript
+var View = function() {
+  if (this.initialize) {
+    this.initialize.apply(this, arguments);
+  }
+};
+
+View.extend = function (properties) {
+  var obj = $.extend.call({}, this.prototype, properties);
+  return obj.constructor;
+};
+```
+
+Now we can create a view which also have an `initialize` method which
+receives all arguments send in when instantiating the view:
+
+```javascript
+var UserView = View.extend({
+  initialize: function(options) {
+    console.log(options);
+  }
+});
+
+var userView = new UserView({ text: "test" });
+// this logs { text: "test" } as expected
+```
 
 Responsible views
 -----------------

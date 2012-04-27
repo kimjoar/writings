@@ -64,6 +64,33 @@ JavaScript. (That last one is my subjective view, of course.)
 When driving JavaScript code through tests I (almost) never write code
 like this.
 
+For example, what if we moved the `select` and `option` stuff into an
+`optionsMapper`?
+
+```javascript
+var Utils = Utils || {};
+Utils.optionsMapper = function (array, opts) {
+  var options = [];
+
+  for(var i = 0, length = array.length; i < length; i++) {
+    var obj = array[i];
+    options.push('<option value="' + obj[opts.value] + '">' + 
+        obj[opts.text] + '</option>');
+  }
+
+  return options;
+}
+
+// Using the optionsMapper
+// ... and let's just say we have a persons array
+Utils.optionsMapper(persons, {
+  value: 'id',
+  text: 'name'
+});
+```
+
+This is highly reusable and very easy to test. And it does *one* thing.
+
 Reusability
 -----------
 

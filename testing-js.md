@@ -26,8 +26,11 @@ Tools are getting better
 ------------------------
 
 Throughout the last few years the JavaScript testing tools have improved
-significantly. There are still many problems, but the tools are good
-enough, i.e. they give more value than they are a pain to work with.
+significantly. There are still many problems, but tools such as
+[Jasmine](http://pivotal.github.com/jasmine/),
+[QUnit](http://docs.jquery.com/QUnit) and
+[Sinon.js](http://sinonjs.org/) are good enough, i.e. they give more
+value than they are a pain to work with.
 
 Code quality
 ------------

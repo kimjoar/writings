@@ -1,5 +1,5 @@
-Creating a simplistic MVC in 50 lines of JavaScript
-===================================================
+Creating a simplistic MVC in JavaScript
+=======================================
 
 I've been using Backbone.js for several projects that last year, but
 recently I started thinking about how easy it is to create some of the
@@ -20,9 +20,9 @@ For me these are the most important aspects of Backbone.js:
   code.
 
 Let's go through these in order, and see how we can create a super
-simple MVC in less than 50 lines of code while using some great and
-widely used libraries. (The essence of this is not its brevity, but that
-it is suprisingly easy to do.)
+simple, albeit simplistic, MVC while using some great and widely used
+libraries. (The essence of this is not its brevity, but that it is
+suprisingly easy to do.)
 
 Creating new components
 -----------------------

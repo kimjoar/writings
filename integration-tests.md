@@ -31,7 +31,12 @@ it("should list all persons in response", function() {
   var view = new PersonsView({ collection: new Persons() });
   view.render(); // show header and other static stuff
 
-  // mock out all requests (this is our core test abstraction)
+  // mock out all requests (this is our core test abstraction),
+  // i.e. what this function does is responding to all Ajax requests in
+  // the callback with the same response and with the same headers.
+  // Thus, when `fakeResponse` is finished, all Ajax requests will have
+  // responded, and as we listen for finished Ajax requests in our view,
+  // we will then have properly set up our PersonsView.
   fakeResponse(response, headers, function() {
     view.collection.fetch(); // trigger Ajax request
   });

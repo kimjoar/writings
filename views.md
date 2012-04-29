@@ -48,6 +48,9 @@ outside its subset of the DOM.
 Let's look at an example of a view:
 
 ```javascript
+// a view constructor which accepts:
+// - el, which is a jQuery object of the HTML element the view owns
+// - user, which is a user model with key-value pairs
 var UserView = function(el, user) {
   this.el = el;
   this.user = user;

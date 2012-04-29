@@ -28,19 +28,19 @@ responsible for themselves.
 What's a view?
 --------------
 
-Basically, it's a component which handles some part of a user interface.
-My views have five primary responsibilities (Those familiar with MVC and
-MVP will probably call these views Controllers or Presenters, but the
-nomenclature is not important — splitting responsibilities between
-different components is):
+Basically, a view is a component which handles some part of a user
+interface. My views have five primary responsibilities (Those familiar
+with MVC and MVP will probably call these views *Controllers* or
+*Presenters*, but the nomenclature is not important — splitting
+responsibilities between different components is):
 
-* Rendering the view itself, i.e. making changes to the DOM.
+* Rendering the view, i.e. making changes to the DOM.
 * Listening for DOM events, such as `click` and `submit`.
-* Listening for events from the rest of my application. A view also 
+* Listening for events from the rest of my application. A view also
   trigger events.
 * Creating sub-views if they are needed.
-* Updating models based on changes in the view (a model is responsible
-  for persisting state.)
+* Updating models based on changes in the view (a model can for example
+  be responsible for persisting state.)
 
 A view is, however, never ever allowed to access something which is
 outside its subset of the DOM.
@@ -65,7 +65,7 @@ var user = {
   image: 'http://example.com/image.png'
 };
 
-// we initialize the view with its el and a user
+// initialize the view with the jQuery object the view owns and a user
 var view = new UserView($('.user'), user);
 
 // ... and now we can do stuff which changes the DOM
@@ -150,7 +150,8 @@ listen for events, and you can also let other views know when something
 has occurred. This creates a highly decoupled application which is easy
 to test and easy to extend.
 
----
+But, why?
+---------
 
 To sum up, there are three primary benefits of writing your JavaScript
 in this way:
@@ -158,9 +159,8 @@ in this way:
 * You always know who is responsible for some subset of the DOM. Thus,
   changing another view will *never* impact the DOM outside of its
   "walls".
-* You can have localized DOM lookup. Instead of looking for 
-  `.user img` you can look for `img` on the user view. With this change
-  you have decoupled your app significantly.
-* It's so amazingly simple to test. And your tests will be blazingly
-  fast as they do not depend on the DOM or on the entire app being set
-  up.
+* You can have localized DOM lookup. Instead of looking for `.user img`
+  you can look for `img` on the user view. Based on hte above example,
+  we can find the image by writing `userView.el.find('img')`.
+* It's very simple to test. And your tests will be blazingly fast as
+  they do not depend on the DOM or on the entire app being set up.

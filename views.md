@@ -11,7 +11,7 @@ you probably
 [don't](https://twitter.com/#!/jasminebdd/status/182322290464276480).
 Cheekiness aside, the basic problem is that you need the DOM present to
 enable searching for selectors, and to have the DOM present you (often)
-need to set up the entire application — which, obviously slows down
+need to set up the entire application — which, obviously, slows down
 tests considerably.
 
 Secondly, who is allowed to change what? Can all functions change
@@ -22,7 +22,7 @@ most likely need to set up the entire application to test the view.
 My solution: **A view is responsible for one HTML element and everything
 inside it.**
 
-And, of course, a view may contain several subviews which again are
+And, of course, a view may contain several sub-views which again are
 responsible for themselves.
 
 What's a view?
@@ -38,7 +38,7 @@ different components is):
 * Listening for DOM events, such as `click` and `submit`.
 * Listening for events from the rest of my application. A view also 
   trigger events.
-* Creating subviews if they are needed.
+* Creating sub-views if they are needed.
 * Updating models based on changes in the view (a model is responsible
   for persisting state.)
 
@@ -118,7 +118,7 @@ The solution is events.
 
 Events are basically just a way to say: "Hi, I want to know when some
 action occurs" and "Hi, you know what? The action you're waiting for
-just occured!" We are used to this idea from jQuery DOM events such as
+just occurred!" We are used to this idea from jQuery DOM events such as
 `click` and `submit`. Now we are just moving it into the rest of our
 code.
 
@@ -147,7 +147,7 @@ var UserView = function(el, user) {
 
 Now, whenever you are interested in something outside a view, you can
 listen for events, and you can also let other views know when something
-has occured. This creates a highly decoupled application which is easy
+has occurred. This creates a highly decoupled application which is easy
 to test and easy to extend.
 
 ---

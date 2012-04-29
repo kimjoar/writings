@@ -116,8 +116,14 @@ Model.extend = function (properties) {
 };
 ```
 
+TODO:
+
+* Prototype chain?
+
 Responsible views
 -----------------
+
+First of all, read [my blog post on views](views.md).
 
 ```javascript
 // render the view to `$el`

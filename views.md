@@ -19,8 +19,8 @@ whatever part of the DOM they want? This wreaks havoc for your tests and
 creates uncertainty as to where something occurs. And once again, you
 most likely need to set up the entire application to test the view.
 
-The solution: **A view is responsible for one HTML element and
-everything inside it.**
+My solution: **A view is responsible for one HTML element and everything
+inside it.**
 
 And, of course, a view may contain several subviews which again are
 responsible for themselves.
@@ -29,17 +29,21 @@ What's a view?
 --------------
 
 Basically, it's a component which handles some part of a user interface.
-My views have five primary responsibilities:
+My views have five primary responsibilities (Those familiar with MVC and
+MVP will probably call these views Controllers or Presenters, but the
+nomenclature is not important — splitting responsibilities between
+different components is):
 
 * Rendering the view itself, i.e. making changes to the DOM.
 * Listening for DOM events, such as `click` and `submit`.
-* Listening for events from the rest of my application.
+* Listening for events from the rest of my application. A view also 
+  trigger events.
 * Creating subviews if they are needed.
 * Updating models based on changes in the view (a model is responsible
   for persisting state.)
 
 A view is, however, never ever allowed to access something which is
-beyond its subset of the DOM.
+outside its subset of the DOM.
 
 Let's look at an example of a view:
 

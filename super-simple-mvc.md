@@ -119,6 +119,18 @@ Model.extend = function (properties) {
 Responsible views
 -----------------
 
+```javascript
+// render the view to `$el`
+View.prototype.renderTemplate: function(data) {
+  template = Mustache.to_html(this.template, data);
+  this.$el = $(template);
+};
+
+// find something in the views DOM
+View.prototype.DOM: function(selector) {
+  return this.$el.find(selector);
+};
+```
 
 Wrapping DOM events
 -------------------

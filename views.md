@@ -11,8 +11,8 @@ you probably
 [don't](https://twitter.com/#!/jasminebdd/status/182322290464276480).
 Cheekiness aside, the basic problem is that you need the DOM present to
 enable searching for selectors, and to have the DOM present you (often)
-need to set up the entire application (which, obviously slows down tests
-considerably).
+need to set up the entire application — which, obviously slows down
+tests considerably.
 
 Secondly, who is allowed to change what? Can all functions change
 whatever part of the DOM they want? This wreaks havoc for your tests and
@@ -29,11 +29,17 @@ What's a view?
 --------------
 
 Basically, it's a component which handles some part of a user interface.
-In my JavaScript code a view is responsible for handling a subset of the
-DOM. This includes tasks such as changing the DOM, listening for DOM
-events, and ensuring that the user interface behaves as expected. It is,
-however, never ever allowed to access something which is beyond its
-subset of the DOM.
+My views have five primary responsibilities:
+
+* Rendering the view itself, i.e. making changes to the DOM.
+* Listening for DOM events, such as `click` and `submit`.
+* Listening for events from the rest of my application.
+* Creating subviews if they are needed.
+* Updating models based on changes in the view (a model is responsible
+  for persisting state.)
+
+A view is, however, never ever allowed to access something which is
+beyond its subset of the DOM.
 
 Let's look at an example of a view:
 

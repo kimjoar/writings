@@ -9,11 +9,11 @@ write unit tests. Our main goal, however, is not to write a lot of
 tests, but to be more confident that the application work as expected
 from a user's point of view.
 
-We have experienced three primary benefits from these tests:
+We experience three primary benefits from these tests:
 
 * Rather than being implementation-oriented, they focus on the end
-  result. This means that restructuring and changing code rarely makes
-  tests break, as long as it doesn't break the application's end-to-end
+  result. This means that restructuring and changing code rarely break
+  tests, as long as it doesn't break the application's end-to-end
   behaviour.
 * They are very easy to write using Backbone's abstractions. They are
   also more natural to write as they focus on the end result.
@@ -26,18 +26,19 @@ it("should list all persons in response", function() {
 
   // fetch an Ajax response
   var response = readFixtures("responses/persons.json");
-  var headers = {};
+  var options = {};
 
+  // create our view, sending in an empty collection
   var view = new PersonsView({ collection: new Persons() });
   view.render(); // show header and other static stuff
 
   // mock out all requests (this is our core test abstraction),
   // i.e. what this function does is responding to all Ajax requests in
-  // the callback with the same response and with the same headers.
+  // the callback with the same response and with the same options.
   // Thus, when `fakeResponse` is finished, all Ajax requests will have
   // responded, and as we listen for finished Ajax requests in our view,
   // we will then have properly set up our PersonsView.
-  fakeResponse(response, headers, function() {
+  fakeResponse(response, options, function() {
     view.collection.fetch(); // trigger Ajax request
   });
 
@@ -81,7 +82,8 @@ function fakeResponse(response, options, callback) {
 
   // this actually makes Sinon.js respond to the Ajax request. As we can
   // choose when to respond to a request, it is for example possible to
-  // test that spinners start and stop and so on.
+  // test that spinners start and stop, that we handle timeouts
+  // properly, and so on.
   server.respond();
 
   server.restore();
@@ -151,7 +153,6 @@ which makes our tests even easier to write.
 
 ---
 
-We have written more than 200 of these tests, and, as they are not
-dependent on putting things in the DOM, they are blazingly fast. Ours
-run in about 1.3 seconds. Additionally, they work wonders for our
-confidence and our code.
+We have written more than 200 of these tests, and, as they don't change
+the DOM, they are blazingly fast. Ours run in about 1.3 seconds.
+Additionally, they work wonders for our confidence and our code.

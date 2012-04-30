@@ -12,8 +12,8 @@ from a user's point of view.
 We experience three primary benefits from these tests:
 
 * Rather than being implementation-oriented, they focus on the end
-  result. This means that restructuring and changing code rarely break
-  tests, as long as it doesn't break the application's end-to-end
+  result. This means that restructuring and changing code rarely breaks
+  tests, as long as we don't break the application's end-to-end
   behaviour.
 * They are very easy to write using Backbone's abstractions. They are
   also more natural to write as they focus on the end result.
@@ -26,7 +26,7 @@ it("should list all persons in response", function() {
 
   // fetch an Ajax response
   var response = readFixtures("responses/persons.json");
-  var options = {};
+  var options = {}; // no additional options for the Ajax request
 
   // create our view, sending in an empty collection
   var view = new PersonsView({ collection: new Persons() });
@@ -116,11 +116,12 @@ it("should show error message when pagination fails", function() {
   // we ensure that errors are not present
   expect(view.$('.errors')).not.toExist();
 
-  // we create an error response ...
+  // we set up an error response ...
   fakeResponse(errorResponse, { statusCode: 503 }, function() {
 
     // ... and we trigger the error by clicking the next button
-    // (in our view we listen for the click event and start the pagination)
+    // (in our view we listen for the click event and start the
+    // pagination process)
     view.$('a.more').click();
 
   });

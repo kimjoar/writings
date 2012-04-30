@@ -4,7 +4,7 @@ A view's responsibility — lessons on JavaScript and the DOM
 Throughout most JavaScript code I've seen, `$` is littered all over the
 place. You need all list items from the members list? Just do
 `$('.members li')`. And then you need to add something to the sidebar,
-just `$('.sidebar').append("cool!")`. So — what's the problem?
+just `$('.sidebar').append("this is so easy")`. So — what's the problem?
 
 First of all, how do you test these views? Or, this is JavaScript, so
 you probably
@@ -36,8 +36,8 @@ responsibilities between different components is):
 
 * Rendering the view, i.e. making changes to the DOM.
 * Listening for DOM events, such as `click` and `submit`.
-* Listening for events from the rest of my application. A view also
-  trigger events.
+* Listening for events from the rest of my application, plus triggering
+  events when the view is in certain states.
 * Creating sub-views if they are needed.
 * Updating models based on changes in the view (a model can for example
   be responsible for persisting state.)
@@ -107,6 +107,16 @@ describe('user view', function() {
 });
 ```
 
+With a small helper function the code becomes even better to work with:
+
+```javascript
+UserView.prototype.DOM = function(select) {
+  return this.el.find(selector);
+}
+```
+
+Now you can write `view.DOM('img')` instead of `view.el.find('img')`.
+
 But I need to change something 'over there'
 -------------------------------------------
 
@@ -154,13 +164,12 @@ But, why?
 ---------
 
 To sum up, there are three primary benefits of writing your JavaScript
-in this way:
+views like this:
 
-* You always know who is responsible for some subset of the DOM. Thus,
-  changing another view will *never* impact the DOM outside of its
-  "walls".
+* You always know who is responsible for some subset of the DOM, and
+  changing a view will *never* impact the DOM outside of its "walls".
 * You can have localized DOM lookup. Instead of looking for `.user img`
   you can look for `img` on the user view. Based on hte above example,
-  we can find the image by writing `userView.el.find('img')`.
+  we can find the image by writing `userView.DOM('img')`.
 * It's very simple to test. And your tests will be blazingly fast as
   they do not depend on the DOM or on the entire app being set up.

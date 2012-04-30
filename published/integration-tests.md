@@ -1,6 +1,8 @@
 Integration testing Backbone.js
 ===============================
 
+[This blog post is published at open.bekk.no](http://open.bekk.no/integration-testing-backbone-js/)
+
 Throughout my last project we have had an interesting approach to
 testing our Backbone.js code. Instead of unit testing each and every bit
 of the application, we mock out Ajax requests and test that the

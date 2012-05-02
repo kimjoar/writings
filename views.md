@@ -39,8 +39,8 @@ responsibilities between different components is):
 * Listening for events from the rest of my application, plus triggering
   events when the view is in certain states.
 * Creating sub-views if they are needed.
-* Updating models based on changes in the view (a model can for example
-  be responsible for persisting state.)
+* Updating models based on changes in the view (Don't you dare make
+  `$.ajax` calls directly in views!)
 
 A view is, however, never ever allowed to access something which is
 outside its subset of the DOM.

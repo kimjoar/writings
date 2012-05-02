@@ -75,47 +75,53 @@ view.showImage();
 This `view` is never ever to go outside of `.user`. Ever.
 
 No frameworks or libraries are needed, just being strict with how you
-write your code. With these small changes, we have contained a subset of
+write your code. With these small changes we have contained a subset of
 the user interface to a specific view, and this `UserView` is easily
 testable and can easily be moved around on the page. It can even be
 removed without being afraid of how it impacts the rest of the
 application.
 
+Easily testable
+---------------
+
 Just as an example, to test this bit of code we can initialize it with
-`$('<div></div>')` instead of `$('.user')`. Thus, we can call `showImage`
-and then check that the image is present in `view.el`, i.e. no DOM is
-needed as every thing lives in the jQuery object. Let's look at a code
-example using Jasmine:
+`$('<div></div>')` instead of `$('.user')`. This just means that we let
+an empty `div` live in the jQuery object instead of the `.user` subset
+of the DOM.
+
+Using this trick, we can call `showImage` and check that the image is
+present in the view, i.e. no DOM is needed as everything lives in the
+jQuery object. Let's look at a code example using Jasmine:
 
 ```javascript
 describe('user view', function() {
-  it('should show image', function() {
+  it('should be able to show image', function() {
     var user = {
-      image: "image"
+      image: "user.png"
     };
 
     var view = new UserView($('<div></div>'), user);
     view.showImage();
 
     // remember that `view.el` is a jQuery object. So now we can call
-    // `find` on it directly instead of looking for `img` in the DOM.
+    // `find` on it directly instead of looking for `img` in the entire
+    // DOM.
     var image = view.el.find('img');
     
-    expect(image).toExist();
-    expect(image.attr("src")).toEqual("image");
+    expect(image.attr("src")).toEqual("user.png");
   });
 });
 ```
 
-With a small helper function the code becomes even better to work with:
+With a small helper function the code becomes even easier to work with:
 
 ```javascript
-UserView.prototype.DOM = function(select) {
+UserView.prototype.$ = function(select) {
   return this.el.find(selector);
 }
 ```
 
-Now you can write `view.DOM('img')` instead of `view.el.find('img')`.
+Now you can write `view.$('img')` instead of `view.el.find('img')`.
 
 But I need to change something 'over there'
 -------------------------------------------
@@ -169,7 +175,7 @@ views like this:
 * You always know who is responsible for some subset of the DOM, and
   changing a view will *never* impact the DOM outside of its "walls".
 * You can have localized DOM lookup. Instead of looking for `.user img`
-  you can look for `img` on the user view. Based on hte above example,
+  you can look for `img` on the user view. Based on the above example
   we can find the image by writing `userView.DOM('img')`.
 * It's very simple to test. And your tests will be blazingly fast as
   they do not depend on the DOM or on the entire app being set up.

@@ -1,6 +1,8 @@
 A view's responsibility — lessons on JavaScript and the DOM
 ===========================================================
 
+(Published at [open.bekk.no](http://open.bekk.no/a-views-responsibility/))
+
 Throughout most JavaScript code I've seen, `$` is littered all over the
 place. You need all list items from the members list? Just do
 `$('.members li')`. And then you need to add something to the sidebar,

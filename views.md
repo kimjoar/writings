@@ -90,8 +90,8 @@ an empty `div` live in the jQuery object instead of the `.user` subset
 of the DOM.
 
 Using this trick, we can test the user view by calling `showImage` and
-then check that the image is present in the view, i.e. no DOM is needed
-as everything lives in the jQuery object. Let's look at a code example
+then check that the image is present. As everything lives in the jQuery
+object we don't need to set up the DOM. Let's look at a code example
 using Jasmine:
 
 ```javascript

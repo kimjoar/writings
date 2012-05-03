@@ -94,9 +94,7 @@ created above:
    ```
 
 Both of these will end up giving us access to `mixin` on our created
-views.
-
-Let's look at a complete implementation:
+views. Let's look at a complete implementation based on the latter:
 
 ```javascript
 var BaseView = Backbone.View.extend({

@@ -1,18 +1,18 @@
 Mixins in Backbone
 ==================
 
-We have several times seen the need to include similar methods in
-models, collections and views. I've seen many create a component which
-they extend from, e.g. a `PaginationCollection`, but we didn't like this
-solution. We solved it by introducing mixins.
+In our Backbone.js code we have several times seen the need to include
+similar methods in models, collections and views. I've seen many create
+a component which they extend from, e.g. a `PaginationCollection`, but
+we didn't like this solution. We solved it by introducing mixins.
 
 What's a mixin?
 ---------------
 
 A mixin allows you to extend your Backbone components with utility
 functions. Let's, as an example, say that we have pagination which is
-similar in many components, but not in all. It might also be that some
-collections don't have pagination at all. How should we include this
+similar in many views, but not in all. It might also be that some views
+don't want to paginate a collection at all. How should we include this
 functionality?
 
 We have the following API for adding extra functionality:
@@ -34,7 +34,8 @@ Let's have a look at how these mixins can be implemented. First, we can
 see the basic function which implements mixins for views:
 
 ```javascript
-var mixin = function(from) {
+Utils = {};
+Utils.mixin = function(from) {
   var to = this.prototype;
 
   _.defaults(to, from);
@@ -42,13 +43,12 @@ var mixin = function(from) {
 
   Utils.extendMethod(to, from, "initialize");
   Utils.extendMethod(to, from, "render");
-}
+};
 ```
 
 Helper method:
 
 ```javascript
-Utils = {};
 Utils.extendMethod = function(to, from, methodName) {
   if (!_.isUndefined(from[methodName])) {
     var old = to[methodName];
@@ -96,6 +96,62 @@ created above:
 Both of these will end up giving us access to `mixin` on our created
 views.
 
+Let's look at a complete implementation:
+
+```javascript
+var BaseView = Backbone.View.extend({
+    // add base methods
+}, {
+    mixin: Utils.mixin
+});
+
+var UserView = BaseView.extend({
+    events: {
+        "click h1": "user"
+    },
+
+    initialize: function() {
+        console.log("user init");
+    },
+
+    user: function() {
+        return "user";
+    }
+});
+
+var Pagination = {
+    events: {
+        "click a.next": "paginate"
+    },
+
+    initialize: function() {
+        console.log("pagination init");
+    },
+
+    next: function() {
+        return "next for: " + this.user();
+    },
+
+    paginate: function() {
+        console.log("paginating");
+    }
+};
+
+UserView.mixin(Pagination);
+
+var view = new UserView();
+// this initialization console logs (in order):
+// "user init"
+// "pagination init"
+
+console.log(view.user()); // "user"
+console.log(view.next()); // "next for: user"
+console.log(view.events); // {
+                          //   "click a.next": "paginate",
+                          //   "click h1": "user"
+                          // }
+```
+
 Testing
 -------
 
@@ -106,6 +162,8 @@ also have their idiosyncracies in how they use the mixed in code.
 
 Luckily, Jasmine has a great way to include similar tests several
 places.
+
+TODO: Example
 
 ---
 

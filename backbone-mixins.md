@@ -10,7 +10,7 @@ What's a mixin?
 ---------------
 
 A mixin allows you to extend your Backbone components with utility
-functions. Let's, as an example, say that we have pagination which is
+functions. Let's, for example, say that we have pagination which is
 similar in many views, but not in all. It might also be that some views
 don't want to paginate a collection at all. How should we include this
 functionality?
@@ -23,41 +23,58 @@ AppView.mixin(Transitions);
 ```
 
 What's cool about our implementation is that we can even include our own
-`initialize`, `render` and `events` in these view mixins. They only end
-up extending the existing functions. Thus, with these in place you can
-(almost always) fully contain functionality in the mixin.
+`initialize`, `render` and `events` in these view mixins, and they will
+end up extending the existing functions. Thus, with these in place you
+can (almost always) fully contain functionality in the mixin.
 
 Implementation
 --------------
 
 Let's have a look at how these mixins can be implemented. First, we can
-see the basic function which implements mixins for views:
+take a look at the basic `mixin` function:
 
 ```javascript
 Utils = {};
 Utils.mixin = function(from) {
   var to = this.prototype;
 
+  // we add those methods which exists on `from` but not on `to` to the latter
   _.defaults(to, from);
+  // and we do the same for events
   _.defaults(to.events, from.events);
 
+  // we then extend `to`'s `initialize`
   Utils.extendMethod(to, from, "initialize");
+  // and its `render`
   Utils.extendMethod(to, from, "render");
 };
 ```
 
-Helper method:
+And this is the helper method to extend an already existing method:
 
 ```javascript
 Utils.extendMethod = function(to, from, methodName) {
+
+  // if the method is defined on from ...
   if (!_.isUndefined(from[methodName])) {
     var old = to[methodName];
+    
+    // ... we create a new function on to
     to[methodName] = function() {
+
+      // wherein we first call the method which exists on `to`
       var oldReturn = old.apply(this, arguments);
+
+      // and then call the method on `from`
       from[methodName].apply(this, arguments);
+
+      // and then return the expected result,
+      // i.e. what the method on `to` returns
       return oldReturn;
+
     };
   }
+
 };
 ```
 
@@ -153,10 +170,11 @@ console.log(view.events); // {
 Testing
 -------
 
-We could have tested the mixins by themself, but as they are always used
-by other components, that felt strange. Many of them create essential
-functionality in the components they are mixed with, and many components
-also have their idiosyncracies in how they use the mixed in code.
+We could have tested the mixins by themselves, but as they are always
+used by other components, that felt strange. Many of them create
+essential functionality in the components they are mixed with, and many
+components also have their idiosyncracies in how they use the mixed in
+code.
 
 Luckily, Jasmine has a great way to include similar tests several
 places.

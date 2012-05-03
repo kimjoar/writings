@@ -119,7 +119,7 @@ describe('user view', function() {
 With a small helper function the code becomes even easier to work with:
 
 ```javascript
-UserView.prototype.$ = function(select) {
+UserView.prototype.$ = function(selector) {
   return this.el.find(selector);
 }
 ```

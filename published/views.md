@@ -182,3 +182,11 @@ views like this:
   we can find the image by writing `userView.DOM('img')`.
 * It's very simple to test. And your tests will be blazingly fast as
   they do not depend on the DOM or on the entire app being set up.
+
+---
+
+Many of the ideas I discuss in this blog post is both inspired by and
+beautifully handled by
+[Backbone.js](http://documentcloud.github.com/backbone/) and
+[Spine.js](http://spinejs.com/). I truly recommend checking out those
+libraries if you're working on a large JavaScript application.

@@ -71,7 +71,7 @@ created above:
    component. We can use this idea and add `mixin` like this:
 
    ```javascript
-   Backbone.View.mixin = mixin;
+   Backbone.View.mixin = Utils.mixin;
    ```
 2. If you create a layered architecture, you can include `mixin` in one
    of your layers. We created a `BaseView` which we created all our
@@ -89,7 +89,7 @@ created above:
    var BaseView = Backbone.View.extend({
      // lots of methods
    }, {
-     mixin: mixin
+     mixin: Utils.mixin
    })
    ```
 

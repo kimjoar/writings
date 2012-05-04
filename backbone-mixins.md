@@ -208,11 +208,7 @@ function:
 
 ```javascript
 describe("users", function() {
-  it("should list all users", function() {
-    // ...
-  };
-
-  // ...
+  // ... lots of users specific specs
 
   sharedBehaviorForPagination();
 });

@@ -6,13 +6,13 @@ Because JavaScript
 
 JavaScript has no compiler support, which many of us are used too from
 Java and C#. Additionally our IDEs have less support for working with
-JavaScript because it's such a dynamic language. Thus, we can be far
-less confident in our JavaScript code than our Java code.
+JavaScript because it's such a dynamic language. For these reasons we
+can be far less confident in our JavaScript code than our Java code.
 
-It's also important to remember that JavaScript is run in various
-environments, and having a test for that strange bug in IE7 will ensure
-that we don't introduce the same erroneous bit of code time and time
-again.
+It's also important to remember that JavaScript runs in varied
+environments, often from IE7 to the latest nightly build of Chromium.
+Having a test for that strange IE bug will ensure that we don't
+introduce the same erroneous bit of code time and time again.
 
 Enabling larger refactorings
 ----------------------------

@@ -176,10 +176,50 @@ essential functionality in the components they are mixed with, and many
 components also have their idiosyncracies in how they use the mixed in
 code.
 
-Luckily, Jasmine has a great way to include similar tests several
-places.
+Additionally, and perhaps most importantly, if the mixin contains any
+properties which are already defined on the view, these will not be
+mixed in. By having a truly simple way of including the tests we expect
+to pass when mixing in a component, we can find and solve such problems.
 
-TODO: Example
+Luckily, Jasmine has a great way to include similar tests several
+places. Davis W. Frank of Pivotal Labs [wrote a great blog
+post](http://pivotallabs.com/users/dwfrank/blog/articles/1720-drying-up-jasmine-specs-with-shared-behavior)
+about this a year ago.
+
+Basically, the point is to write a function that contains regular
+Jasmine specs. For example:
+
+```javascript
+function sharedBehaviorForPagination() {
+  describe("pagination", function() {
+    it("should be able to paginate to the next page", function() {
+      // ...
+    };
+
+    it("should not be able to paginate to the next page when on the last page", function() {
+      // ...
+    };
+  });
+}
+```
+
+In the specs for the component we mix into, we can then call this
+function:
+
+```javascript
+describe("users", function() {
+  it("should list all users", function() {
+    // ...
+  };
+
+  // ...
+
+  sharedBehaviorForPagination();
+});
+```
+
+We found this to be a great technique for ensuring that our mixins works
+as expected in all the components which include them.
 
 ---
 

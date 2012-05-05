@@ -25,12 +25,12 @@ changed some code.
 Tools are getting better
 ------------------------
 
-Throughout the last few years the JavaScript testing tools have improved
+The last few years the JavaScript testing tools have improved
 significantly. There are still many problems, but tools such as
 [Jasmine](http://pivotal.github.com/jasmine/),
 [QUnit](http://docs.jquery.com/QUnit) and
-[Sinon.js](http://sinonjs.org/) are good enough, i.e. they give more
-value than they are a pain to work with.
+[Sinon.js](http://sinonjs.org/) are without a doubt good enough, i.e.
+they give more value than they are a pain to work with.
 
 Code quality
 ------------
@@ -41,8 +41,7 @@ that really put an effort into testing the JavaScript code. Throughout
 the next sections we will see some reasons as to why JavaScript tests
 might help with improving your JavaScript code.
 
-Less complexity
----------------
+### Less complexity
 
 This looks like JavaScript I find in my old projects:
 
@@ -74,8 +73,7 @@ JavaScript. (That last one is my subjective view, of course.)
 When driving JavaScript code through tests I (almost) never write code
 like this.
 
-Reusability
------------
+### Reusability
 
 When your code is more focused, it's easier to reuse. Let's try to split
 out one aspect of the previous example into a function that does one
@@ -112,8 +110,7 @@ lines of code. But the important aspect is thinking 3k lines ahead. At
 some point you will have so many reusable bits of code that developing
 will feel so much easier and so much faster.
 
-Maintainability
----------------
+### Maintainability
 
 Additionally, when creating simpler more focused functions they are far
 easier to maintain. It's easier to work with a function that does one

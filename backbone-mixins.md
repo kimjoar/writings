@@ -44,7 +44,7 @@ var UserView = BaseView.extend({
     },
 
     user: function() {
-        console.log(this.model.get("name"));
+        return this.model.get("name");
     }
 });
 
@@ -78,7 +78,7 @@ var view = new UserView({ model: model });
 // "user init"
 // "pagination init"
 
-console.log(view.user()); // "user"
+console.log(view.user()); // "Kim Joar"
 console.log(view.next()); // "next for: Kim Joar"
 console.log(view.events); // {
                           //   "click a.next": "next",

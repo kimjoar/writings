@@ -6,9 +6,9 @@ similar methods in several models, collections and views. I've seen many
 create a component which they extend from, e.g. a
 `PaginationCollection`, but we didn't like this solution as we only
 wanted to share some code between objects, not add another layer to our
-architecture. Additionally, we wanted the code we added to be fully
-contained so we didn't need to do a lot of setup after including it. We
-solved it using mixins.
+architecture (and, even worse, potentially even more layers if we wanted
+to include several shared components). Basically we wanted a more
+decoupled solution, so we solved it by using mixins.
 
 So — what's a mixin?
 --------------------

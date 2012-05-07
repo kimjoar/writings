@@ -8,16 +8,15 @@ create a component which they extend from, e.g. a
 wanted to share some code between objects, not add another layer to our
 architecture (and, even worse, potentially even more layers if we wanted
 to include several shared components). Basically we wanted a more
-decoupled solution, so we solved it by using mixins.
+decoupled solution, and we solved it by using mixins.
 
 So — what's a mixin?
 --------------------
 
 Basically, a mixin allows you to extend your Backbone components with
 utility functions. Let's, for example, say that we have pagination which
-is similar in many views, but not in all. It might also be that some
-views don't want to paginate a collection at all. How should we include
-this functionality?
+is similar in many views, but not in all. How should we include this
+functionality?
 
 We have the following API for adding extra functionality:
 
@@ -87,13 +86,17 @@ console.log(view.events); // {
 ```
 
 As we can see from the code, a mixin has access to `this` in the same
-way as the model, collection or view itself.
+way as the model, collection or view itself. Additionally, mixins can
+potentially be self-contained, i.e. the view does not need to know
+anything about them. This makes it especially easy to include a new
+mixin or remove one that is in use.
 
 Implementation
 --------------
 
-Let's have a look at how these mixins can be implemented by using mixins
-for a view as an example:
+Let's have a look at an example of how these mixins can be implemented.
+Specifically we will take a look at an implementation of mixins for
+views:
 
 ```javascript
 Utils = {};
@@ -151,16 +154,16 @@ created above:
    Backbone.View.mixin = Utils.viewMixin;
    ```
 2. If you create a layered architecture, you can include `viewMixin` in
-   one of your layers. We created a `BaseView` which we created all our
-   views from. Remember, this is how Backbone views are defined:
+   one of your layers. In our project We had a `BaseView` which we
+   created all our views from. Remember, this is how Backbone views are
+   defined:
 
    ```javascript
    Backbone.View.extend(properties, [classProperties])
    ```
 
    So, in order to create our wanted API we can add `mixin` as a class
-   property on our `BaseView`. This can for example be implemented as
-   follows:
+   property on our `BaseView`, for example:
 
    ```javascript
    var BaseView = Backbone.View.extend({
@@ -170,24 +173,18 @@ created above:
    })
    ```
 
-We chose to go for the latter solution as we already had a `BaseView`.
+In my project we chose to go for the latter solution as we already had a
+`BaseView`.
 
 Testing
 -------
 
-We could have tested the mixins by themselves, but as they are always
-used by other components, that felt strange. Many of them create
-essential functionality in the components they are mixed with, and many
-components also have their idiosyncracies in how they use the mixed in
-code.
+Mixins can be tested both by themselves and when mixed into a component,
+i.e. both through unit tests and through integration tests. We'll take a
+look at the latter.
 
-Additionally, and perhaps most importantly, if the mixin contains any
-properties which are already defined on the view, these will not be
-mixed in. By having a truly simple way of including the tests we expect
-to pass when mixing in a component, we can find and solve such problems.
-
-Luckily, Jasmine has a great way to include similar tests several
-places. Davis W. Frank of Pivotal Labs [wrote a great blog
+Jasmine has a great way to include similar tests several places. Davis
+W. Frank of Pivotal Labs [wrote a great blog
 post](http://pivotallabs.com/users/dwfrank/blog/articles/1720-drying-up-jasmine-specs-with-shared-behavior)
 about this a year ago.
 
@@ -219,11 +216,16 @@ describe("users", function() {
 });
 ```
 
-We found this to be a great technique for ensuring that our mixins works
-as expected in all the components which include them.
+We then ensure that the integration between the mixin and the component
+works as expected. We found this to be a great technique for ensuring
+that our mixins works as expected in all the components which include
+them.
 
 ---
 
-This blog post, and our solution to the mixin problem, was heavily
-influenced by Dmitry Polushkin's [gist on
+Mixins are a simple but potentially very powerful abstraction. We have
+found them to be valuable several times.
+
+To give credit were credit is due, this blog post, and our solution to
+the mixin problem, was heavily influenced by Dmitry Polushkin's [gist on
 mixins](https://gist.github.com/1256695).

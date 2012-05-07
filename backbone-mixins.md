@@ -51,7 +51,8 @@ var UserView = BaseView.extend({
 // This is our mixin:
 var Pagination = {
 
-    // As expects the view it's mixed into to have a link with class `next`
+    // expects the view it's mixed into to have a link with class `next`
+    // present in the DOM
     events: {
         "click a.next": "next"
     },

@@ -1,31 +1,91 @@
 Mixins in Backbone
 ==================
 
-In our Backbone.js code we have several times seen the need to include
-similar methods in models, collections and views. I've seen many create
-a component which they extend from, e.g. a `PaginationCollection`, but
-we didn't like this solution. We solved it by introducing mixins.
+In our Backbone.js code we have a few times seen the need to include
+similar methods in several models, collections and views. I've seen many
+create a component which they extend from, e.g. a
+`PaginationCollection`, but we didn't like this solution as we only
+wanted to share some code between objects, not add another layer to our
+architecture. Additionally, we wanted the code we added to be fully
+contained so we didn't need to do a lot of setup after including it. We
+solved it using mixins.
 
-What's a mixin?
----------------
+So — what's a mixin?
+--------------------
 
-A mixin allows you to extend your Backbone components with utility
-functions. Let's, for example, say that we have pagination which is
-similar in many views, but not in all. It might also be that some views
-don't want to paginate a collection at all. How should we include this
-functionality?
+Basically, a mixin allows you to extend your Backbone components with
+utility functions. Let's, for example, say that we have pagination which
+is similar in many views, but not in all. It might also be that some
+views don't want to paginate a collection at all. How should we include
+this functionality?
 
 We have the following API for adding extra functionality:
 
 ```javascript
-UserView.mixin(Pagination);
+UsersView.mixin(Pagination);
 AppView.mixin(Transitions);
 ```
 
-What's cool about our implementation is that we can even include our own
-`initialize`, `render` and `events` in these view mixins, and they will
-end up extending the existing functions. Thus, with these in place you
-can (almost always) fully contain functionality in the mixin.
+We have, however, taken the concept of mixins one step further. In our
+implementation a mixin can include its own `initialize`, `render`, and,
+for views, `events` and these will extend the existing functions. Let's
+take a look at what this means in practice:
+
+```javascript
+var UserView = BaseView.extend({
+    events: {
+        "click h1": "user"
+    },
+
+    initialize: function() {
+        console.log("user init");
+    },
+
+    user: function() {
+        console.log(this.model.get("name"));
+    }
+});
+
+var Pagination = {
+    events: {
+        "click a.next": "paginate"
+    },
+
+    initialize: function() {
+        console.log("pagination init");
+    },
+
+    next: function() {
+        return "next for: " + this.model.get("name");
+        // yeah, you would absolutely use a collection as it's named
+        // pagination, this was just to keep the example short ;)
+    },
+
+    paginate: function() {
+        console.log("paginating");
+    }
+};
+
+UserView.mixin(Pagination);
+
+var model = new Backbone.Model();
+model.set("name", "Kim Joar");
+
+var view = new UserView({ model: model });
+// this initialization console logs (in order):
+// "user init"
+// "pagination init"
+
+console.log(view.user()); // "user"
+console.log(view.next()); // "next for: Kim Joar"
+console.log(view.events); // {
+                          //   "click a.next": "paginate",
+                          //   "click h1": "user"
+                          // }
+```
+
+As we can see from the code, a mixin has access to `this` in the same
+way as the model, collection or view itself.
 
 Implementation
 --------------
@@ -110,62 +170,7 @@ created above:
    })
    ```
 
-Both of these will end up giving us access to `mixin` on our created
-views. Let's look at a complete implementation based on the latter:
-
-```javascript
-var BaseView = Backbone.View.extend({
-    // add base methods
-}, {
-    mixin: Utils.mixin
-});
-
-var UserView = BaseView.extend({
-    events: {
-        "click h1": "user"
-    },
-
-    initialize: function() {
-        console.log("user init");
-    },
-
-    user: function() {
-        return "user";
-    }
-});
-
-var Pagination = {
-    events: {
-        "click a.next": "paginate"
-    },
-
-    initialize: function() {
-        console.log("pagination init");
-    },
-
-    next: function() {
-        return "next for: " + this.user();
-    },
-
-    paginate: function() {
-        console.log("paginating");
-    }
-};
-
-UserView.mixin(Pagination);
-
-var view = new UserView();
-// this initialization console logs (in order):
-// "user init"
-// "pagination init"
-
-console.log(view.user()); // "user"
-console.log(view.next()); // "next for: user"
-console.log(view.events); // {
-                          //   "click a.next": "paginate",
-                          //   "click h1": "user"
-                          // }
-```
+We chose to go for the latter solution as we already had a `BaseView`.
 
 Testing
 -------

@@ -26,10 +26,12 @@ UsersView.mixin(Pagination);
 AppView.mixin(Transitions);
 ```
 
-We have, however, taken the concept of mixins one step further. In our
-implementation a mixin can include its own `initialize`, `render`, and,
-for views, `events` and these will extend the existing functions. Let's
-take a look at what this means in practice:
+We have, however, taken the concept of mixins one step further then what
+I've seen before. In addition to including all the properties which are
+present in the mixin, our implementation enable mixins to include their
+own `initialize` which will extend the existing `initialize`. When
+mixing into views a mixin can also include its own `render` and
+`events`. Let's take a look at what this means in practice:
 
 ```javascript
 var UserView = BaseView.extend({

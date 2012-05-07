@@ -48,9 +48,12 @@ var UserView = BaseView.extend({
     }
 });
 
+// This is our mixin:
 var Pagination = {
+
+    // As expects the view it's mixed into to have a link with class `next`
     events: {
-        "click a.next": "paginate"
+        "click a.next": "next"
     },
 
     initialize: function() {
@@ -61,10 +64,6 @@ var Pagination = {
         return "next for: " + this.model.get("name");
         // yeah, you would absolutely use a collection as it's named
         // pagination, this was just to keep the example short ;)
-    },
-
-    paginate: function() {
-        console.log("paginating");
     }
 };
 
@@ -81,7 +80,7 @@ var view = new UserView({ model: model });
 console.log(view.user()); // "user"
 console.log(view.next()); // "next for: Kim Joar"
 console.log(view.events); // {
-                          //   "click a.next": "paginate",
+                          //   "click a.next": "next",
                           //   "click h1": "user"
                           // }
 ```

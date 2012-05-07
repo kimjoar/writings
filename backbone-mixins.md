@@ -158,9 +158,9 @@ created above:
    Backbone.View.extend(properties, [classProperties])
    ```
 
-   So, in order to create our wanted API we can add `viewMixin` as a
-   class property on our `BaseView`. This can for example be implemented
-   as follows:
+   So, in order to create our wanted API we can add `mixin` as a class
+   property on our `BaseView`. This can for example be implemented as
+   follows:
 
    ```javascript
    var BaseView = Backbone.View.extend({

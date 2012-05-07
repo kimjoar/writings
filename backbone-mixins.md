@@ -92,29 +92,27 @@ way as the model, collection or view itself.
 Implementation
 --------------
 
-Let's have a look at how these mixins can be implemented. First, we can
-take a look at the basic `mixin` function:
+Let's have a look at how these mixins can be implemented by using mixins
+for a view as an example:
 
 ```javascript
 Utils = {};
-Utils.mixin = function(from) {
+
+Utils.viewMixin = function(from) {
   var to = this.prototype;
 
   // we add those methods which exists on `from` but not on `to` to the latter
   _.defaults(to, from);
-  // and we do the same for events
+  // … and we do the same for events
   _.defaults(to.events, from.events);
 
   // we then extend `to`'s `initialize`
   Utils.extendMethod(to, from, "initialize");
-  // and its `render`
+  // … and its `render`
   Utils.extendMethod(to, from, "render");
 };
-```
 
-And this is the helper method to extend an already existing method:
-
-```javascript
+// Helper method to extend an already existing method
 Utils.extendMethod = function(to, from, methodName) {
 
   // if the method is defined on from ...
@@ -142,7 +140,7 @@ Utils.extendMethod = function(to, from, methodName) {
 
 Now we need to include this mixin in such a way that `this` means the
 correct thing and we can use it like we saw in the example above. This
-can be done in two ways, both of which utilize the `mixin` method we
+can be done in two ways, both of which utilize the `viewMixin` method we
 created above:
 
 1. As [mentioned](http://documentcloud.github.com/backbone/#FAQ-extending)
@@ -150,25 +148,25 @@ created above:
    component. We can use this idea and add `mixin` like this:
 
    ```javascript
-   Backbone.View.mixin = Utils.mixin;
+   Backbone.View.mixin = Utils.viewMixin;
    ```
-2. If you create a layered architecture, you can include `mixin` in one
-   of your layers. We created a `BaseView` which we created all our
+2. If you create a layered architecture, you can include `viewMixin` in
+   one of your layers. We created a `BaseView` which we created all our
    views from. Remember, this is how Backbone views are defined:
 
    ```javascript
    Backbone.View.extend(properties, [classProperties])
    ```
 
-   So, in order to create our wanted API we can add `mixin` as a class
-   property on our `BaseView`. This can for example be implemented as
-   follows:
+   So, in order to create our wanted API we can add `viewMixin` as a
+   class property on our `BaseView`. This can for example be implemented
+   as follows:
 
    ```javascript
    var BaseView = Backbone.View.extend({
      // lots of methods
    }, {
-     mixin: Utils.mixin
+     mixin: Utils.viewMixin
    })
    ```
 

@@ -87,9 +87,10 @@ console.log(view.events); // {
 
 As we can see from the code, a mixin has access to `this` in the same
 way as the model, collection or view itself. Additionally, mixins can
-potentially be self-contained, i.e. the view does not need to know
-anything about them. This makes it especially easy to include a new
-mixin or remove one that is in use.
+potentially be self-contained, i.e. because `initialize`, `render` and
+`events` can be extended the component we mix into does not need to know
+anything about the the mixin. This makes it especially easy to include a
+new mixin or remove one that is in use.
 
 Implementation
 --------------

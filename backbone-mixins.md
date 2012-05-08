@@ -214,15 +214,24 @@ describe("users", function() {
 });
 ```
 
-We found this to be a great technique for ensuring that our mixins works
-as expected in all the components which include them.
+We have now included the shared set of specs into our regular tests for
+"users". If some shared state is needed, we can change
+`sharedBehaviorForPagination` to receive arguments in order to share
+state. We found this to be a great technique for ensuring that our
+mixins works as expected in all the components which include them.
 
----
+When?
+-----
 
 Mixins are a simple but potentially very powerful abstraction. We used
 them for mainly for three things: pagination, local error handling and
-handling transitions between pages. In each case we found them to help
-decouple our code and make each component more focused.
+handling transitions between pages. Basically, we used mixins when we
+found them to help decouple our code and make each component more
+focused. The right time to use them appears to be when a component does
+more than one thing and when we can better separate concerns when
+splitting to the code.
+
+---
 
 In this blog post I've only looked at using them for views, but they are
 also great for breaking up models and collections.

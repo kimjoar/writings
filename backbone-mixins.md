@@ -1,5 +1,5 @@
-Mixins in Backbone
-==================
+Mixins in Backbone.js
+=====================
 
 In our Backbone.js code we have a few times seen the need to reuse
 similar methods in several models, collections and views. I've seen many

@@ -31,3 +31,6 @@ Notes:
   named `appView`. Because of this, we could, theoretically, easily
   place our entire app into another page with lots of stuff in the DOM
   around it.
+* Should a view be responsible for starting to fetch the information it
+  needs? No. The router/controller. The view should be as context
+  independent as possible.

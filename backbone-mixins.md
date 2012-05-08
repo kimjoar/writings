@@ -1,7 +1,7 @@
 Mixins in Backbone
 ==================
 
-In our Backbone.js code we have a few times seen the need to include
+In our Backbone.js code we have a few times seen the need to reuse
 similar methods in several models, collections and views. I've seen many
 create a component which they extend from, e.g. a
 `PaginationCollection`, but we didn't like this solution as we only
@@ -154,8 +154,8 @@ created above:
    ```javascript
    Backbone.View.mixin = Utils.viewMixin;
    ```
-2. If you create a layered architecture, you can include `viewMixin` in
-   one of your layers. In our project We had a `BaseView` which we
+2. If you create a layered architecture you can include `viewMixin` in
+   one of your layers. In our project we had a `BaseView` which we
    created all our views from. Remember, this is how Backbone views are
    defined:
 
@@ -163,7 +163,7 @@ created above:
    Backbone.View.extend(properties, [classProperties])
    ```
 
-   So, in order to create our wanted API we can add `mixin` as a class
+   So, in order to create our desired API we can add `mixin` as a class
    property on our `BaseView`, for example:
 
    ```javascript
@@ -180,17 +180,14 @@ In my project we chose to go for the latter solution as we already had a
 Testing
 -------
 
-Mixins can be tested both by themselves and when mixed into a component,
-i.e. both through unit tests and through integration tests. We'll take a
-look at the latter.
+Mixins can be tested both by themselves and when mixed into a component.
+We'll take a look at how the latter can be done.
 
 Jasmine has a great way to include similar tests several places. Davis
 W. Frank of Pivotal Labs [wrote a great blog
 post](http://pivotallabs.com/users/dwfrank/blog/articles/1720-drying-up-jasmine-specs-with-shared-behavior)
-about this a year ago.
-
-Basically, the point is to write a function that contains regular
-Jasmine specs. For example:
+about this a year ago. Basically, the point is to write a function that
+contains regular Jasmine specs. For example:
 
 ```javascript
 function sharedBehaviorForPagination() {
@@ -206,7 +203,7 @@ function sharedBehaviorForPagination() {
 }
 ```
 
-In the specs for the component we mix into, we can then call this
+In the specs for the component we mix into we can then call this
 function:
 
 ```javascript
@@ -217,15 +214,18 @@ describe("users", function() {
 });
 ```
 
-We then ensure that the integration between the mixin and the component
-works as expected. We found this to be a great technique for ensuring
-that our mixins works as expected in all the components which include
-them.
+We found this to be a great technique for ensuring that our mixins works
+as expected in all the components which include them.
 
 ---
 
-Mixins are a simple but potentially very powerful abstraction. We have
-found them to be valuable several times.
+Mixins are a simple but potentially very powerful abstraction. We used
+them for mainly for three things: pagination, local error handling and
+handling transitions between pages. In each case we found them to help
+decouple our code and make each component more focused.
+
+In this blog post I've only looked at using them for views, but they are
+also great for breaking up models and collections.
 
 To give credit were credit is due, this blog post, and our solution to
 the mixin problem, was heavily influenced by Dmitry Polushkin's [gist on

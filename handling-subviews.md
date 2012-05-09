@@ -9,7 +9,9 @@ subviews are and how they work, both conceptually and through code.
 What's a sub-view?
 ------------------
 
-
+A sub-view is just a view. That's it — nothing special. The essence of
+sub-views, however, is that they help a view split its responsiblity —
+its HTML element — into several minor components.
 
 Creating subviews
 -----------------

@@ -34,3 +34,7 @@ Notes:
 * Should a view be responsible for starting to fetch the information it
   needs? No. The router/controller. The view should be as context
   independent as possible.
+* It's exceedingly important that a view has no knowledge about its
+  subviews except for their `el`, other dependencies, and their API,
+  i.e. the events the view trigger. This simplifies testing, it
+  simplifies reuse and it simplifies maintenance.

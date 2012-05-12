@@ -1,10 +1,10 @@
-A view inside a view inside a view — mastering a JavaScript abstraction
-=======================================================================
+Mastering JavaScript views
+==========================
 
-In [my blog post]() on a view's responsibilities I mentioned that one of
-its responsibities is creating subviews. However, in that blog post I
-didn't further elaborate on them, so let's now take a look at what
-subviews are and how they work, both conceptually and through code.
+In [my recent blog post]() on views I mentioned that one of a view's
+responsibities is creating subviews. However, in that blog post I didn't
+further elaborate on them, so let's now take a look at what subviews are
+and how they work, both conceptually and through code.
 
 What's a sub-view?
 ------------------

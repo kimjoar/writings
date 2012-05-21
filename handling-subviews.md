@@ -11,7 +11,18 @@ What's a sub-view?
 
 A sub-view is just a view. That's it — nothing special. The essence of
 sub-views, however, is that they help a view split its responsiblity —
-its HTML element — into several minor components.
+its HTML element — into several minor components. So from the outside a
+view should just be a black box that is responsible for its HTML
+element, and which, itself, can create even smaller black boxes. The
+only important aspect is that it receives its dependencies and that it
+communicates through its public api, i.e. through events that other
+components can subscribe to.
+
+So let's start with a code example:
+
+```javascript
+// blabla
+```
 
 Creating subviews
 -----------------
@@ -25,7 +36,6 @@ Notes:
   Why? What happens when you want to move the view? Or use it in two
   different locations on two different pages? It's far easier to reuse a
   subview when it's the parent which actually places it in the DOM.
-* Every subview is just a black box
 * Events are "fire and forget". It's not and will never be the view's
   responsibility that someone actually listens for the event.
 * We had ONE global `$`, it looked like this: `$("body")`, and it was

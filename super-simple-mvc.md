@@ -35,6 +35,10 @@ from the core `View` component and which define a `showUser` method:
 
 ```javascript
 var UserView = Backbone.View.extend({
+
+  // all properties that are specified here will end up as instance
+  // methods on the UserView.
+
   showUser: function() {
     console.log("showing user");
   }
@@ -50,11 +54,12 @@ To create something similar we first need a view constructor:
 var View = function() {};
 ```
 
-We then need to add an `extend` method, which is less than 10 lines of
-code, and which enable us to create deeper subclasses:
+We then need to add the `extend` method, which actually ends up at less
+than 10 lines of code, and which also enable us to create subclasses of
+subclasses:
 
 ```javascript
-View.extend = Model.extend = function(properties) {
+View.extend = function(properties) {
     var parent = this;
 
     // Create child constructor
@@ -71,14 +76,14 @@ View.extend = Model.extend = function(properties) {
     // Add the child's prototype properties, i.e. its instance properties
     $.extend(child.prototype, properties);
 
-    // The child must also be able to create new subclasses
+    // The child must be able to create new subclasses
     child.extend = parent.extend;
 
     return child;
 };
 ```
 
-Now we can create a `UserView` using this abstraction:
+We can now create a `UserView` using this abstraction:
 
 ```javascript
 var UserView = View.extend({

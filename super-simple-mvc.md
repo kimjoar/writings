@@ -9,8 +9,7 @@ For me these are the most important aspects of Backbone.js:
 
 * A simple way of creating new components which inherit functionality
   from a parent.
-* Creating [responsible views](views.md), so each view *owns* an HTML
-  element.
+* Creating [views that own an HTML-element](views.md).
 * Views which wrap DOM-events, so we can specify all our DOM bindings
   for a view in one place.
 * Models that abstract Ajax, so we don't have to perform `$.ajax`
@@ -20,17 +19,19 @@ For me these are the most important aspects of Backbone.js:
   code.
 
 Let's go through these in order, and see how we can create a super
-simple, albeit simplistic, MVC while using some great and widely used
-libraries. (The essence of this is not its brevity, but that it is
-suprisingly easy to do.)
+simple, albeit simplistic, MV* library while using some great and widely
+used libraries. (The essence of this is not its brevity, but that it is
+suprisingly easy to do, and that we can learn a lot about Backbone.js
+and similar libraries in the process.)
 
 Creating new components
 -----------------------
 
 Backbone.js uses
 [`extend`](http://documentcloud.github.com/backbone/#Model-extend) to
-create new components. Let's look at how we can create a `UserView`
-which inherit from `View` and has a `showUser` method using Backbone.js:
+create new components which inherit functionality from a parent. Let's
+look at how we can, using Backbone.js, create a `UserView` which inherit
+from the core `View` component and which define a `showUser` method:
 
 ```javascript
 var UserView = Backbone.View.extend({
@@ -43,15 +44,37 @@ var userView = new UserView();
 userView.showUser(); // showing user
 ```
 
-To create something similar, we can use
-[`$.extend`](http://api.jquery.com/jQuery.extend/):
+To create something similar we first need a view constructor:
 
 ```javascript
 var View = function() {};
+```
 
-View.extend = function (properties) {
-  var child = $.extend.call({}, this.prototype, properties);
-  return child.constructor;
+We then need to add an `extend` method, which is less than 10 lines of
+code, and which enable us to create deeper subclasses:
+
+```javascript
+View.extend = Model.extend = function(properties) {
+    var parent = this;
+
+    // Create child constructor
+    var child = function() {
+        // … which only job is to call the parent construtor with all
+        // the arguments
+        parent.apply(this, arguments);
+    };
+
+    // Set the prototype chain so the child will inherit all properties
+    // from the parent
+    child.prototype = Object.create(parent.prototype);
+
+    // Add the child's prototype properties, i.e. its instance properties
+    $.extend(child.prototype, properties);
+
+    // The child must also be able to create new subclasses
+    child.extend = parent.extend;
+
+    return child;
 };
 ```
 
@@ -73,16 +96,13 @@ instantiated. So let's add this little bit of functionality:
 
 ```javascript
 var View = function() {
-  if (this.initialize) {
-    // ensure that `initialize` is called with the correct arguments
-    this.initialize.apply(this, arguments);
-  }
+  // pass through all the arguments to `initialize`
+  this.initialize.apply(this, arguments);
 };
 
-View.extend = function (properties) {
-  var child = $.extend.call({}, this.prototype, properties);
-  return child.constructor;
-};
+// Empty initialize which should be overriden in subclasses if it
+// is needed.
+View.prototype.initialize = function() {};
 ```
 
 Now we can create a view which also have an `initialize` method which
@@ -104,21 +124,12 @@ exact same logic:
 
 ```javascript
 var Model = function() {
-  if (this.initialize) {
-    // ensure that `initialize` is called with the correct arguments
-    this.initialize.apply(this, arguments);
-  }
+  this.initialize.apply(this, arguments);
 };
+Model.prototype.initialize = function();
 
-Model.extend = function (properties) {
-  var child = $.extend.call({}, this.prototype, properties);
-  return child.constructor;
-};
+Model.extend = View.extend;
 ```
-
-TODO:
-
-* Prototype chain?
 
 Responsible views
 -----------------

@@ -6,7 +6,7 @@ responsibities is creating subviews. However, in that blog post I didn't
 further elaborate on them, so let's now take a look at what subviews are
 and how they work, both conceptually and through code.
 
-What's a sub-view?
+What is a sub-view?
 ------------------
 
 A sub-view is just a view. That's it — nothing special. The essence of
@@ -26,6 +26,17 @@ So let's start with a code example:
 
 Creating subviews
 -----------------
+
+Handling DOM events
+-------------------
+
+Dependencies
+------------
+
+Communicating between subviews
+------------------------------
+
+View events vs model events vs global events
 
 ---
 

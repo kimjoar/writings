@@ -240,6 +240,7 @@ of the submit into its own `addStatus` method.
 -                $('#new-status textarea').val('');
 -            }
 -        });
+-    });
 +    $('#new-status form').submit(this.addStatus);
  };
 +NewStatusView.prototype.addStatus = function(e) {

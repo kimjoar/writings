@@ -671,4 +671,592 @@ when we instantiate a view.
  });
 ```
 
-# On 13
+$ helper:
+
+```diff
+ var events = _.clone(Backbone.Events);
+ 
+ var Statuses = function() {
+ };
+ Statuses.prototype.add = function(text) {
+     $.ajax({
+         url: '/status',
+         type: 'POST',
+         dataType: 'json',
+         data: { text: text },
+         success: function(data) {
+             events.trigger("status:added", data.text);
+         }
+     });
+ };
+ 
+ var NewStatusView = function(options) {
+     this.statuses = options.statuses;
+     this.el = options.el;
+ 
+     events.on("status:added", this.clearInput, this);
+ 
+     var add = $.proxy(this.addStatus, this);
+-    this.el.find('form').submit(add);
++    this.$('form').submit(add);
+ };
+ NewStatusView.prototype.addStatus = function(e) {
+     e.preventDefault();
+ 
+-    this.statuses.add(this.el.find('textarea').val());
++    this.statuses.add(this.$('textarea').val());
+ };
+ NewStatusView.prototype.clearInput = function() {
+-    this.el.find('textarea').val('');
++    this.$('textarea').val('');
+ };
++NewStatusView.prototype.$ = function(selector) {
++    return this.el.find(selector);
++};
+ 
+ var StatusesView = function(options) {
+     this.el = options.el;
+ 
+     events.on("status:added", this.appendStatus, this);
+ };
+ StatusesView.prototype.appendStatus = function(text) {
+-    this.el.find('ul').append('<li>' + text + '</li>');
++    this.$('ul').append('<li>' + text + '</li>');
+ };
++StatusesView.prototype.$ = function(selector) {
++    return this.el.find(selector);
++};
+ 
+ $(document).ready(function() {
+     var statuses = new Statuses();
+     new NewStatusView({ el: $('#new-status'), statuses: statuses });
+     new StatusesView({ el: $('#statuses') });
+ });
+```
+
+Introducing Backbone.View:
+
+```diff
+ var events = _.clone(Backbone.Events);
+ 
+ var Statuses = function() {
+ };
+ Statuses.prototype.add = function(text) {
+     $.ajax({
+         url: '/status',
+         type: 'POST',
+         dataType: 'json',
+         data: { text: text },
+         success: function(data) {
+             events.trigger("status:added", data.text);
+         }
+     });
+ };
+ 
+-var NewStatusView = function(options) {
+-    this.statuses = options.statuses;
+-    this.el = options.el;
+-
+-    events.on("status:added", this.clearInput, this);
+-
+-    var add = $.proxy(this.addStatus, this);
+-    this.$('form').submit(add);
+-};
++var NewStatusView = Backbone.View.extend({
++    initialize: function(options) {
++        this.statuses = options.statuses;
++        this.el = options.el;
++
++        events.on("status:added", this.clearInput, this);
++
++        var add = $.proxy(this.addStatus, this);
++        this.$('form').submit(add);
++    }
++});
+ NewStatusView.prototype.addStatus = function(e) {
+     e.preventDefault();
+ 
+     this.statuses.add(this.$('textarea').val());
+ };
+ NewStatusView.prototype.clearInput = function() {
+     this.$('textarea').val('');
+ };
+ NewStatusView.prototype.$ = function(selector) {
+     return this.el.find(selector);
+ };
+ 
+ var StatusesView = function(options) {
+     this.el = options.el;
+ 
+     events.on("status:added", this.appendStatus, this);
+ };
+ StatusesView.prototype.appendStatus = function(text) {
+     this.$('ul').append('<li>' + text + '</li>');
+ };
+ StatusesView.prototype.$ = function(selector) {
+     return this.el.find(selector);
+ };
+ 
+ $(document).ready(function() {
+     var statuses = new Statuses();
+     new NewStatusView({ el: $('#new-status'), statuses: statuses });
+     new StatusesView({ el: $('#statuses') });
+ });
+```
+
+Moving both views into Backbone:
+
+```diff
+ var events = _.clone(Backbone.Events);
+ 
+ var Statuses = function() {
+ };
+ Statuses.prototype.add = function(text) {
+     $.ajax({
+         url: '/status',
+         type: 'POST',
+         dataType: 'json',
+         data: { text: text },
+         success: function(data) {
+             events.trigger("status:added", data.text);
+         }
+     });
+ };
+ 
+ var NewStatusView = Backbone.View.extend({
+     initialize: function(options) {
+         this.statuses = options.statuses;
+         this.el = options.el;
+ 
+         events.on("status:added", this.clearInput, this);
+ 
+         var add = $.proxy(this.addStatus, this);
+         this.$('form').submit(add);
+-    }
++    },
++
++    addStatus: function(e) {
++        e.preventDefault();
++
++        this.statuses.add(this.$('textarea').val());
++    },
++
++    clearInput: function() {
++        this.$('textarea').val('');
++    },
++
++    $: function(selector) {
++        return this.el.find(selector);
++    }
+ });
+-NewStatusView.prototype.addStatus = function(e) {
+-    e.preventDefault();
+-
+-    this.statuses.add(this.$('textarea').val());
+-};
+-NewStatusView.prototype.clearInput = function() {
+-    this.$('textarea').val('');
+-};
+-NewStatusView.prototype.$ = function(selector) {
+-    return this.el.find(selector);
+-};
+
+-var StatusesView = function(options) {
+-    this.el = options.el;
+-
+-    events.on("status:added", this.appendStatus, this);
+-};
+-StatusesView.prototype.appendStatus = function(text) {
+-    this.$('ul').append('<li>' + text + '</li>');
+-};
+-StatusesView.prototype.$ = function(selector) {
+-    return this.el.find(selector);
+-};
++var StatusesView = Backbone.View.extend({
++    initialize: function(options) {
++        this.el = options.el;
++
++        events.on("status:added", this.appendStatus, this);
++    },
++
++    appendStatus: function(text) {
++        this.$('ul').append('<li>' + text + '</li>');
++    },
++
++    $: function(selector) {
++        return this.el.find(selector);
++    }
++});
+ 
+ $(document).ready(function() {
+     var statuses = new Statuses();
+     new NewStatusView({ el: $('#new-status'), statuses: statuses });
+     new StatusesView({ el: $('#statuses') });
+ });
+```
+
+Removing Backbone automatics:
+
+```diff
+ var events = _.clone(Backbone.Events);
+ 
+ var Statuses = function() {
+ };
+ Statuses.prototype.add = function(text) {
+     $.ajax({
+         url: '/status',
+         type: 'POST',
+         dataType: 'json',
+         data: { text: text },
+         success: function(data) {
+             events.trigger("status:added", data.text);
+         }
+     });
+ };
+ 
+ var NewStatusView = Backbone.View.extend({
+     initialize: function(options) {
+         this.statuses = options.statuses;
+-        this.el = options.el;
+ 
+         events.on("status:added", this.clearInput, this);
+ 
+         var add = $.proxy(this.addStatus, this);
+         this.$('form').submit(add);
+     },
+ 
+     addStatus: function(e) {
+         e.preventDefault();
+ 
+         this.statuses.add(this.$('textarea').val());
+     },
+ 
+     clearInput: function() {
+         this.$('textarea').val('');
+     },
+-
+-    $: function(selector) {
+-        return this.el.find(selector);
+-    }
+ });
+ 
+ var StatusesView = Backbone.View.extend({
+     initialize: function(options) {
+-        this.el = options.el;
+-
+         events.on("status:added", this.appendStatus, this);
+     },
+ 
+     appendStatus: function(text) {
+         this.$('ul').append('<li>' + text + '</li>');
+     },
+-
+-    $: function(selector) {
+-        return this.el.find(selector);
+-    }
+ });
+ 
+ $(document).ready(function() {
+     var statuses = new Statuses();
+     new NewStatusView({ el: $('#new-status'), statuses: statuses });
+     new StatusesView({ el: $('#statuses') });
+ });
+```
+
+Introducing a Backbone.Model for Status:
+
+```diff
+ var events = _.clone(Backbone.Events);
+ 
++var Status = Backbone.Model.extend({
++    url: '/status'
++});
++
+ var Statuses = function() {
+ };
+ Statuses.prototype.add = function(text) {
+-    $.ajax({
+-        url: '/status',
+-        type: 'POST',
+-        dataType: 'json',
+-        data: { text: text },
+-        success: function(data) {
+-            events.trigger("status:added", data.text);
+-        }
+-    });
++    var status = new Status();
++    status.save({ text: text }, {
++        success: function(model, data) {
++            events.trigger("status:added", data.text);
++        }
++    });
+ };
+ 
+ var NewStatusView = Backbone.View.extend({
+     initialize: function(options) {
+         this.statuses = options.statuses;
+ 
+         events.on("status:added", this.clearInput, this);
+ 
+         var add = $.proxy(this.addStatus, this);
+         this.$('form').submit(add);
+     },
+ 
+     addStatus: function(e) {
+         e.preventDefault();
+ 
+         this.statuses.add(this.$('textarea').val());
+     },
+ 
+     clearInput: function() {
+         this.$('textarea').val('');
+     }
+ });
+ 
+ var StatusesView = Backbone.View.extend({
+     initialize: function(options) {
+         events.on("status:added", this.appendStatus, this);
+     },
+ 
+     appendStatus: function(text) {
+         this.$('ul').append('<li>' + text + '</li>');
+     }
+ });
+ 
+ $(document).ready(function() {
+     var statuses = new Statuses();
+     new NewStatusView({ el: $('#new-status'), statuses: statuses });
+     new StatusesView({ el: $('#statuses') });
+ });
+```
+
+Backbone.Collection:
+
+```diff
+ var events = _.clone(Backbone.Events);
+ 
+ var Status = Backbone.Model.extend({
+     url: '/status'
+ });
+ 
+-var Statuses = function() {
+-};
+-Statuses.prototype.add = function(text) {
+-    var status = new Status();
+-    status.save({ text: text }, {
+-        success: function(model, data) {
+-            events.trigger("status:added", data.text);
+-        }
+-    });
+-};
++var Statuses = Backbone.Collection.extend({
++    model: Status
++});
+ 
+ var NewStatusView = Backbone.View.extend({
+     initialize: function(options) {
+         this.statuses = options.statuses;
+ 
+-        events.on("status:added", this.clearInput, this);
++        this.statuses.on("add", this.clearInput, this);
+ 
+         var add = $.proxy(this.addStatus, this);
+         this.$('form').submit(add);
+     },
+ 
+     addStatus: function(e) {
+         e.preventDefault();
+ 
+-        this.statuses.add(this.$('textarea').val());
++        this.statuses.add({ text: this.$('textarea').val() });
+     },
+ 
+     clearInput: function() {
+         this.$('textarea').val('');
+     }
+ });
+ 
+ var StatusesView = Backbone.View.extend({
+     initialize: function(options) {
+-        events.on("status:added", this.appendStatus, this);
++        this.statuses = options.statuses;
++
++        this.statuses.on("add", this.appendStatus, this);
+     },
+ 
+-    appendStatus: function(text) {
+-        this.$('ul').append('<li>' + text + '</li>');
+-    }
++    appendStatus: function(status) {
++        this.$('ul').append('<li>' + status.get("text") + '</li>');
++    }
+ });
+ 
+ $(document).ready(function() {
+     var statuses = new Statuses();
+     new NewStatusView({ el: $('#new-status'), statuses: statuses });
+-    new StatusesView({ el: $('#statuses') });
++    new StatusesView({ el: $('#statuses'), statuses: statuses });
+ });
+```
+
+`statuses` -> `collection`:
+
+```diff
+ var events = _.clone(Backbone.Events);
+ 
+ var Status = Backbone.Model.extend({
+     url: '/status'
+ });
+ 
+ var Statuses = Backbone.Collection.extend({
+     model: Status
+ });
+ 
+ var NewStatusView = Backbone.View.extend({
+     initialize: function(options) {
+-        this.statuses = options.statuses;
+-
+-        this.statuses.on("add", this.clearInput, this);
++        this.collection.on("add", this.clearInput, this);
+ 
+         var add = $.proxy(this.addStatus, this);
+         this.$('form').submit(add);
+     },
+ 
+     addStatus: function(e) {
+         e.preventDefault();
+ 
+-        this.statuses.add({ text: this.$('textarea').val() });
++        this.collection.add({ text: this.$('textarea').val() });
+     },
+ 
+     clearInput: function() {
+         this.$('textarea').val('');
+     }
+ });
+ 
+ var StatusesView = Backbone.View.extend({
+     initialize: function(options) {
+-        this.statuses = options.statuses;
+-
+-        this.statuses.on("add", this.appendStatus, this);
++        this.collection.on("add", this.appendStatus, this);
+     },
+ 
+     appendStatus: function(status) {
+         this.$('ul').append('<li>' + status.get("text") + '</li>');
+     }
+ });
+ 
+ $(document).ready(function() {
+     var statuses = new Statuses();
+-    new NewStatusView({ el: $('#new-status'), statuses: statuses });
++    new NewStatusView({ el: $('#new-status'), collection: statuses });
+-    new StatusesView({ el: $('#statuses'), statuses: statuses });
++    new StatusesView({ el: $('#statuses'), collection: statuses });
+ });
+```
+
+View events:
+
+```diff
+ var events = _.clone(Backbone.Events);
+ 
+ var Status = Backbone.Model.extend({
+     url: '/status'
+ });
+ 
+ var Statuses = Backbone.Collection.extend({
+     model: Status
+ });
+ 
+ var NewStatusView = Backbone.View.extend({
++    events: {
++        "submit form": "addStatus"
++    },
++
+     initialize: function(options) {
+         this.collection.on("add", this.clearInput, this);
+-
+-        var add = $.proxy(this.addStatus, this);
+-        this.$('form').submit(add);
+     },
+ 
+     addStatus: function(e) {
+         e.preventDefault();
+ 
+         this.collection.add({ text: this.$('textarea').val() });
+     },
+ 
+     clearInput: function() {
+         this.$('textarea').val('');
+     }
+ });
+ 
+ var StatusesView = Backbone.View.extend({
+     initialize: function(options) {
+         this.collection.on("add", this.appendStatus, this);
+     },
+ 
+     appendStatus: function(status) {
+         this.$('ul').append('<li>' + status.get("text") + '</li>');
+     }
+ });
+ 
+ $(document).ready(function() {
+     var statuses = new Statuses();
+     new NewStatusView({ el: $('#new-status'), collection: statuses });
+     new StatusesView({ el: $('#statuses'), collection: statuses });
+ });
+```
+
+The final code:
+
+```javascript
+var events = _.clone(Backbone.Events);
+
+var Status = Backbone.Model.extend({
+    url: '/status'
+});
+
+var Statuses = Backbone.Collection.extend({
+    model: Status
+});
+
+var NewStatusView = Backbone.View.extend({
+    events: {
+        "submit form": "addStatus"
+    },
+
+    initialize: function(options) {
+        this.collection.on("add", this.clearInput, this);
+    },
+
+    addStatus: function(e) {
+        e.preventDefault();
+
+        this.collection.add({ text: this.$('textarea').val() });
+    },
+
+    clearInput: function() {
+        this.$('textarea').val('');
+    }
+});
+
+var StatusesView = Backbone.View.extend({
+    initialize: function(options) {
+        this.collection.on("add", this.appendStatus, this);
+    },
+
+    appendStatus: function(status) {
+        this.$('ul').append('<li>' + status.get("text") + '</li>');
+    }
+});
+
+$(document).ready(function() {
+    var statuses = new Statuses();
+    new NewStatusView({ el: $('#new-status'), collection: statuses });
+    new StatusesView({ el: $('#statuses'), collection: statuses });
+});
+```

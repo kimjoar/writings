@@ -6,15 +6,7 @@ use Backbone.js. In this blog post I will gradually refactor a bit of
 code from the way I see most JavaScript code written into proper
 Backbone.js code using of models, collections, views and events.
 
-First, let's start with the code we're going to work with. This simple
-application is based on [Brandon Keepers](http://opensoul) in a
-[great JavaScript presentation](http://opensoul.org/blog/archives/2012/05/16/the-plight-of-pinocchio/)
-by .org/). However, while his focus was
-primarily on testing — of which he does an amazing job — mine is on
-explaining the core Backbone.js abstractions one step at a time.
-
-These 16 lines of code is what we're going to work with throughout this
-blog post:
+First, let's start with the code we're going to work with:
 
 ```javascript
 Query(function() {
@@ -35,14 +27,32 @@ Query(function() {
 });
 ```
 
-[Check out the application](...). Basically, you can write some text,
-click on "Post", and see what you've written show up in the list while
-the textarea is prepared for new input. In this little bit of code we
-do this by waiting for the DOM to be ready, set a submit listener, and
-when the form is submitted we send the input to the server, append the
-response to the list of statuses and reset the input.
+And here's the application: [Monologue](). This simple application is based on a
+[great JavaScript presentation](http://opensoul.org/blog/archives/2012/05/16/the-plight-of-pinocchio/)
+by [Brandon Keepers](http://opensoul). However, while his focus was
+primarily on testing and design patterns — of which he does an amazing
+job — mine is on explaining the core Backbone.js abstractions one step
+at a time.
 
-Our first goal is to split Ajax and DOM from each other. The first is
+Basically, you can write some text, click on "Post", and see what you've
+written show up in the list while the textarea is prepared for new
+input. Translating this to code, we start by waiting for the DOM to
+load, set a submit listener, and when the form is submitted we send the
+input to the server, append the response to the list of statuses and
+reset the input.
+
+But, what's the problem? This code does a lot of stuff at the same time.
+It listen for page events, user events, network evenets, it does network
+IO, handles user input, parses the response, and does HTML templating.
+All in 16 lines of code. It looks like most JavaScript code I wrote a
+year ago. Throughout this blog post I will gradually work my way to code
+that follows the single responsibility principle, and which is far
+easier to test, maintain and extend.
+
+Separating DOM and Ajax
+-----------------------
+
+Our first goal is to split Ajax and DOM from each other, so we start by
 creating an `addStatus` method:
 
 ```diff
@@ -78,8 +88,8 @@ creating an `addStatus` method:
  });
 ```
 
-However, both within `data` and `success` we work with the DOM.
-We can break this coupling by sending these as arguments:
+However, both within `data` and `success` we work with the DOM. We can
+break this coupling by sending these as arguments to `addStatus`:
 
 ```diff
  function addStatus(options) {
@@ -156,6 +166,9 @@ to introduce a Statuses "class":
      });
  });
 ```
+
+Creating a view
+---------------
 
 Our submit handler now has one dependency, `statuses`, and everything
 else within it relates to the
@@ -364,16 +377,20 @@ directly on the DOM:
 ```
 
 This is much easier to test, and much easier to work with as our code
-grows. We are also far on our way to understand Backbone.js. For the
-next step we need to introduce our first bit of Backbone: events. Events
-are basically just a way to say: "Hi, I want to know when some action
-occurs" and "Hi, you know what? The action you're waiting for just
-occurred!" We are used to this idea from jQuery DOM events such as
-listening for `click` and `submit`.
+grows. We are also far on our way to understand Backbone.js.
+
+Adding events
+-------------
+
+For the next step we need to introduce our first bit of Backbone:
+events. Events are basically just a way to say: "Hi, I want to know when
+some action occurs" and "Hi, you know what? The action you're waiting
+for just occurred!" We are used to this idea from jQuery DOM events such
+as listening for `click` and `submit`.
 
 The Backbone documentation describes `Backbone.Events` as follows:
-"Events is a module that can be mixed in to any object, giving the
-object the ability to bind and trigger custom named events." The docs
+*"Events is a module that can be mixed in to any object, giving the
+object the ability to bind and trigger custom named events."* The docs
 also shows us how we can create an event dispatcher:
 
 ```javascript
@@ -492,13 +509,16 @@ move the triggering of the event into the `add` method on `Statuses`:
  });
 ```
 
+A view's responsibilities
+-------------------------
+
 Looking at `appendStatus` and `clearInput` in `NewStatusView`, we see
 that these focus on two different DOM elements. This does not adhere to
 the principles I outline in my blog post on
-[a views responsibilities](https://open.bekk.no/a-views-responsibility/).
+[a view's responsibilities](https://open.bekk.no/a-views-responsibility/).
 Let's pull a `StatusesView` out of `NewStatusView`. This is especially
 simple now as we use events. If we had used a regular `success`
-callback, this would be harder.
+callback it would be far more difficult to separate these two views.
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -734,7 +754,8 @@ $ helper:
  });
 ```
 
-Introducing Backbone.View:
+Getting started with views in Backbone
+--------------------------------------
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -963,7 +984,8 @@ Removing Backbone automatics:
  });
 ```
 
-Introducing a Backbone.Model for Status:
+Let's use a model
+-----------------
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -1029,6 +1051,9 @@ Introducing a Backbone.Model for Status:
      new StatusesView({ el: $('#statuses') });
  });
 ```
+
+Handling several models
+-----------------------
 
 Backbone.Collection:
 
@@ -1158,7 +1183,8 @@ Backbone.Collection:
  });
 ```
 
-View events:
+Evented views
+-------------
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -1211,7 +1237,8 @@ View events:
  });
 ```
 
-The final code:
+And we're done!
+---------------
 
 ```javascript
 var events = _.clone(Backbone.Events);

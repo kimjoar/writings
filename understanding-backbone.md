@@ -400,8 +400,9 @@ The Backbone documentation describes
 [`Backbone.Events`](http://backbonejs.org/#Events) as follows: *"Events
 is a module that can be mixed in to any object, giving the object the
 ability to bind and trigger custom named events."* The docs also shows
-us how we can create an event dispatcher, i.e. a component in which we
-can bind, unbind and trigger events:
+us how we can use [Underscore.js](http://underscorejs.org/) to create an
+event dispatcher, i.e. a component in which we can bind, unbind and
+trigger events:
 
 ```javascript
 var events = _.clone(Backbone.Events);

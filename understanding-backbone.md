@@ -464,11 +464,12 @@ constructor which methods we want to call when the event is triggered:
 ```
 
 Now we declare in the constructor what we want to occur when a status is
-added, instead of having this responsibility placed in the `addStatus`
-method, which should only be responsibly for actually adding a status,
-not handling its outcomes. And as we no longer have special handling in
-the `success` callback, so we can move the triggering of the event into
-the `add` method on `Statuses`:
+added, instead of `addStatus` being responsible for handling success.
+The only responsibility `addStatus` should have is actually adding a
+status, not handling its outcomes.
+
+As we no longer have special handling in the `success` callback we can
+move the triggering of the event into the `add` method on `Statuses`:
 
 ```diff
  var events = _.clone(Backbone.Events);

@@ -134,24 +134,17 @@ to introduce a Statuses "class":
 
 ```diff
 -function addStatus(options) {
--    $.ajax({
--        url: '/status',
--        type: 'POST',
--        dataType: 'json',
--        data: { text: options.text },
--        success: options.success
--    });
--}
 +var Statuses = function() {
 +};
 +Statuses.prototype.add = function(options) {
-+    $.ajax({
-+        url: '/status',
-+        type: 'POST',
-+        dataType: 'json',
-+        data: { text: options.text },
-+        success: options.success
-+    });
+     $.ajax({
+         url: '/status',
+         type: 'POST',
+         dataType: 'json',
+         data: { text: options.text },
+         success: options.success
+     });
+-}
 +};
  
  $(document).ready(function() {

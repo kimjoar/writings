@@ -29,18 +29,20 @@ Query(function() {
 });
 ```
 
-And here's the application: [Monologue](). This simple application is based on a
+And here you can see the code up and running:
+[Monologue](http://monologue-js.herokuapp.com/).
+This simple application is based on a
 [great JavaScript presentation](http://opensoul.org/blog/archives/2012/05/16/the-plight-of-pinocchio/)
-by [Brandon Keepers](http://opensoul). However, while his focus was
+by [Brandon Keepers](http://opensoul). However, while his focus is
 primarily on testing and design patterns — of which he does an amazing
 job — mine is on explaining the core Backbone.js abstractions one step
 at a time.
 
-Basically, you can write some text, click on "Post", and see what you've
-written show up in the list while the textarea is prepared for new
-input. Translating this to code, we start by waiting for the DOM to
-load, set a submit listener, and when the form is submitted we send the
-input to the server, append the response to the list of statuses and
+Basically, the app lets you to write some text, click on "Post", and see
+what you've written show up in the list while the textarea is prepared
+for new input. Translating this to code, we start by waiting for the DOM
+to load, set a submit listener, and when the form is submitted we send
+the input to the server, append the response to the list of statuses and
 reset the input.
 
 But, what's the problem? This code does a lot of stuff at the same time.

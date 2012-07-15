@@ -58,7 +58,7 @@ Separating DOM and Ajax
 -----------------------
 
 Our first goal is to split Ajax and DOM from each other, so we start by
-creating an `addStatus` method:
+creating an `addStatus` function:
 
 ```diff
 +function addStatus(options) {
@@ -212,7 +212,7 @@ Let's move the submit handler and everything inside it into a
 +
  $(document).ready(function() {
      var statuses = new Statuses();
-
+ 
 -    $('#new-status form').submit(function(e) {
 -        e.preventDefault();
 -
@@ -228,9 +228,12 @@ Let's move the submit handler and everything inside it into a
  });
 ```
 
-Now, our jQuery ready handling is much cleaner than when we started.
-To clean up the `NewStatusView` we can start by splitting the handling
-of the submit into its own `addStatus` method.
+Now we only set up our application when the DOM is loaded, and
+everything else is moved out of `$(document).ready`. The steps we have
+taken so far has given us two easily testable components which each have
+their responsibility. However, there are still several ways we can clean
+up the code even more. Let's start by splitting the submit handler in
+`NewStatusView` into its own `addStatus` method:
 
 ```diff
  var Statuses = function() {
@@ -279,19 +282,19 @@ of the submit into its own `addStatus` method.
  });
 ```
 
-Running this in Chrome this gives me this error:
+Running this in Chrome we get this error:
 
     Uncaught TypeError: Cannot call method 'add' of undefined
 
-The reason is that `this` means different things in the constructor and
-the `addStatus` method, as it is jQuery that actually calls the latter.
-(If you don't understand this, read
+We get this error as `this` means different things in the constructor
+and the `addStatus` method, as it is jQuery that actually calls the
+latter when the user submits the form. (If you don't fully grasp how
+`this` works, I recommend reading
 [Understanding JavaScript Function Invocation and “this”](http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/))
-
-To get this working we need to use
-[`$.proxy`](http://api.jquery.com/jQuery.proxy/) for `this` to mean the
-right thing when calling `addStatus`, as we need to reach
-`this.statuses`:
+To solve this problem we can use
+[`$.proxy`](http://api.jquery.com/jQuery.proxy/), which creates a
+function where `this` is always the same — the context you specify as
+the second argument.
 
 ```diff
  var Statuses = function() {
@@ -332,7 +335,8 @@ right thing when calling `addStatus`, as we need to reach
 ```
 
 Let's make the `success` callback call methods instead of working
-directly on the DOM:
+directly on the DOM, which makes the callback easier to read and work
+with:
 
 ```diff
  var Statuses = function() {
@@ -381,7 +385,7 @@ directly on the DOM:
  });
 ```
 
-This is much easier to test, and much easier to work with as our code
+This is much easier to test and much easier to work with as our code
 grows. We are also far on our way to understand Backbone.js.
 
 Adding events
@@ -391,12 +395,19 @@ For the next step we need to introduce our first bit of Backbone:
 events. Events are basically just a way to say: "Hi, I want to know when
 some action occurs" and "Hi, you know what? The action you're waiting
 for just occurred!" We are used to this idea from jQuery DOM events such
-as listening for `click` and `submit`.
+as listening for `click` and `submit`, e.g.
+
+```javascript
+$('form').bind('submit', function() {
+  alert('User submitted form'); 
+});
+```
 
 The Backbone documentation describes `Backbone.Events` as follows:
 *"Events is a module that can be mixed in to any object, giving the
 object the ability to bind and trigger custom named events."* The docs
-also shows us how we can create an event dispatcher:
+also shows us how we can create an event dispatcher, i.e. a component in
+which we can bind, unbind and trigger events:
 
 ```javascript
 var events = _.clone(Backbone.Events);
@@ -458,8 +469,12 @@ triggered:
  });
 ```
 
-Now, we don't have special handling in the `success` callback, so we can
-move the triggering of the event into the `add` method on `Statuses`:
+Now we declare in the constructor what we want to occur when a status is
+added, instead of having this responsibility placed in the `addStatus`
+method, which should only be responsibly for actually adding a status,
+not handling its outcomes. And as we no longer have special handling in
+the `success` callback, so we can move the triggering of the event into
+the `add` method on `Statuses`:
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -521,9 +536,10 @@ Looking at `appendStatus` and `clearInput` in `NewStatusView`, we see
 that these focus on two different DOM elements. This does not adhere to
 the principles I outline in my blog post on
 [a view's responsibilities](https://open.bekk.no/a-views-responsibility/).
-Let's pull a `StatusesView` out of `NewStatusView`. This is especially
-simple now as we use events. If we had used a regular `success`
-callback it would be far more difficult to separate these two views.
+Let's pull a `StatusesView` out of `NewStatusView`, and let it be
+responsible for `#statuses`. Separating these responsibilities is
+especially simple now that we use events — with a regular `success`
+callback this would be far more difficult.
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -577,8 +593,8 @@ callback it would be far more difficult to separate these two views.
  });
 ```
 
-As each view is responsible for one `el`, let's specify them when
-instantiating the views:
+As each view is now responsible for one HTML element, we can specify
+them when instantiating the views:
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -636,9 +652,9 @@ instantiating the views:
 ```
 
 Our views, `NewStatusView` and `StatusesView` are still difficult to
-test because they depend on having the HTML present, e.g. to find
-`$('#statuses')`. To remedy this we can pass in its DOM dependencies
-when we instantiate a view.
+test because they depend on having the HTML present, e.g. in order to
+find `$('#statuses')`. To remedy this we can pass in its DOM
+dependencies when we instantiate a view.
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -696,7 +712,10 @@ when we instantiate a view.
  });
 ```
 
-$ helper:
+Instead of writing `this.el.find` we can create a simple helper so we
+can write `this.$` instead. With this little change it feels like we are
+saying, I want to use jQuery to look for something locally on this view,
+instead of globally in the entire HTML. And it's so easy to add:
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -759,8 +778,14 @@ $ helper:
  });
 ```
 
+However, repeating this for every view is a pain. That's one of the
+reasons to use Backbone views.
+
 Getting started with views in Backbone
 --------------------------------------
+
+From the state our code is in now, it's just a couple of lines of change
+needed to add Backbone views:
 
 ```diff
  var events = _.clone(Backbone.Events);

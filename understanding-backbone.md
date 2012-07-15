@@ -1,12 +1,12 @@
 Going from jQuery JavaScript to Backbone.js
 ===========================================
 
-I've seen several people struggle the first few times they've tried to
+I've seen many struggle the first few times they try to
 use Backbone.js. In this blog post I will gradually refactor a bit of
-code from the way I see most JavaScript code written into proper
+code from the way I used to write JavaScript into proper
 Backbone.js code using of models, collections, views and events.
 
-First, let's start with the code we're going to work with:
+Let's start with the code we're going to work with throughout this blog post:
 
 ```javascript
 Query(function() {

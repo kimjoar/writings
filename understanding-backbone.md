@@ -409,9 +409,8 @@ var events = _.clone(Backbone.Events);
 ```
 
 With this little bit of functionality we can let the `success` callback
-trigger an event instead of calling methods. We can also set up in the
-constructor which methods we want called when the success event is
-triggered:
+trigger an event instead of calling methods. We can also declare in the
+constructor which methods we want to call when the event is triggered:
 
 ```diff
 +var events = _.clone(Backbone.Events);

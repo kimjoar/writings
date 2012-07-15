@@ -401,7 +401,7 @@ The Backbone documentation describes
 is a module that can be mixed in to any object, giving the object the
 ability to bind and trigger custom named events."* The docs also shows
 us how we can use [Underscore.js](http://underscorejs.org/) to create an
-event dispatcher, i.e. a component in which we can bind, unbind and
+event dispatcher, i.e. a component on which we can bind, unbind and
 trigger events:
 
 ```javascript
@@ -463,12 +463,12 @@ constructor which methods we want to call when the event is triggered:
  });
 ```
 
-Now we declare in the constructor what we want to occur when a status is
-added, instead of `addStatus` being responsible for handling success.
-The only responsibility `addStatus` should have is actually adding a
-status, not handling its outcomes.
+Now we can declare in the constructor what we want to happen when a
+status is added, instead of `addStatus` being responsible for handling
+success. The only responsibility `addStatus` should have is adding a
+status, not handling its consequences.
 
-As we no longer have special handling in the `success` callback we can
+As we no longer do any work on `this` in the `success` callback we can
 move the triggering of the event into the `add` method on `Statuses`:
 
 ```diff
@@ -707,9 +707,11 @@ dependencies when we instantiate a view.
  });
 ```
 
+Now, this is easy to test!
+
 Instead of writing `this.el.find` we can create a simple helper so we
 can write `this.$` instead. With this little change it feels like we are
-saying, I want to use jQuery to look for something locally on this view,
+saying, I want to use jQuery to look for something locally on this view
 instead of globally in the entire HTML. And it's so easy to add:
 
 ```diff
@@ -774,7 +776,7 @@ instead of globally in the entire HTML. And it's so easy to add:
 ```
 
 However, repeating this for every view is a pain. That's one of the
-reasons to use Backbone views.
+reasons to use Backbone views — sharing code between views.
 
 Getting started with views in Backbone
 --------------------------------------
@@ -906,7 +908,7 @@ Moving both views into Backbone:
 -NewStatusView.prototype.$ = function(selector) {
 -    return this.el.find(selector);
 -};
-
+ 
 -var StatusesView = function(options) {
 -    this.el = options.el;
 -
@@ -941,7 +943,9 @@ Moving both views into Backbone:
  });
 ```
 
-Removing Backbone automatics:
+Now we can remove some code from our views as Backbone views set `el`
+automatically when it is passed in when instantiating a view, and as it
+already has a `this.$` helper:
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -1011,6 +1015,9 @@ Removing Backbone automatics:
 
 Let's use a model
 -----------------
+
+The next step is introducing models, which are responsible for the
+network traffic, i.e. Ajax requests and responses.
 
 ```diff
  var events = _.clone(Backbone.Events);

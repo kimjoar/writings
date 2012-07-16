@@ -47,18 +47,28 @@ the input to the server, append the response to the list of statuses and
 reset the input.
 
 But, what's the problem? This code does a lot of stuff at the same time.
-It listen for page events, user events, network evenets, it does network
+It listens for page events, user events, network events, it does network
 IO, handles user input, parses the response, and does HTML templating.
 All in 16 lines of code. It looks like most JavaScript code I wrote a
 year ago. Throughout this blog post I will gradually work my way to code
 that follows the single responsibility principle, and which is far
-easier to test, maintain and extend.
+easier to test, maintain, reuse and extend.
+
+There are three things we want to achieve:
+
+* We want to move as much as possible out of `$(document).ready`, so we
+  can trigger the code ourselves — we only want to bootstrap the
+  application when the DOM is ready. In its current state the code is
+  nearly impossible to test.
+* We want want to adhere to the single responsibility principle, and
+  make the code more reusable and easier to test.
+* We want to break the coupling between the DOM and Ajax.
 
 Separating DOM and Ajax
 -----------------------
 
-Our first goal is to split Ajax and DOM from each other, so we start by
-creating an `addStatus` function:
+We start with splitting Ajax and DOM from each other, and the first step
+is to create an `addStatus` function:
 
 ```diff
 +function addStatus(options) {

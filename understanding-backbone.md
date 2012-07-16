@@ -12,7 +12,7 @@ Let's start with the code we're going to work with throughout this blog
 post:
 
 ```javascript
-Query(function() {
+$(document).ready(function() {
     $('#new-status').submit(function(e) {
         e.preventDefault();
 

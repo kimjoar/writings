@@ -4,7 +4,7 @@ Going from jQuery JavaScript to Backbone.js
 I've seen many struggle when they first meet
 [Backbone.js](http://backbonejs.org/). In this blog post I will
 gradually refactor a bit of code from how I used to write JavaScript
-before into proper Backbone.js code using models, collections, views and
+before, into proper Backbone.js code using models, collections, views and
 events. Hopefully this process will give you a firm understanding of the
 core abstractions in Backbone.js.
 
@@ -30,9 +30,9 @@ $(document).ready(function() {
 });
 ```
 
-And here you can see the code up and running:
-[Monologue](http://monologue-js.herokuapp.com/).
-This simple application is based on a
+And here's the application up and running:
+[Monologue](http://monologue-js.herokuapp.com/). This simple
+application is based on a
 [great JavaScript presentation](http://opensoul.org/blog/archives/2012/05/16/the-plight-of-pinocchio/)
 by [Brandon Keepers](http://opensoul). However, while his focus is
 primarily on testing and design patterns — of which he does an amazing
@@ -138,7 +138,8 @@ break this coupling by sending these as arguments to `addStatus`:
  });
 ```
 
-We then use the
+However, I want to wrap these statuses in an object and be able to write
+`statuses.add` instead of `addStatus`. To achieve this we can use the
 [constructor pattern with prototypes](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#constructorpatternjavascript)
 to introduce a Statuses "class":
 
@@ -178,11 +179,9 @@ to introduce a Statuses "class":
 Creating a view
 ---------------
 
-Our submit handler now has one dependency, `statuses`, and everything
-else within it relates to the
-[responsibilities of a view](http://open.bekk.no/a-views-responsibility/).
-Let's move the submit handler and everything inside it into a
-`NewStatusView`:
+Our submit handler now has one dependency, the `statuses` variable, and
+everything else within it is focused on the DOM. Let's move the submit
+handler and everything inside it into its own class, `NewStatusView`:
 
 ```diff
  var Statuses = function() {
@@ -231,12 +230,12 @@ Let's move the submit handler and everything inside it into a
  });
 ```
 
-Now we only set up our application when the DOM is loaded, and
+Now we only bootstrap our application when the DOM is loaded, and
 everything else is moved out of `$(document).ready`. The steps we have
-taken so far has given us two easily testable components which each have
-their responsibility. However, there are still several ways we can clean
-up the code even more. Let's start by splitting the submit handler in
-`NewStatusView` into its own `addStatus` method:
+taken so far has given us two components which are easier to test and a
+more well-defined responsibility. However, there is still much to clean
+up. Let's start by splitting the submit handler in `NewStatusView` into
+its own `addStatus` method:
 
 ```diff
  var Statuses = function() {
@@ -538,8 +537,9 @@ A view's responsibilities
 -------------------------
 
 Looking at `appendStatus` and `clearInput` in `NewStatusView`, we see
-that these focus on two different DOM elements. This does not adhere to
-the principles I outline in my blog post on
+that these focus on two different DOM elements, `#statuses` and
+`#new-status`, respectively. This does not adhere to the principles I
+outline in my blog post on
 [a view's responsibilities](https://open.bekk.no/a-views-responsibility/).
 Let's pull a `StatusesView` out of `NewStatusView`, and let it be
 responsible for `#statuses`. Separating these responsibilities is
@@ -793,8 +793,8 @@ view instead of globally in the entire HTML. And it's so easy to add:
 ```
 
 However, adding this functionality for every view is a pain. That's one
-of the reasons to use Backbone views — reusing functionality across
-views.
+of the reasons to use [Backbone views](http://backbonejs.org/#View) —
+reusing functionality across views.
 
 Getting started with views in Backbone
 --------------------------------------
@@ -870,12 +870,12 @@ needed to add Backbone views:
  });
 ```
 
-As we can see, the application is still up and running. Views in
-Backbone are not scary, they are basically just a simple way of sharing
-functionality between views. TODO: `extend`
+As you can see from the code, we use `Backbone.View.extend` to create a
+new view class in Backbone. Within `extend` we can specify instance
+methods such as `initialize`, which is the name of the constructor.
 
 Now that we have started the move over to Backbone views, let's go on
-and move both our views fully over:
+and move both views fully over:
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -966,10 +966,10 @@ and move both our views fully over:
  });
 ```
 
-Now that we have introduced Backbone views, we can remove the `this.$`
-helper, as it is defined in Backbone. We can also no longer need to
-set `this.el` ourselves, as Backbone does it automatically when a view
-is instantiated with an HTML element.
+Now that we use Backbone views we can remove the `this.$` helper, as it
+already exists in Backbone. We also no longer need to set `this.el`
+ourselves, as Backbone does it automatically when a view is instantiated
+with an HTML element.
 
 ```diff
  var events = _.clone(Backbone.Events);

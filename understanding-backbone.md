@@ -411,8 +411,8 @@ The Backbone documentation describes
 is a module that can be mixed in to any object, giving the object the
 ability to bind and trigger custom named events."* The docs also shows
 us how we can use [Underscore.js](http://underscorejs.org/) to create an
-event dispatcher, i.e. a component on which we can bind, unbind and
-trigger events:
+event dispatcher, i.e. a component on which we can bind and trigger
+events:
 
 ```javascript
 var events = _.clone(Backbone.Events);
@@ -478,8 +478,8 @@ status is added, instead of `addStatus` being responsible for handling
 success. The only responsibility `addStatus` should have is adding a
 status, not handling its consequences.
 
-As we no longer do any work on `this` in the `success` callback we can
-move the triggering of the event into the `add` method on `Statuses`:
+As we no longer deal with the view in the `success` callback we can move
+the triggering of the event into the `add` method on `Statuses`:
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -717,12 +717,19 @@ dependencies when we instantiate a view.
  });
 ```
 
-Now, this is easy to test!
+Now, this is easy to test! With this change we can use a
+[jQuery trick](http://api.jquery.com/jQuery/#jQuery2) to test our views.
+Instead of initiating our views by passing in for example
+`$('#new-status')`, we can pass in the necessary HTML wrapped in jQuery,
+e.g. `$('<div><form>…</form></div>')`. jQuery will then create the
+needed DOM elements on the fly. This ensures blazingly fast tests — on
+my current project our nearly 200 tests run in less than one second.
 
-Instead of writing `this.el.find` we can create a simple helper so we
-can write `this.$` instead. With this little change it feels like we are
-saying, I want to use jQuery to look for something locally on this view
-instead of globally in the entire HTML. And it's so easy to add:
+Our next step is introducing a helper to clean up our views a little
+bit. Instead of writing `this.el.find` we can create a simple helper so
+we can write `this.$` instead. With this little change it feels like we
+are saying, I want to use jQuery to look for something locally on this
+view instead of globally in the entire HTML. And it's so easy to add:
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -785,8 +792,9 @@ instead of globally in the entire HTML. And it's so easy to add:
  });
 ```
 
-However, repeating this for every view is a pain. That's one of the
-reasons to use Backbone views — sharing code between views.
+However, adding this functionality for every view is a pain. That's one
+of the reasons to use Backbone views — reusing functionality across
+views.
 
 Getting started with views in Backbone
 --------------------------------------
@@ -862,7 +870,12 @@ needed to add Backbone views:
  });
 ```
 
-Moving both views into Backbone:
+As we can see, the application is still up and running. Views in
+Backbone are not scary, they are basically just a simple way of sharing
+functionality between views. TODO: `extend`
+
+Now that we have started the move over to Backbone views, let's go on
+and move both our views fully over:
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -953,9 +966,10 @@ Moving both views into Backbone:
  });
 ```
 
-Now we can remove some code from our views as Backbone views set `el`
-automatically when it is passed in when instantiating a view, and as it
-already has a `this.$` helper:
+Now that we have introduced Backbone views, we can remove the `this.$`
+helper, as it is defined in Backbone. We can also no longer need to
+set `this.el` ourselves, as Backbone does it automatically when a view
+is instantiated with an HTML element.
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -1097,7 +1111,10 @@ network traffic, i.e. Ajax requests and responses.
 Handling several models
 -----------------------
 
-Backbone.Collection:
+Now that we have introduced models, we need a concepts for a list of
+models, such as the list of statuses in our application. The concept in
+Backbone for this is named Collection. For a Collection we can specify
+the type of model it accepts.
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -1167,7 +1184,9 @@ Backbone.Collection:
  });
 ```
 
-`statuses` -> `collection`:
+As for `el` earlier, Backbone automatically sets `this.collection` when
+`collection` is passed. Therefore we rename `statuses` to `collection`
+in our view:
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -1227,6 +1246,10 @@ Backbone.Collection:
 
 Evented views
 -------------
+
+The last step is removing the nasty `$.proxy` stuff. We can do this by
+letting Backbone delegate our events by specifying them in an `events`
+hash in the view in the format `{"event selector": "callback"}`:
 
 ```diff
  var events = _.clone(Backbone.Events);

@@ -537,9 +537,11 @@ A view's responsibilities
 -------------------------
 
 Looking at `appendStatus` and `clearInput` in `NewStatusView`, we see
-that these focus on two different DOM elements, `#statuses` and
-`#new-status`, respectively. This does not adhere to the principles I
-outline in my blog post on
+that these methods focus on two different DOM elements, `#statuses` and
+`#new-status`, respectively. I've given them different colors in the
+[app](http://monologue-js.herokuapp.com/), so you can visually see the
+different. Working on two elements in a view does not adhere to the
+principles I outline in my blog post on
 [a view's responsibilities](https://open.bekk.no/a-views-responsibility/).
 Let's pull a `StatusesView` out of `NewStatusView`, and let it be
 responsible for `#statuses`. Separating these responsibilities is

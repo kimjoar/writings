@@ -1354,3 +1354,6 @@ $(document).ready(function() {
     new StatusesView({ el: $('#statuses'), collection: statuses });
 });
 ```
+
+And [here's](http://monologue-js.herokuapp.com/?step=21) the application
+running with the refactored code.

@@ -1250,8 +1250,9 @@ Evented views
 -------------
 
 The last step is removing the nasty `$.proxy` stuff. We can do this by
-letting Backbone.js delegate our events by specifying them in an `events`
-hash in the view in the format `{"event selector": "callback"}`:
+letting Backbone.js [delegate our events](http://backbonejs.org/#View-delegateEvents)
+by specifying them in an `events` hash in the view. This hash is on the
+format `{"event selector": "callback"}`:
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -1307,6 +1308,8 @@ hash in the view in the format `{"event selector": "callback"}`:
 And we're done!
 ---------------
 
+This is our final code:
+
 ```javascript
 var events = _.clone(Backbone.Events);
 
@@ -1356,4 +1359,13 @@ $(document).ready(function() {
 ```
 
 And [here's](http://monologue-js.herokuapp.com/?step=21) the application
-running with the refactored code.
+running with the refactored code. Yeah, it's still the exact same
+application from a user's point of view.
+
+However, the code has increased from 16 lines to more than 40, so why do
+I think this is better? We are now working on a higher level of
+abstraction. This code is more maintainable, easier to reuse and extend,
+and easier to test. What I've seen is that Backbone.js helps improve the
+structure of my JavaScript applications considerably. And at the same
+time it's a lightweight library, weighting in at just over 1000 lines of
+code.

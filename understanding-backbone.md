@@ -405,7 +405,7 @@ $('form').bind('submit', function() {
 });
 ```
 
-The Backbone documentation describes
+The Backbone.js documentation describes
 [`Backbone.Events`](http://backbonejs.org/#Events) as follows: *"Events
 is a module that can be mixed in to any object, giving the object the
 ability to bind and trigger custom named events."* The docs also shows
@@ -799,14 +799,14 @@ view instead of globally in the entire HTML. And it's so easy to add:
 ```
 
 However, adding this functionality for every view is a pain. That's one
-of the reasons to use [Backbone views](http://backbonejs.org/#View) —
+of the reasons to use [Backbone.js views](http://backbonejs.org/#View) —
 reusing functionality across views.
 
 Getting started with views in Backbone
 --------------------------------------
 
 From the state our code is in now, it's just a couple of lines of change
-needed to add Backbone views:
+needed to add Backbone.js views:
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -880,7 +880,7 @@ As you can see from the code, we use `Backbone.View.extend` to create a
 new view class in Backbone. Within `extend` we can specify instance
 methods such as `initialize`, which is the name of the constructor.
 
-Now that we have started the move over to Backbone views, let's go on
+Now that we have started the move over to Backbone.js views, let's go on
 and move both views fully over:
 
 ```diff
@@ -972,9 +972,9 @@ and move both views fully over:
  });
 ```
 
-Now that we use Backbone views we can remove the `this.$` helper, as it
+Now that we use Backbone.js views we can remove the `this.$` helper, as it
 already exists in Backbone. We also no longer need to set `this.el`
-ourselves, as Backbone does it automatically when a view is instantiated
+ourselves, as Backbone.js does it automatically when a view is instantiated
 with an HTML element.
 
 ```diff
@@ -1119,7 +1119,7 @@ Handling several models
 
 Now that we have introduced models, we need a concepts for a list of
 models, such as the list of statuses in our application. The concept in
-Backbone for this is named Collection. For a Collection we can specify
+Backbone.js for this is named Collection. For a Collection we can specify
 the type of model it accepts.
 
 ```diff
@@ -1190,7 +1190,7 @@ the type of model it accepts.
  });
 ```
 
-As for `el` earlier, Backbone automatically sets `this.collection` when
+As for `el` earlier, Backbone.js automatically sets `this.collection` when
 `collection` is passed. Therefore we rename `statuses` to `collection`
 in our view:
 
@@ -1254,7 +1254,7 @@ Evented views
 -------------
 
 The last step is removing the nasty `$.proxy` stuff. We can do this by
-letting Backbone delegate our events by specifying them in an `events`
+letting Backbone.js delegate our events by specifying them in an `events`
 hash in the view in the format `{"event selector": "callback"}`:
 
 ```diff

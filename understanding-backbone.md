@@ -474,12 +474,8 @@ constructor which methods we want to call when the event is triggered:
 
 Now we can declare in the constructor what we want to happen when a
 status is added, instead of `addStatus` being responsible for handling
-success. The only responsibility `addStatus` should have is adding a
-status, not handling its consequences.
-
-# Litt uklar siste setning, kanskje noko meir som:
-# "The only responsibility `addStatus` should have is backend
-# communication, not updating the DOM."
+success. The only responsibility `addStatus` should have is backend
+communication, not updating the DOM.
 
 As we no longer deal with the view in the `success` callback we can move
 the triggering of the event into the `add` method on `Statuses`:

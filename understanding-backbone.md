@@ -232,8 +232,8 @@ handler and everything inside it into its own class, `NewStatusView`:
 
 Now we only bootstrap our application when the DOM is loaded, and
 everything else is moved out of `$(document).ready`. The steps we have
-taken so far has given us two components which are easier to test and a
-more well-defined responsibility. However, there is still much to clean
+taken so far has given us two components which are easier to test and
+have more well-defined responsibilities. However, there is still much to clean
 up. Let's start by splitting the submit handler in `NewStatusView` into
 its own `addStatus` method:
 
@@ -387,7 +387,7 @@ with:
  });
 ```
 
-This is much easier to test and much easier to work with as our code
+This is much easier to test and to work with as our code
 grows. We are also far on our way to understand Backbone.js.
 
 Adding events
@@ -477,6 +477,10 @@ status is added, instead of `addStatus` being responsible for handling
 success. The only responsibility `addStatus` should have is adding a
 status, not handling its consequences.
 
+# Litt uklar siste setning, kanskje noko meir som:
+# "The only responsibility `addStatus` should have is backend
+# communication, not updating the DOM."
+
 As we no longer deal with the view in the `success` callback we can move
 the triggering of the event into the `add` method on `Statuses`:
 
@@ -539,8 +543,8 @@ A view's responsibilities
 Looking at `appendStatus` and `clearInput` in `NewStatusView`, we see
 that these methods focus on two different DOM elements, `#statuses` and
 `#new-status`, respectively. I've given them different colors in the
-[app](http://monologue-js.herokuapp.com/), so you can visually see the
-different. Working on two elements in a view does not adhere to the
+[app](http://monologue-js.herokuapp.com/), so you can see the
+difference. Working on two elements in a view does not adhere to the
 principles I outline in my blog post on
 [a view's responsibilities](https://open.bekk.no/a-views-responsibility/).
 Let's pull a `StatusesView` out of `NewStatusView`, and let it be

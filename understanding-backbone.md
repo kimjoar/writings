@@ -1,5 +1,5 @@
-Going from jQuery JavaScript to Backbone.js
-===========================================
+Refactoring JavaScript: From jQuery to Backbone.js
+==================================================
 
 I've seen many struggle when they first meet
 [Backbone.js](http://backbonejs.org/). In this blog post I will

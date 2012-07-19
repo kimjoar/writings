@@ -1119,8 +1119,8 @@ this concept is called a Collection. For a Collection we can specify
 the type of model it accepts.
 
 ```diff
- var events = _.clone(Backbone.Events);
- 
+-var events = _.clone(Backbone.Events);
+-
  var Status = Backbone.Model.extend({
      url: '/status'
  });
@@ -1191,8 +1191,6 @@ As with `el` earlier, Backbone.js automatically sets `this.collection` when
 in our view:
 
 ```diff
- var events = _.clone(Backbone.Events);
- 
  var Status = Backbone.Model.extend({
      url: '/status'
  });
@@ -1255,8 +1253,6 @@ by specifying them in an `events` hash in the view. This hash is on the
 format `{"event selector": "callback"}`:
 
 ```diff
- var events = _.clone(Backbone.Events);
- 
  var Status = Backbone.Model.extend({
      url: '/status'
  });
@@ -1311,8 +1307,6 @@ And we're done!
 This is our final code:
 
 ```javascript
-var events = _.clone(Backbone.Events);
-
 var Status = Backbone.Model.extend({
     url: '/status'
 });

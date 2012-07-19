@@ -1307,10 +1307,10 @@ when `collection` is passed. Therefore we rename `statuses` to
  
  var StatusesView = Backbone.View.extend({
 -    initialize: function(options) {
++    initialize: function() {
 -        this.statuses = options.statuses;
 -
 -        this.statuses.on('add', this.appendStatus, this);
-+    initialize: function() {
 +        this.collection.on('add', this.appendStatus, this);
      },
  

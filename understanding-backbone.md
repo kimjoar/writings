@@ -801,10 +801,8 @@ reusing functionality across views.
 Getting started with views in Backbone
 --------------------------------------
 
-# ("With the current state of our code, it's just ...")
-
-From the state our code is in now, it's just a couple of lines of change
-needed to add Backbone.js views:
+With the current state of our code, it's just a couple of lines of
+change needed to add Backbone.js views:
 
 ```diff
  var events = _.clone(Backbone.Events);
@@ -1115,14 +1113,9 @@ network traffic, i.e. Ajax requests and responses.
 Handling several models
 -----------------------
 
-# ("Now that we have introduced models, we need a concept for a list of
-# models, such as the list of statuses in our application. In Backbone.js 
-# this concept is called Collection. For a Collection we can specify
-# the type of model it accepts.")
-
-Now that we have introduced models, we need a concepts for a list of
-models, such as the list of statuses in our application. The concept in
-Backbone.js for this is named Collection. For a Collection we can specify
+Now that we have introduced models, we need a concept for a list of
+models, such as the list of statuses in our application. In Backbone.js 
+this concept is called a Collection. For a Collection we can specify
 the type of model it accepts.
 
 ```diff

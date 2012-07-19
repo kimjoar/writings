@@ -34,7 +34,7 @@ And here's the application up and running:
 [Monologue](http://monologue-js.herokuapp.com/). This simple
 application is based on a
 [great JavaScript presentation](http://opensoul.org/blog/archives/2012/05/16/the-plight-of-pinocchio/)
-by [Brandon Keepers](http://opensoul). However, while his focus is
+by [Brandon Keepers](http://opensoul.org). However, while his focus is
 primarily on testing and design patterns — of which he does an amazing
 job — mine is on explaining the core Backbone.js abstractions one step
 at a time.

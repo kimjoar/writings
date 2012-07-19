@@ -1115,8 +1115,14 @@ Handling several models
 
 Now that we have introduced models, we need a concept for a list of
 models, such as the list of statuses in our application. In Backbone.js 
-this concept is called a Collection. For a Collection we can specify
-the type of model it accepts.
+this concept is called a collection.
+
+One really cool thing about a collection is that is has scoped events.
+Basically, this just means that we can trigger and bind to events
+directly on a collection instead of using our `events` variable — our
+events will live on `statuses` instead of `events`. As we now start
+firing events directly on statuses there's no need for "status" in the
+event name, so we rename it from "status:add" to "add".
 
 ```diff
 -var events = _.clone(Backbone.Events);
@@ -1131,20 +1137,99 @@ the type of model it accepts.
 -    var status = new Status();
 -    status.save({ text: text }, {
 -        success: function(model, data) {
--            events.trigger('status:add', data.text);
+-            events.trigger("status:add", data.text);
 -        }
 -    });
 -};
 +var Statuses = Backbone.Collection.extend({
-+    model: Status
++    add: function(text) {
++        var that = this;
++        var status = new Status();
++        status.save({ text: text }, {
++            success: function(model, data) {
++                that.trigger("add", data.text);
++            }
++        });
++    }
 +});
  
  var NewStatusView = Backbone.View.extend({
      initialize: function(options) {
          this.statuses = options.statuses;
  
--        events.on('status:add', this.clearInput, this);
-+        this.statuses.on('add', this.clearInput, this);
+-        events.on("status:add", this.clearInput, this);
++        this.statuses.on("add", this.clearInput, this);
+ 
+         var add = $.proxy(this.addStatus, this);
+         this.$('form').submit(add);
+     },
+ 
+     addStatus: function(e) {
+         e.preventDefault();
+ 
+         this.statuses.add(this.$('textarea').val());
+     },
+ 
+     clearInput: function() {
+         this.$('textarea').val('');
+     }
+ });
+ 
+ var StatusesView = Backbone.View.extend({
+     initialize: function(options) {
++        this.statuses = options.statuses;
++
+-        events.on("status:add", this.appendStatus, this);
++        this.statuses.on("add", this.appendStatus, this);
+     },
+ 
+     appendStatus: function(text) {
+         this.$('ul').append('<li>' + text + '</li>');
+     }
+ });
+ 
+ $(document).ready(function() {
+     var statuses = new Statuses();
+     new NewStatusView({ el: $('#new-status'), statuses: statuses });
+-    new StatusesView({ el: $('#statuses') });
++    new StatusesView({ el: $('#statuses'), statuses: statuses });
+ });
+```
+
+We can simplify this even more by using Backbone's own `add` method and
+specify what type of model the collection should handle. There are two
+things we need to change to use Backbone collections:
+
+1. When creating the status we need to pass in an options hash with the
+   attributes we want to save, instead of only passing the text.
+2. The built in `add` also triggers an "add" event, but rather than
+   passing only the text, as we have done so far, it passes the newly
+   created model. We can get the text from the model by calling
+   `model.get("text")`.
+
+```diff
+ var Status = Backbone.Model.extend({
+     url: '/status'
+ });
+ 
+ var Statuses = Backbone.Collection.extend({
+-    add: function(options) {
+-        var that = this;
+-        var status = new Status();
+-        status.save({ text: options.text }, {
+-            success: function(model, data) {
+-                that.trigger("add", data.text);
+-            }
+-        });
+-    }
++    model: Status
+ });
+ 
+ var NewStatusView = Backbone.View.extend({
+     initialize: function(options) {
+         this.statuses = options.statuses;
+ 
+         this.statuses.on("add", this.clearInput, this);
  
          var add = $.proxy(this.addStatus, this);
          this.$('form').submit(add);
@@ -1164,31 +1249,28 @@ the type of model it accepts.
  
  var StatusesView = Backbone.View.extend({
      initialize: function(options) {
--        events.on('status:add', this.appendStatus, this);
-+        this.statuses = options.statuses;
-+
-+        this.statuses.on('add', this.appendStatus, this);
+         this.statuses = options.statuses;
+ 
+         this.statuses.on("add", this.appendStatus, this);
      },
  
 -    appendStatus: function(text) {
--        this.$('ul').append('<li>' + text + '</li>');
--    }
 +    appendStatus: function(status) {
-+        this.$('ul').append('<li>' + status.get('text') + '</li>');
-+    }
+-        this.$('ul').append('<li>' + text + '</li>');
++        this.$('ul').append('<li>' + status.get("text") + '</li>');
+     }
  });
  
  $(document).ready(function() {
      var statuses = new Statuses();
      new NewStatusView({ el: $('#new-status'), statuses: statuses });
--    new StatusesView({ el: $('#statuses') });
-+    new StatusesView({ el: $('#statuses'), statuses: statuses });
+     new StatusesView({ el: $('#statuses'), statuses: statuses });
  });
 ```
 
-As with `el` earlier, Backbone.js automatically sets `this.collection` when
-`collection` is passed. Therefore we rename `statuses` to `collection`
-in our view:
+As with `el` earlier, Backbone.js automatically sets `this.collection`
+when `collection` is passed. Therefore we rename `statuses` to
+`collection` in our view:
 
 ```diff
  var Status = Backbone.Model.extend({

@@ -1213,10 +1213,10 @@ things we need to change to use Backbone collections:
  });
  
  var Statuses = Backbone.Collection.extend({
--    add: function(options) {
+-    add: function(text) {
 -        var that = this;
 -        var status = new Status();
--        status.save({ text: options.text }, {
+-        status.save({ text: text }, {
 -            success: function(model, data) {
 -                that.trigger("add", data.text);
 -            }

@@ -439,8 +439,8 @@ constructor which methods we want to call when the event is triggered:
  var NewStatusView = function(options) {
      this.statuses = options.statuses;
  
-+    events.on('status:added', this.appendStatus, this);
-+    events.on('status:added', this.clearInput, this);
++    events.on('status:add', this.appendStatus, this);
++    events.on('status:add', this.clearInput, this);
 +
      var add = $.proxy(this.addStatus, this);
      $('#new-status form').submit(add);
@@ -455,7 +455,7 @@ constructor which methods we want to call when the event is triggered:
          success: function(data) {
 -            that.appendStatus(data.text);
 -            that.clearInput();
-+            events.trigger('status:added', data.text);
++            events.trigger('status:add', data.text);
          }
      });
  };
@@ -495,7 +495,7 @@ the triggering of the event into the `add` method on `Statuses`:
 -        success: options.success
 +        data: { text: text },
 +        success: function(data) {
-+            events.trigger('status:added', data.text);
++            events.trigger('status:add', data.text);
 +        }
      });
  };
@@ -503,8 +503,8 @@ the triggering of the event into the `add` method on `Statuses`:
  var NewStatusView = function(options) {
      this.statuses = options.statuses;
  
-     events.on('status:added', this.appendStatus, this);
-     events.on('status:added', this.clearInput, this);
+     events.on('status:add', this.appendStatus, this);
+     events.on('status:add', this.clearInput, this);
  
      var add = $.proxy(this.addStatus, this);
      $('#new-status form').submit(add);
@@ -515,7 +515,7 @@ the triggering of the event into the `add` method on `Statuses`:
 -    this.statuses.add({
 -        text: $('#new-status textarea').val(),
 -        success: function(data) {
--            events.trigger('status:added', data.text);
+-            events.trigger('status:add', data.text);
 -        }
 -    });
 +    this.statuses.add($('#new-status textarea').val());
@@ -560,7 +560,7 @@ callback this would be far more difficult.
          dataType: 'json',
          data: { text: text },
          success: function(data) {
-             events.trigger('status:added', data.text);
+             events.trigger('status:add', data.text);
          }
      });
  };
@@ -568,8 +568,8 @@ callback this would be far more difficult.
  var NewStatusView = function(options) {
      this.statuses = options.statuses;
  
--    events.on('status:added', this.appendStatus, this);
-     events.on('status:added', this.clearInput, this);
+-    events.on('status:add', this.appendStatus, this);
+     events.on('status:add', this.clearInput, this);
  
      var add = $.proxy(this.addStatus, this);
      $('#new-status form').submit(add);
@@ -587,7 +587,7 @@ callback this would be far more difficult.
  };
  
 +var StatusesView = function() {
-+    events.on('status:added', this.appendStatus, this);
++    events.on('status:add', this.appendStatus, this);
 +};
 +StatusesView.prototype.appendStatus = function(text) {
 +    $('#statuses ul').append('<li>' + text + '</li>');
@@ -615,7 +615,7 @@ them when instantiating the views:
          dataType: 'json',
          data: { text: text },
          success: function(data) {
-             events.trigger('status:added', data.text);
+             events.trigger('status:add', data.text);
          }
      });
  };
@@ -624,7 +624,7 @@ them when instantiating the views:
      this.statuses = options.statuses;
 +    this.el = $('#new-status');
  
-     events.on('status:added', this.clearInput, this);
+     events.on('status:add', this.clearInput, this);
  
      var add = $.proxy(this.addStatus, this);
 -    $('#new-status form').submit(add);
@@ -644,7 +644,7 @@ them when instantiating the views:
  var StatusesView = function() {
 +    this.el = $('#statuses');
 +
-     events.on('status:added', this.appendStatus, this);
+     events.on('status:add', this.appendStatus, this);
  };
  StatusesView.prototype.appendStatus = function(text) {
 -    $('#statuses ul').append('<li>' + text + '</li>');
@@ -675,7 +675,7 @@ dependencies when we instantiate a view.
          dataType: 'json',
          data: { text: text },
          success: function(data) {
-             events.trigger('status:added', data.text);
+             events.trigger('status:add', data.text);
          }
      });
  };
@@ -685,7 +685,7 @@ dependencies when we instantiate a view.
 -    this.el = $('#new-status');
 +    this.el = options.el;
  
-     events.on('status:added', this.clearInput, this);
+     events.on('status:add', this.clearInput, this);
  
      var add = $.proxy(this.addStatus, this);
      this.el.find('form').submit(add);
@@ -704,7 +704,7 @@ dependencies when we instantiate a view.
 +var StatusesView = function(options) {
 +    this.el = options.el;
  
-     events.on('status:added', this.appendStatus, this);
+     events.on('status:add', this.appendStatus, this);
  };
  StatusesView.prototype.appendStatus = function(text) {
      this.el.find('ul').append('<li>' + text + '</li>');
@@ -745,7 +745,7 @@ view instead of globally in the entire HTML. And it's so easy to add:
          dataType: 'json',
          data: { text: text },
          success: function(data) {
-             events.trigger('status:added', data.text);
+             events.trigger('status:add', data.text);
          }
      });
  };
@@ -754,7 +754,7 @@ view instead of globally in the entire HTML. And it's so easy to add:
      this.statuses = options.statuses;
      this.el = options.el;
  
-     events.on('status:added', this.clearInput, this);
+     events.on('status:add', this.clearInput, this);
  
      var add = $.proxy(this.addStatus, this);
 -    this.el.find('form').submit(add);
@@ -777,7 +777,7 @@ view instead of globally in the entire HTML. And it's so easy to add:
  var StatusesView = function(options) {
      this.el = options.el;
  
-     events.on('status:added', this.appendStatus, this);
+     events.on('status:add', this.appendStatus, this);
  };
  StatusesView.prototype.appendStatus = function(text) {
 -    this.el.find('ul').append('<li>' + text + '</li>');
@@ -816,7 +816,7 @@ change needed to add Backbone.js views:
          dataType: 'json',
          data: { text: text },
          success: function(data) {
-             events.trigger('status:added', data.text);
+             events.trigger('status:add', data.text);
          }
      });
  };
@@ -825,7 +825,7 @@ change needed to add Backbone.js views:
 -    this.statuses = options.statuses;
 -    this.el = options.el;
 -
--    events.on('status:added', this.clearInput, this);
+-    events.on('status:add', this.clearInput, this);
 -
 -    var add = $.proxy(this.addStatus, this);
 -    this.$('form').submit(add);
@@ -835,7 +835,7 @@ change needed to add Backbone.js views:
 +        this.statuses = options.statuses;
 +        this.el = options.el;
 +
-+        events.on('status:added', this.clearInput, this);
++        events.on('status:add', this.clearInput, this);
 +
 +        var add = $.proxy(this.addStatus, this);
 +        this.$('form').submit(add);
@@ -856,7 +856,7 @@ change needed to add Backbone.js views:
  var StatusesView = function(options) {
      this.el = options.el;
  
-     events.on('status:added', this.appendStatus, this);
+     events.on('status:add', this.appendStatus, this);
  };
  StatusesView.prototype.appendStatus = function(text) {
      this.$('ul').append('<li>' + text + '</li>');
@@ -891,7 +891,7 @@ and move both views fully over:
          dataType: 'json',
          data: { text: text },
          success: function(data) {
-             events.trigger('status:added', data.text);
+             events.trigger('status:add', data.text);
          }
      });
  };
@@ -901,7 +901,7 @@ and move both views fully over:
          this.statuses = options.statuses;
          this.el = options.el;
  
-         events.on('status:added', this.clearInput, this);
+         events.on('status:add', this.clearInput, this);
  
          var add = $.proxy(this.addStatus, this);
          this.$('form').submit(add);
@@ -937,7 +937,7 @@ and move both views fully over:
 -var StatusesView = function(options) {
 -    this.el = options.el;
 -
--    events.on('status:added', this.appendStatus, this);
+-    events.on('status:add', this.appendStatus, this);
 -};
 -StatusesView.prototype.appendStatus = function(text) {
 -    this.$('ul').append('<li>' + text + '</li>');
@@ -949,7 +949,7 @@ and move both views fully over:
 +    initialize: function(options) {
 +        this.el = options.el;
 +
-+        events.on('status:added', this.appendStatus, this);
++        events.on('status:add', this.appendStatus, this);
 +    },
 +
 +    appendStatus: function(text) {
@@ -985,7 +985,7 @@ with an HTML element.
          dataType: 'json',
          data: { text: text },
          success: function(data) {
-             events.trigger('status:added', data.text);
+             events.trigger('status:add', data.text);
          }
      });
  };
@@ -995,7 +995,7 @@ with an HTML element.
          this.statuses = options.statuses;
 -        this.el = options.el;
  
-         events.on('status:added', this.clearInput, this);
+         events.on('status:add', this.clearInput, this);
  
          var add = $.proxy(this.addStatus, this);
          this.$('form').submit(add);
@@ -1020,7 +1020,7 @@ with an HTML element.
      initialize: function(options) {
 -        this.el = options.el;
 -
-         events.on('status:added', this.appendStatus, this);
+         events.on('status:add', this.appendStatus, this);
      },
  
      appendStatus: function(text) {
@@ -1061,13 +1061,13 @@ network traffic, i.e. Ajax requests and responses.
 -        dataType: 'json',
 -        data: { text: text },
 -        success: function(data) {
--            events.trigger('status:added', data.text);
+-            events.trigger('status:add', data.text);
 -        }
 -    });
 +    var status = new Status();
 +    status.save({ text: text }, {
 +        success: function(model, data) {
-+            events.trigger('status:added', data.text);
++            events.trigger('status:add', data.text);
 +        }
 +    });
  };
@@ -1076,7 +1076,7 @@ network traffic, i.e. Ajax requests and responses.
      initialize: function(options) {
          this.statuses = options.statuses;
  
-         events.on('status:added', this.clearInput, this);
+         events.on('status:add', this.clearInput, this);
  
          var add = $.proxy(this.addStatus, this);
          this.$('form').submit(add);
@@ -1095,7 +1095,7 @@ network traffic, i.e. Ajax requests and responses.
  
  var StatusesView = Backbone.View.extend({
      initialize: function(options) {
-         events.on('status:added', this.appendStatus, this);
+         events.on('status:add', this.appendStatus, this);
      },
  
      appendStatus: function(text) {
@@ -1131,7 +1131,7 @@ the type of model it accepts.
 -    var status = new Status();
 -    status.save({ text: text }, {
 -        success: function(model, data) {
--            events.trigger('status:added', data.text);
+-            events.trigger('status:add', data.text);
 -        }
 -    });
 -};
@@ -1143,7 +1143,7 @@ the type of model it accepts.
      initialize: function(options) {
          this.statuses = options.statuses;
  
--        events.on('status:added', this.clearInput, this);
+-        events.on('status:add', this.clearInput, this);
 +        this.statuses.on('add', this.clearInput, this);
  
          var add = $.proxy(this.addStatus, this);
@@ -1164,7 +1164,7 @@ the type of model it accepts.
  
  var StatusesView = Backbone.View.extend({
      initialize: function(options) {
--        events.on('status:added', this.appendStatus, this);
+-        events.on('status:add', this.appendStatus, this);
 +        this.statuses = options.statuses;
 +
 +        this.statuses.on('add', this.appendStatus, this);

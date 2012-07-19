@@ -1043,12 +1043,12 @@ Let's use a model
 -----------------
 
 The next step is introducing models, which are responsible for the
-network traffic, i.e. Ajax requests and responses. Here Backbone has a
-nice abstraction over Ajax, so we don't need to specify `type`,
-`dataType` and `data` directly, we only need to specify the URL and then
-call `save` on the model. The `save` method accepts the data to save as
-the first parameter, and options, such as the `success` callback, as the
-second parameter.
+network traffic, i.e. Ajax requests and responses. As Backbone nicely
+abstracts Ajax, we don't need to specify `type`, `dataType` and `data`
+anymore. Now we only need to specify the URL and call `save` on the
+model. The `save` method accepts the data we want to save as the first
+parameter, and options, such as the `success` callback, as the second
+parameter.
 
 ```diff
  var events = _.clone(Backbone.Events);

@@ -1200,10 +1200,11 @@ in our view:
  });
  
  var NewStatusView = Backbone.View.extend({
-     initialize: function(options) {
+-    initialize: function(options) {
 -        this.statuses = options.statuses;
 -
 -        this.statuses.on('add', this.clearInput, this);
++    initialize: function() {
 +        this.collection.on('add', this.clearInput, this);
  
          var add = $.proxy(this.addStatus, this);
@@ -1223,10 +1224,11 @@ in our view:
  });
  
  var StatusesView = Backbone.View.extend({
-     initialize: function(options) {
+-    initialize: function(options) {
 -        this.statuses = options.statuses;
 -
 -        this.statuses.on('add', this.appendStatus, this);
++    initialize: function() {
 +        this.collection.on('add', this.appendStatus, this);
      },
  
@@ -1266,7 +1268,7 @@ format `{"event selector": "callback"}`:
 +        'submit form': 'addStatus'
 +    },
 +
-     initialize: function(options) {
+     initialize: function() {
          this.collection.on('add', this.clearInput, this);
 -
 -        var add = $.proxy(this.addStatus, this);
@@ -1285,7 +1287,7 @@ format `{"event selector": "callback"}`:
  });
  
  var StatusesView = Backbone.View.extend({
-     initialize: function(options) {
+     initialize: function() {
          this.collection.on('add', this.appendStatus, this);
      },
  
@@ -1320,7 +1322,7 @@ var NewStatusView = Backbone.View.extend({
         'submit form': 'addStatus'
     },
 
-    initialize: function(options) {
+    initialize: function() {
         this.collection.on('add', this.clearInput, this);
     },
 
@@ -1336,7 +1338,7 @@ var NewStatusView = Backbone.View.extend({
 });
 
 var StatusesView = Backbone.View.extend({
-    initialize: function(options) {
+    initialize: function() {
         this.collection.on('add', this.appendStatus, this);
     },
 

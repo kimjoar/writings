@@ -1186,7 +1186,7 @@ the type of model it accepts.
  });
 ```
 
-As for `el` earlier, Backbone.js automatically sets `this.collection` when
+As with `el` earlier, Backbone.js automatically sets `this.collection` when
 `collection` is passed. Therefore we rename `statuses` to `collection`
 in our view:
 

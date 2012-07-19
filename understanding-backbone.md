@@ -292,7 +292,7 @@ We get this error as `this` means different things in the constructor
 and the `addStatus` method, as it is jQuery that actually calls the
 latter when the user submits the form. (If you don't fully grasp how
 `this` works, I recommend reading
-[Understanding JavaScript Function Invocation and “this”](http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/))
+[Understanding JavaScript Function Invocation and “this”](http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/).)
 To solve this problem we can use
 [`$.proxy`](http://api.jquery.com/jQuery.proxy/), which creates a
 function where `this` is always the same — the context you specify as
@@ -600,7 +600,7 @@ callback this would be far more difficult.
  });
 ```
 
-As each view is now responsible for one HTML element, we can specify
+As each view is now responsible for only one HTML element, we can specify
 them when instantiating the views:
 
 ```diff
@@ -800,6 +800,8 @@ reusing functionality across views.
 
 Getting started with views in Backbone
 --------------------------------------
+
+# ("With the current state of our code, it's just ...")
 
 From the state our code is in now, it's just a couple of lines of change
 needed to add Backbone.js views:
@@ -1112,6 +1114,11 @@ network traffic, i.e. Ajax requests and responses.
 
 Handling several models
 -----------------------
+
+# ("Now that we have introduced models, we need a concept for a list of
+# models, such as the list of statuses in our application. In Backbone.js 
+# this concept is called Collection. For a Collection we can specify
+# the type of model it accepts.")
 
 Now that we have introduced models, we need a concepts for a list of
 models, such as the list of statuses in our application. The concept in

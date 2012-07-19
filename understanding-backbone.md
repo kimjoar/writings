@@ -1118,11 +1118,11 @@ models, such as the list of statuses in our application. In Backbone.js
 this concept is called a collection.
 
 One really cool thing about a collection is that is has scoped events.
-Basically, this just means that we can trigger and bind to events
-directly on a collection instead of using our `events` variable — our
-events will live on `statuses` instead of `events`. As we now start
-firing events directly on statuses there's no need for "status" in the
-event name, so we rename it from "status:add" to "add".
+Basically, this just means that we can bind and trigger events directly
+on a collection instead of using our `events` variable — our events will
+live on `statuses` instead of `events`. As we now start firing events
+directly on statuses there's no need for "status" in the event name, so
+we rename it from "status:add" to "add".
 
 ```diff
 -var events = _.clone(Backbone.Events);

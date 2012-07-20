@@ -1452,3 +1452,28 @@ and easier to test. What I've seen is that Backbone.js helps improve the
 structure of my JavaScript applications considerably. And at the same
 time it's a lightweight library, weighting in at just over 1000 lines of
 code.
+
+Want to learn more?
+-------------------
+
+By now you should understand far more of Backbone.js than when you did
+an hour ago. There are some great sources for learning Backbone.js out
+there, but there's also a whole lot of crap. Actually, the
+[Backbone.js documentation](http://backbonejs.org/) is superb as soon as
+you have a better understanding of how the framework works at a higher
+level. Addy Osmani's
+[Developing Backbone.js Applications](http://addyosmani.github.com/backbone-fundamentals/)
+is another great source.
+
+Reading the
+[annotated source](http://documentcloud.github.com/backbone/docs/backbone.html)
+of Backbone.js is also a great way to get a better understanding of how
+it works. I found this to be an enlightening experience when I had used
+Backbone.js for some weeks. The Backbone.js example on
+[TodoMVC](https://github.com/addyosmani/todomvc) is another great way to
+learn more.
+
+And, lastly, if you want to get a better understanding of the creation
+of a framework such as Backbone.js, I recommend the magnificent
+[JavaScript Web Applications](http://www.amazon.com/JavaScript-Web-Applications-Alex-MacCaw/dp/144930351X)
+by [Alex MacCaw](http://alexmaccaw.com/).

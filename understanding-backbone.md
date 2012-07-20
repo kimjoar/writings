@@ -1122,7 +1122,7 @@ Now that we have introduced models, we need a concept for a list of
 models, such as the list of statuses in our application. In Backbone.js 
 this concept is called a collection.
 
-One really cool thing about a collection is that is has scoped events.
+One really cool thing about collections is that they have scoped events.
 Basically, this just means that we can bind and trigger events directly
 on a collection instead of using our `events` variable — our events will
 live on `statuses` instead of `events`. As we now start firing events

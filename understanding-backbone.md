@@ -60,7 +60,7 @@ There are three things we want to achieve:
   can trigger the code ourselves — we only want to bootstrap the
   application when the DOM is ready. In its current state the code is
   nearly impossible to test.
-* We want want to adhere to the single responsibility principle, and
+* We want to adhere to the single responsibility principle, and
   make the code more reusable and easier to test.
 * We want to break the coupling between the DOM and Ajax.
 
@@ -396,7 +396,7 @@ Adding events
 For the next step we need to introduce our first bit of Backbone:
 events. Events are basically just a way to say: "Hi, I want to know when
 some action occurs" and "Hi, you know what? The action you're waiting
-for just occurred!" We are used to this idea from jQuery DOM events such
+for just occurred!". We are used to this idea from jQuery DOM events such
 as listening for `click` and `submit`, e.g.
 
 ```javascript

@@ -1507,9 +1507,9 @@ However, the code has increased from 16 lines to more than 40, so why do
 I think this is better? Because we are now working on a higher level of
 abstraction. This code is more maintainable, easier to reuse and extend,
 and easier to test. What I've seen is that Backbone.js helps improve the
-structure of my JavaScript applications considerably. And at the same
-time it's a lightweight library, weighting in at just over 1000 lines of
-code.
+structure of my JavaScript applications considerably, and in my
+experience the end result is often less complex and has less lines
+of code than my "regular JavaScript".
 
 Want to learn more?
 -------------------

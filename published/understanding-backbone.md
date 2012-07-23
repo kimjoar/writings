@@ -1508,7 +1508,7 @@ I think this is better? Because we are now working on a higher level of
 abstraction. This code is more maintainable, easier to reuse and extend,
 and easier to test. What I've seen is that Backbone.js helps improve the
 structure of my JavaScript applications considerably, and in my
-experience the end result is often less complex and has less lines
+experience the end result is often less complex and has fewer lines
 of code than my "regular JavaScript".
 
 Want to learn more?

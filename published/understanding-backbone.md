@@ -1336,7 +1336,7 @@ when `collection` is passed. Therefore we rename `statuses` to
 Evented views
 -------------
 
-The last step is removing the nasty `$.proxy` stuff. We can do this by
+Now, let's get rid of that nasty `$.proxy` stuff. We can do this by
 letting Backbone.js [delegate our events](http://backbonejs.org/#View-delegateEvents)
 by specifying them in an `events` hash in the view. This hash is on the
 format `{"event selector": "callback"}`:
@@ -1390,6 +1390,64 @@ format `{"event selector": "callback"}`:
  });
 ```
 
+Escape it!
+----------
+
+As our last step we're going to prevent XSS-exploits. Instead of using
+`model.get('text')` let's use the
+[built-in escape handling](http://backbonejs.org/#Model-escape) and
+write `model.escape('text')` instead. If you're using
+[Handlebars](http://handlebarsjs.com/),
+[Mustache](https://github.com/janl/mustache.js) or similar templating
+engines, you might get this functionality out of the box.
+
+```diff
+ var Status = Backbone.Model.extend({
+     url: '/status'
+ });
+ 
+ var Statuses = Backbone.Collection.extend({
+     model: Status
+ });
+ 
+ var NewStatusView = Backbone.View.extend({
+     events: {
+         "submit form": "addStatus"
+     },
+ 
+     initialize: function(options) {
+         this.collection.on("add", this.clearInput, this);
+     },
+ 
+     addStatus: function(e) {
+         e.preventDefault();
+ 
+         this.collection.add({ text: this.$('textarea').val() });
+     },
+ 
+     clearInput: function() {
+         this.$('textarea').val('');
+     }
+ });
+ 
+ var StatusesView = Backbone.View.extend({
+     initialize: function(options) {
+         this.collection.on("add", this.appendStatus, this);
+     },
+ 
+     appendStatus: function(status) {
+-        this.$('ul').append('<li>' + status.get("text") + '</li>');
++        this.$('ul').append('<li>' + status.escape("text") + '</li>');
+     }
+ });
+ 
+ $(document).ready(function() {
+     var statuses = new Statuses();
+     new NewStatusView({ el: $('#new-status'), collection: statuses });
+     new StatusesView({ el: $('#statuses'), collection: statuses });
+ });
+```
+
 And we're done!
 ---------------
 
@@ -1430,7 +1488,7 @@ var StatusesView = Backbone.View.extend({
     },
 
     appendStatus: function(status) {
-        this.$('ul').append('<li>' + status.get('text') + '</li>');
+        this.$('ul').append('<li>' + status.escape('text') + '</li>');
     }
 });
 
@@ -1441,7 +1499,7 @@ $(document).ready(function() {
 });
 ```
 
-And [here's](http://monologue-js.herokuapp.com/?step=21) the application
+And [here's](http://monologue-js.herokuapp.com/?step=22) the application
 running with the refactored code. Yeah, it's still the exact same
 application from a user's point of view.
 

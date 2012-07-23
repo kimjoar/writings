@@ -60,7 +60,7 @@ There are three things we want to achieve:
   can trigger the code ourselves — we only want to bootstrap the
   application when the DOM is ready. In its current state the code is
   nearly impossible to test.
-* We want want to adhere to the single responsibility principle, and
+* We want to adhere to the single responsibility principle, and
   make the code more reusable and easier to test.
 * We want to break the coupling between the DOM and Ajax.
 
@@ -1446,7 +1446,7 @@ running with the refactored code. Yeah, it's still the exact same
 application from a user's point of view.
 
 However, the code has increased from 16 lines to more than 40, so why do
-I think this is better? We are now working on a higher level of
+I think this is better? Because we are now working on a higher level of
 abstraction. This code is more maintainable, easier to reuse and extend,
 and easier to test. What I've seen is that Backbone.js helps improve the
 structure of my JavaScript applications considerably. And at the same
@@ -1457,7 +1457,7 @@ Want to learn more?
 -------------------
 
 By now you should understand far more of Backbone.js than when you did
-an hour ago. There are some great sources for learning Backbone.js out
+an hour ago. There are some great resources for learning Backbone.js out
 there, but there's also a whole lot of crap. Actually, the
 [Backbone.js documentation](http://backbonejs.org/) is superb as soon as
 you have a better understanding of how the framework works at a higher

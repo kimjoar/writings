@@ -1201,13 +1201,15 @@ we rename it from "status:add" to "add".
  });
 ```
 
-We can simplify this even more by using Backbone's own `add` method and
-specify what type of model the collection should handle. There are two
-things we need to change to use Backbone collections:
+We can simplify this even more by using Backbone's `create` method. It
+creates a new model instance, adds it to the collection and saves it to
+the server. Therefore we must specify what type of model the collection
+should handle. There are two things we need to change to use Backbone
+collections:
 
 1. When creating the status we need to pass in an options hash with the
    attributes we want to save, instead of only passing the text.
-2. The built in `add` also triggers an "add" event, but rather than
+2. The built in `create` also triggers an "add" event, but rather than
    passing only the text, as we have done so far, it passes the newly
    created model. We can get the text from the model by calling
    `model.get("text")`.
@@ -1244,7 +1246,7 @@ things we need to change to use Backbone collections:
          e.preventDefault();
  
 -        this.statuses.add(this.$('textarea').val());
-+        this.statuses.add({ text: this.$('textarea').val() });
++        this.statuses.create({ text: this.$('textarea').val() });
      },
  
      clearInput: function() {
@@ -1302,7 +1304,7 @@ when `collection` is passed. Therefore we rename `statuses` to
          e.preventDefault();
  
 -        this.statuses.add({ text: this.$('textarea').val() });
-+        this.collection.add({ text: this.$('textarea').val() });
++        this.collection.create({ text: this.$('textarea').val() });
      },
  
      clearInput: function() {
@@ -1365,7 +1367,7 @@ format `{"event selector": "callback"}`:
      addStatus: function(e) {
          e.preventDefault();
  
-         this.collection.add({ text: this.$('textarea').val() });
+         this.collection.create({ text: this.$('textarea').val() });
      },
  
      clearInput: function() {
@@ -1422,7 +1424,7 @@ engines, you might get this functionality out of the box.
      addStatus: function(e) {
          e.preventDefault();
  
-         this.collection.add({ text: this.$('textarea').val() });
+         this.collection.create({ text: this.$('textarea').val() });
      },
  
      clearInput: function() {
@@ -1474,7 +1476,7 @@ var NewStatusView = Backbone.View.extend({
     addStatus: function(e) {
         e.preventDefault();
 
-        this.collection.add({ text: this.$('textarea').val() });
+        this.collection.create({ text: this.$('textarea').val() });
     },
 
     clearInput: function() {

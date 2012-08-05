@@ -224,7 +224,7 @@ When?
 -----
 
 Mixins are a simple but potentially very powerful abstraction. We used
-them for mainly for three things: pagination, local error handling and
+them for mainly three things: pagination, local error handling and
 handling transitions between pages. Basically, we used mixins when we
 found them to help decouple our code and make each component more
 focused. The right time to use them appears to be when a component does

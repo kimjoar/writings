@@ -20,10 +20,10 @@ $(document).ready(function() {
             url: '/status',
             type: 'POST',
             dataType: 'json',
-            data: { text: $(this).find('textarea').val() },
+            data: { text: $('#new-status').find('textarea').val() },
             success: function(data) {
                 $('#statuses').append('<li>' + data.text + '</li>');
-                $(this).find('textarea').val('');
+                $('#new-status').find('textarea').val('');
             }
         });
     });

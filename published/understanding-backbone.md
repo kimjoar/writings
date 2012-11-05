@@ -13,7 +13,7 @@ post:
 
 ```javascript
 $(document).ready(function() {
-    $('#new-status').submit(function(e) {
+    $('#new-status form').submit(function(e) {
         e.preventDefault();
 
         $.ajax({

@@ -29,7 +29,7 @@ The last few years the JavaScript testing tools have improved
 significantly. There are still many problems, but tools such as
 [Jasmine](http://pivotal.github.com/jasmine/),
 [QUnit](http://docs.jquery.com/QUnit) and
-[Sinon.js](http://sinonjs.org/) are without a doubt good enough, i.e.
+[Sinon.js](http://sinonjs.org/) are without a doubt good enough —
 they give more value than they are a pain to work with.
 
 Code quality
@@ -67,11 +67,10 @@ So, what's the problem with this little bit of code?
 These 9 lines of code makes an Ajax requests, parses the response,
 builds some HTML, and manipulates the DOM. In these 9 lines we have
 coupled together fetching data from the server with the DOM. This little
-bit of code is not easily reusable, it's a pain to test, and it's bad
-JavaScript. (That last one is my subjective view, of course.)
+bit of code is not easily reusable and it's a pain to test.
 
-When driving JavaScript code through tests I (almost) never write code
-like this.
+When driving JavaScript code through tests I (almost) never end up
+writing code like this.
 
 ### Reusability
 
@@ -81,7 +80,7 @@ thing. For example, what if we moved the `select` and `option` stuff
 into an `optionsMapper`?
 
 ```javascript
-var Utils = Utils || {};
+var Utils = {};
 Utils.optionsMapper = function (array, opts) {
   var options = [];
 
@@ -96,6 +95,7 @@ Utils.optionsMapper = function (array, opts) {
 
 // Using the optionsMapper
 // ... and let's just say we have a persons array
+
 var options = Utils.optionsMapper(persons, {
   value: 'id',
   text: 'name'
@@ -119,9 +119,9 @@ far more time on maintaining your JavaScript than on writing new code.
 
 So what does it mean to write maintainable JavaScript code? There are at
 least three aspects that spring to my mind; it should be understandable,
-intuitive and extendable. One essential aspect of this is having a loose
-coupling between components. I propose that driving your JavaScript
-through tests will help in all these regards.
+intuitive and extendable. One essential aspect of this is having loose
+coupling between components. What I've experienced is that driving your
+JavaScript architecture through tests help with all of these.
 
 Documentation
 -------------
@@ -136,7 +136,7 @@ Less dependent on one person
 ----------------------------
 
 A lot of the JavaScript I've seen is so complex it's really just the
-person that wrote it that can work efficiently with it. And that's not
+person who wrote it that can work efficiently with it. And that's not
 ok when we start writing more and more JavaScript every day.
 
 Because you would if it was Java
@@ -144,6 +144,8 @@ Because you would if it was Java
 
 So just apply the same reasons you apply when convincing yourself that
 testing your Java code is the right thing to do.
+
+You should treat JavaScript as a real language.
 
 It's not some magic potion
 --------------------------

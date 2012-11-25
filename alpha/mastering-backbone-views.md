@@ -1,33 +1,36 @@
 Mastering Backbone.js views
 ===========================
 
-Recently [I introduced]() how I look at views in JavaScript. In this
-blog post I will elaborate further on what views are and the how they
-work, both conceptually and through code, with a primary focus on how I
-use them when using Backbone.js.
+I have already [written about]() how I look at views in JavaScript. In
+this blog post I will elaborate further on what views are and the how
+they work, both conceptually and through code, with a primary focus on
+how I use them when building Backbone.js applications.
 
-From the Backbone.js docs: "Backbone views are almost more convention
-than they are code". But what are these conventions and which patterns
-are important to understand and use?  Backbone.js views can be used in
-many different ways, this is my way of working with them, which has
-proved successful on several large-scale JavaScript applications.
+The Backbone.js documentation states that "Backbone views are almost
+more convention than they are code" — they are basically just simple
+abstractions over an HTML element which can be used in many different
+ways. In this blog post I will talk about some of the patterns I use,
+some of the problematic areas I've seen, how I test my views, and,
+basically, just how I work with my Backbone.js views in a way that has
+proven successful on several large-scale JavaScript applications.
 
 So first, what is a view?
 -------------------------
 
 The essence of views is that they help split the DOM into several
 smaller responsibilities. From the outside a view is just a black box
-responsible for one HTML element and its content. Additionally, views
-can themselves create even smaller black boxes responsible for a subset
-of the views HTML element.
+responsible for one HTML element and its content. First of all, lets
+start with a figure that illustrates what a view is:
 
-Throughout this blog post I will use an example application called
-Monolog to introduce the different concepts. First of all, lets start
-with a figure that illustrates what a view is:
-
-FIGUR!
+FIGURE!
 
 I've drawn borders on the boxes that represent views.
+
+Additionally, views can themselves create even smaller black boxes
+responsible for a subset of the views HTML element.
+
+Throughout this blog post I will use an example application called
+Monolog to introduce the different concepts. 
 
 Creating views
 --------------
@@ -69,6 +72,13 @@ Layers, mixins
 
 Shared handling of errors, spinners, and so on
 
+Never ever let a pagination view extend Backbone.View. I want to be in
+full control of what I extend. You should be able to pull in such
+functionality, not letting it take over your entire view. Favor
+composition over inheritance. Inheritance is strong coupling. However,
+this does not mean that we don't use inheritance, the point is just when
+we use it.
+
 Subviews
 --------
 
@@ -94,12 +104,17 @@ Destroying views
 
 Events, GC, subviews
 
+Own blog post?
+
 Dependencies
 ------------
 
 Constructor injection, e.g. pass in models, collection, whatever -- but
 not subviews, they are created in the view. They are just internal black
 boxes.
+
+Never ever let your model know about your view. A model should know
+about network traffic and state, not views.
 
 Communicating between views
 ---------------------------

@@ -166,7 +166,10 @@ setup:
 +    }
 +});
 +
-+require(['jquery', 'backbone'], function($, Backbone) {
++require([
++    'jquery'
++  , 'backbone'
++], function($, Backbone) {
 +
  var Status = Backbone.Model.extend({
      url: '/status'
@@ -241,8 +244,12 @@ Status model into this folder:
      }
  });
  
--require(['jquery', 'backbone'], function($, Backbone) {
-+require(['jquery', 'backbone', 'modules/status/status'], function($, Backbone, Status) {
+ require([
+     'jquery'
+   , 'backbone'
++  , 'modules/status/status'
+-], function($, Backbone) {
++], function($, Backbone, Status) {
 -
 -    var Status = Backbone.Model.extend({
 -        url: '/status'
@@ -326,8 +333,13 @@ Let's do the same with `Statuses`.
      }
  });
  
--require(['jquery', 'backbone', 'modules/status/status'], function($, Backbone, Status) {
-+require(['jquery', 'backbone', 'modules/status/statuses'], function($, Backbone, Statuses) {
+ require([
+     'jquery'
+   , 'backbone'
+-  , 'modules/status/status'
++  , 'modules/status/statuses'
+-], function($, Backbone, Status) {
++], function($, Backbone, Statuses) {
 -
 -    var Statuses = Backbone.Collection.extend({
 -        model: Status
@@ -409,8 +421,13 @@ We do the same with `NewStatusView`:
      }
  });
  
--require(['jquery', 'backbone', 'modules/status/statuses'], function($, Backbone, Statuses) {
-+require(['jquery', 'backbone', 'modules/status/statuses', 'modules/status/newStatusView'], function($, Backbone, Statuses, NewStatusView) {
+ require([
+     'jquery' 
+   , 'backbone'
+   , 'modules/status/statuses'
+   , 'modules/status/newStatusView'
+-], function($, Backbone, Statuses) {
++], function($, Backbone, Statuses, NewStatusView) {
 -
 -    var NewStatusView = Backbone.View.extend({
 -        events: {
@@ -501,8 +518,14 @@ And then StatusesView:
      }
  });
  
--require(['jquery', 'backbone', 'modules/status/statuses', 'modules/status/newStatusView'], function($, Backbone, Statuses, NewStatusView) {
-+require(['jquery', 'modules/status/statuses', 'modules/status/newStatusView', 'modules/status/statusesView'], function($, Statuses, NewStatusView, StatusesView) {
+ require([
+     'jquery' 
+   , 'backbone'
+   , 'modules/status/statuses'
+   , 'modules/status/newStatusView'
++  , 'modules/status/statusesView'
+-], function($, Backbone, Statuses, NewStatusView) {
++], function($, Backbone, Statuses, NewStatusView, StatusesView) {
 -
 -    var StatusesView = Backbone.View.extend({
 -        initialize: function(options) {
@@ -543,7 +566,7 @@ define(['backbone'], function(Backbone) {
 });
 ```
 
-With a little bit of cleanup our `monologue.js` now looks amazing:
+And now `monologue.js` looks quite good:
 
 ```javascript
 requirejs.config({
@@ -564,10 +587,10 @@ requirejs.config({
 });
 
 require([
-    'jquery',
-    'modules/status/statuses',
-    'modules/status/newStatusView',
-    'modules/status/statusesView'
+    'jquery'
+  , 'modules/status/statuses'
+  , 'modules/status/newStatusView'
+  , 'modules/status/statusesView'
 ], function($, Statuses, NewStatusView, StatusesView) {
 
     $(document).ready(function() {
@@ -681,11 +704,11 @@ monologue.js:
  });
  
  require([
-     'jquery',
-     'backbone',
-     'modules/status/statuses',
-     'modules/status/newStatusView',
-     'modules/status/statusesView'
+     'jquery'
+   , 'backbone'
+   , 'modules/status/statuses'
+   , 'modules/status/newStatusView'
+   , 'modules/status/statusesView'
  ], function($, Backbone, Statuses, NewStatusView, StatusesView) {
  
      $(document).ready(function() {
@@ -771,11 +794,11 @@ monologue.js:
  });
  
  require([
-     'jquery',
-     'backbone',
-     'modules/status/statuses',
-     'modules/status/newStatusView',
-     'modules/status/statusesView'
+     'jquery'
+   , 'backbone'
+   , 'modules/status/statuses'
+   , 'modules/status/newStatusView'
+   , 'modules/status/statusesView'
  ], function($, Backbone, Statuses, NewStatusView, StatusesView) {
  
      $(document).ready(function() {

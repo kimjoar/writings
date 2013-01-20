@@ -1043,7 +1043,7 @@ As an example, let's start by including Hogan.js in `monolog.js`:
 And now we can use Hogan.js on our template in for example
 `NewStatusView`:
 
-```javascript
+```diff
  define([
      'backbone'
    , 'text!modules/status/newStatusView.html'

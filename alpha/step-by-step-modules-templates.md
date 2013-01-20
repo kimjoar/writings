@@ -998,7 +998,7 @@ almost always end up using some form of template engine, such as
 HTML. Luckily, it is dead simple to include this in our current setup.
 As an example, let's start by including Hogan.js in `monolog.js`:
 
-```js
+```diff
  requirejs.config({
      paths: {
          'jquery': 'vendor/jquery-1.8.3',

@@ -1,23 +1,25 @@
 Step by step to Backbone.js &mdash; Modules, Templates and Minification
 =======================================================================
 
-In
-[my last step by step article](https://github.com/kjbekkelund/writings/blob/master/published/understanding-backbone.md)
-I took a piece of regular jQuery-based JavaScript code and transformed
-it into idiomatic Backbone using Models, Collections, Views and Events.
-In this blog post I'll build on the code, and step by step create
-modules using Require.js and then show my currently preferred way of
-handling templates in Backbone.js apps. We'll finish off with creating a
-production ready version of the code, minified into a single JavaScript
-file.
+TODO
+
+* Push app to Heroku, fix links
+* Get three people to give feedback
+
+In [my last step by step article][stepbystep] I took a piece of regular
+jQuery-based JavaScript code and transformed it into idiomatic Backbone
+using Models, Collections, Views and Events.  In this blog post I'll
+build on the code, and step by step create modules using Require.js and
+then show my currently preferred way of handling templates in
+Backbone.js apps. We'll finish off with creating a production ready
+version of the code, minified into a single JavaScript file.
 
 Initial setup
 -------------
 
 This article starts off where we finished last time around. The app is
-up and running
-[here](),
-and here is the final JavaScript from last time:
+up and running [here][appinit], and here is the final JavaScript from
+last time:
 
 ```javascript
 var Status = Backbone.Model.extend({
@@ -99,17 +101,15 @@ Modules using Require.js
 ------------------------
 
 Most of us have written 1000+ lines of JavaScript code in a single file.
-For large projects this is a pain to work with, it's pain to test, and
+For large projects this is a pain to work with, it's a pain to test, and
 it's a pain to reuse and extend the code.
 
 The code we have above looks good for now, but gradually the size and
 complexity will increase, and suddenly the file is too long and
 unwieldy. In this blog post we'll use Require.js to split the code into
-several files. Require.js is an
-[AMD](https://github.com/amdjs/amdjs-api/wiki/AMD)
-implementation. To get a better understanding of AMD, check out
-[this article](http://requirejs.org/docs/whyamd.html) in the Require.js
-documentation.
+several files. Require.js is an [AMD][amd] implementation. To get a
+better understanding of AMD, check out [this article][whyamd] in the
+Require.js documentation.
 
 So, let's start using Require.js. First of all we must include the
 library and tell it what will be our main application entry point. In
@@ -220,10 +220,10 @@ setup:
 Splitting out modules
 ---------------------
 
-Now that we have our base setup and our app is still [up and running](),
-we can start moving the separate parts out of `monologue.js`. Lets start
-by creating a `modules/status` folder, then we can start by moving the
-Status model into this folder:
+Now that we have our base setup and our app is still [up and
+running][apprequirejs], we can start moving the separate parts out of
+`monologue.js`. Lets start by creating a `modules/status` folder, then
+we can start by moving the Status model into this folder:
 
 ```diff
  requirejs.config({
@@ -605,9 +605,9 @@ require([
 
 Pretty sweet. This file is now focused on kickstarting our application.
 Outside of this file, none of the other files fetch anything directly
-from the DOM. `NewStatusView` and `StatusesView` don't know anything
-about `Statuses`, it only knows it receives a collection which handles
-creation of statuses.
+from the DOM. One of the primary benefits of this, is that it
+significantly increases the testability of the code. I've written [a
+little bit][responsibility] before about this.
 
 Templates
 ---------
@@ -829,7 +829,7 @@ Moving templates out of the views
 
 The solution, of course, is to move the templates out of the views and
 into their own files. We'll do this using the Require.js [text
-plugin](https://github.com/requirejs/text).
+plugin][text].
 
 `monologue.js`:
 
@@ -975,9 +975,9 @@ Template engines
 
 Usually a template contains both HTML and some logic, so you would
 almost always end up using some form of template engine, such as
-[Hogan.js]() or [Handlebars.js](), to generate the final HTML.
-Luckily, it is dead simple to include this in our current setup. Let's
-start by including Hogan.js in `monolog.js`:
+[Hogan.js][hogan] or [Handlebars.js][handlebars], to generate the final
+HTML. Luckily, it is dead simple to include this in our current setup.
+Let's start by including Hogan.js in `monolog.js`:
 
 ...
 
@@ -995,8 +995,7 @@ As we no longer have only one JavaScript file, we need to concatenate
 our files when preparing our code for production. Additionally, we want
 this process to inline our templates into the minfified JavaScript file
 so we don't have to keep fetching them dynamically in production. When
-using Require.js the natural choice is using its minifier,
-[r.js](https://github.com/jrburke/r.js/).
+using Require.js the natural choice is using its minifier, [r.js][rjs].
 
 For Require.js we need to create a config file for the minification,
 `config/buildconfig.js`:
@@ -1099,3 +1098,14 @@ have taken some significant steps further.
 
 If you want a setup similar to this in a Java-only world, you can find a
 lot of inspiration in this setup: ...
+
+[responsibility]: http://open.bekk.no/a-views-responsibility/
+[stepbystep]: https://github.com/kjbekkelund/writings/blob/master/published/understanding-backbone.md
+[appinit]: heroku
+[apprequirejs]: heroku
+[amd]: https://github.com/amdjs/amdjs-api/wiki/AMD
+[whyamd]: http://requirejs.org/docs/whyamd.html
+[text]: https://github.com/requirejs/text
+[hogan]: http://twitter.github.com/hogan.js/
+[handlebars]: http://handlebarsjs.com/
+[rjs]: https://github.com/jrburke/r.js/

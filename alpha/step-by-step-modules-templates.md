@@ -1,26 +1,23 @@
-Step by step &mdash; Modules and Templates in Backbone.js
-=========================================================
+Step by step to Backbone.js &mdash; Modules, Templates and Minification
+=======================================================================
 
 In
 [my last step by step article](https://github.com/kjbekkelund/writings/blob/master/published/understanding-backbone.md)
 I took a piece of regular jQuery-based JavaScript code and transformed
-it into idiomatic Backbone using Models, Collections, Views and Events. 
-In this blog post I'll build on the code, and step by step modularize
-the code using Require.js and then show one way of handling templates in
-Backbone.js apps.
-
-For those of you who don't want to use Require.js I recommend checking
-out some of the
-[many](https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.templatecache.md)
-[other](http://japhr.blogspot.no/2011/08/getting-started-with-backbonejs-view.html)
-[articles](http://backbonetutorials.com/what-is-a-view/)
-on handling templates in Backbone.js.
+it into idiomatic Backbone using Models, Collections, Views and Events.
+In this blog post I'll build on the code, and step by step create
+modules using Require.js and then show my currently preferred way of
+handling templates in Backbone.js apps. We'll finish off with creating a
+production ready version of the code, minified into a single JavaScript
+file.
 
 Initial setup
 -------------
 
 This article starts off where we finished last time around. The app is
-up and running [here](). This is the final JavaScript from last time:
+up and running
+[here](),
+and here is the final JavaScript from last time:
 
 ```javascript
 var Status = Backbone.Model.extend({
@@ -98,8 +95,8 @@ And this is the HTML:
 </html>
 ```
 
-Modularization
---------------
+Modules using Require.js
+------------------------
 
 Most of us have written 1000+ lines of JavaScript code in a single file.
 For large projects this is a pain to work with, it's pain to test, and
@@ -107,10 +104,12 @@ it's a pain to reuse and extend the code.
 
 The code we have above looks good for now, but gradually the size and
 complexity will increase, and suddenly the file is too long and
-unwieldy. In this blog post I'll use Require.js to modularize the code.
-Require.js is an [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD)
-implementation. To understand AMD, and other ways to modularize
-your code, check out [...]().
+unwieldy. In this blog post we'll use Require.js to split the code into
+several files. Require.js is an
+[AMD](https://github.com/amdjs/amdjs-api/wiki/AMD)
+implementation. To get a better understanding of AMD, check out
+[this article](http://requirejs.org/docs/whyamd.html) in the Require.js
+documentation.
 
 So, let's start using Require.js. First of all we must include the
 library and tell it what will be our main application entry point. In
@@ -145,15 +144,15 @@ the HTML this can be done as follows:
  </html>
 ```
 
-Now we must wrap our JavaScript, `monologue.js` in a little Require.js
+Now we must wrap our JavaScript, `monologue.js`, in a little Require.js
 setup:
 
 ```diff
 +requirejs.config({
 +    paths: {
-+        'jquery': 'vendor/jquery-1.8.3',
-+        'underscore': 'vendor/underscore-1.4.2',
-+        'backbone': 'vendor/backbone-0.9.2'
++        'jquery': 'vendor/jquery-1.8.3'
++      , 'underscore': 'vendor/underscore-1.4.2'
++      , 'backbone': 'vendor/backbone-0.9.2'
 +    },
 +    shim: {
 +        'backbone': {
@@ -229,9 +228,9 @@ Status model into this folder:
 ```diff
  requirejs.config({
      paths: {
-         'jquery': 'vendor/jquery-1.8.3',
-         'underscore': 'vendor/underscore-1.4.2',
-         'backbone': 'vendor/backbone-0.9.2'
+         'jquery': 'vendor/jquery-1.8.3'
+       , 'underscore': 'vendor/underscore-1.4.2'
+       , 'backbone': 'vendor/backbone-0.9.2'
      },
      shim: {
          'backbone': {
@@ -298,8 +297,8 @@ Status model into this folder:
  });
 ```
 
-We use the same name for the file as our model, i.e.
-`modules/status/status.js`:
+As you can see above we include `modules/status/status.js`, so we copy
+the Status model into this file:
 
 ```javascript
 define(['backbone'], function(Backbone) {
@@ -313,14 +312,14 @@ define(['backbone'], function(Backbone) {
 });
 ```
 
-Let's do the same with `Statuses`.
+Let's do the same with the `Statuses` collection.
 
 ```diff
  requirejs.config({
      paths: {
-         'jquery': 'vendor/jquery-1.8.3',
-         'underscore': 'vendor/underscore-1.4.2',
-         'backbone': 'vendor/backbone-0.9.2'
+         'jquery': 'vendor/jquery-1.8.3'
+       , 'underscore': 'vendor/underscore-1.4.2'
+       , 'backbone': 'vendor/backbone-0.9.2'
      },
      shim: {
          'backbone': {
@@ -385,12 +384,14 @@ Let's do the same with `Statuses`.
 ```
 
 As you can see, we no longer depend on the `Status` model in
-`monologue.js`, as it is only needed in the Statuses collection.
-
-`modules/status/statuses.js`:
+`monologue.js` as it is only needed in the Statuses collection, so we no
+longer include it. Our `modules/status/statuses.js`:
 
 ```javascript
-define(['backbone', 'modules/status/status'], function(Backbone, Status) {
+define([
+    'backbone',
+    'modules/status/status'
+], function(Backbone, Status) {
 
     var Statuses = Backbone.Collection.extend({
         model: Status
@@ -406,9 +407,9 @@ We do the same with `NewStatusView`:
 ```diff
  requirejs.config({
      paths: {
-         'jquery': 'vendor/jquery-1.8.3',
-         'underscore': 'vendor/underscore-1.4.2',
-         'backbone': 'vendor/backbone-0.9.2'
+         'jquery': 'vendor/jquery-1.8.3'
+       , 'underscore': 'vendor/underscore-1.4.2'
+       , 'backbone': 'vendor/backbone-0.9.2'
      },
      shim: {
          'backbone': {
@@ -503,9 +504,9 @@ And then StatusesView:
 ```diff
  requirejs.config({
      paths: {
-         'jquery': 'vendor/jquery-1.8.3',
-         'underscore': 'vendor/underscore-1.4.2',
-         'backbone': 'vendor/backbone-0.9.2'
+         'jquery': 'vendor/jquery-1.8.3'
+       , 'underscore': 'vendor/underscore-1.4.2'
+       , 'backbone': 'vendor/backbone-0.9.2'
      },
      shim: {
          'backbone': {
@@ -571,9 +572,9 @@ And now `monologue.js` looks quite good:
 ```javascript
 requirejs.config({
     paths: {
-        'jquery': 'vendor/jquery-1.8.3',
-        'underscore': 'vendor/underscore-1.4.2',
-        'backbone': 'vendor/backbone-0.9.2'
+        'jquery': 'vendor/jquery-1.8.3'
+      , 'underscore': 'vendor/underscore-1.4.2'
+      , 'backbone': 'vendor/backbone-0.9.2'
     },
     shim: {
         'backbone': {
@@ -611,12 +612,13 @@ creation of statuses.
 Templates
 ---------
 
-In our application the HTML is already in place, but in most
-applications that won't be the case. In most applications we render some
-HTML for example when some data is loaded.
+In our application the HTML is already present in `index.html`, but in
+most applications that won't be the case. In most applications we render
+HTML for example when some data is loaded, when we go to another page,
+and so on.
 
 Our first step is getting `NewStatusView` and `StatusesView` to render
-`#new-status` and `#statuses`. Let's start with `NewStatusView`:
+into `#new-status` and `#statuses`. We'll start with `NewStatusView`:
 
 ```diff
  <!DOCTYPE html>
@@ -643,7 +645,8 @@ Our first step is getting `NewStatusView` and `StatusesView` to render
  </html>
 ```
 
-`newStatusView.js`:
+We'll start by just moving this HTML into the view, adding it when the
+`render` method is called on the view. `newStatusView.js`:
 
 ```diff
  define(['backbone'], function(Backbone) {
@@ -683,14 +686,14 @@ Our first step is getting `NewStatusView` and `StatusesView` to render
  });
 ```
 
-monologue.js:
+We now have to call the `render` method in `monologue.js`:
 
 ```
  requirejs.config({
      paths: {
-         'jquery': 'vendor/jquery-1.8.3',
-         'underscore': 'vendor/underscore-1.4.2',
-         'backbone': 'vendor/backbone-0.9.2'
+         'jquery': 'vendor/jquery-1.8.3'
+       , 'underscore': 'vendor/underscore-1.4.2'
+       , 'backbone': 'vendor/backbone-0.9.2'
      },
      shim: {
          'backbone': {
@@ -724,7 +727,7 @@ monologue.js:
  });
 ```
 
-And doing the same with StatusesView:
+We do the same with `StatusesView`:
 
 ```diff
  <!DOCTYPE html>
@@ -746,7 +749,7 @@ And doing the same with StatusesView:
  </html>
 ```
 
-StatusesView:
+`statusesView.js`:
 
 ```diff
  define(['backbone'], function(Backbone) {
@@ -778,9 +781,9 @@ monologue.js:
 ```diff
  requirejs.config({
      paths: {
-         'jquery': 'vendor/jquery-1.8.3',
-         'underscore': 'vendor/underscore-1.4.2',
-         'backbone': 'vendor/backbone-0.9.2'
+         'jquery': 'vendor/jquery-1.8.3'
+       , 'underscore': 'vendor/underscore-1.4.2'
+       , 'backbone': 'vendor/backbone-0.9.2'
      },
      shim: {
          'backbone': {
@@ -815,21 +818,28 @@ monologue.js:
  });
 ```
 
-This solution is ok for simple and small HTML templates. However, most
-templates are not, and they just end up cluttering the view. First of
-all, let's move these out of their respective views. We'll do this using
-the Require.js [text plugin](https://github.com/requirejs/text).
+We have now moved templates out of the `index.html` and into our views.
+This is a great first step, but we have one significant problem: what
+happens when our templates grow. Having a large template in the view
+will clutter the view, especially when we want to have more advanced
+views.
 
-Monologue.js:
+Moving templates out of the views
+---------------------------------
+
+The solution, of course, is to move the templates out of the views and
+into their own files. We'll do this using the Require.js [text
+plugin](https://github.com/requirejs/text).
+
+`monologue.js`:
 
 ```diff
  requirejs.config({
      paths: {
-         'jquery': 'vendor/jquery-1.8.3',
-         'underscore': 'vendor/underscore-1.4.2',
--        'backbone': 'vendor/backbone-0.9.2'
-+        'backbone': 'vendor/backbone-0.9.2',
-+        'text': 'vendor/text-2.0.3'
+         'jquery': 'vendor/jquery-1.8.3'
+       , 'underscore': 'vendor/underscore-1.4.2'
+       , 'backbone': 'vendor/backbone-0.9.2'
++      , 'text': 'vendor/text-2.0.3'
      },
      shim: {
          'backbone': {
@@ -864,12 +874,13 @@ Monologue.js:
 ```
 
 The plugin automatically loads text resources when they are defined as a
-dependency using the `text!` prefix.
+dependency using the `text!` prefix, e.g. `text!test.html` loads
+`test.html` and makes it available as a string.
 
 Chrome Developer Tools bilde som viser dette?
 
 First, let's create a file for the
-NewStatusView template: `modules/status/newStatusView.html` with:
+NewStatusView template, `modules/status/newStatusView.html`:
 
 ```html
 <h2>New monolog</h2>
@@ -927,7 +938,7 @@ Let's do the same with StatusesView:
 
 ```diff
 -define(['backbone'], function(Backbone) {
-+define(['backbone', 'text!modules/status/statusesTemplate.html'], function(Backbone, statusesTemplate) {
++define(['backbone', 'text!modules/status/statuses.html'], function(Backbone, statusesTemplate) {
  
      var StatusesView = Backbone.View.extend({
 -        template: '<h2>Monologs</h2>' +
@@ -952,12 +963,30 @@ Let's do the same with StatusesView:
  });
 ```
 
-And the statuses template:
+And the statuses template, `modules/status/statuses.html`:
 
 ```html
 <h2>Monologs</h2>
 <ul></ul>
 ```
+
+Template engines
+----------------
+
+Usually a template contains both HTML and some logic, so you would
+almost always end up using some form of template engine, such as
+[Hogan.js]() or [Handlebars.js](), to generate the final HTML.
+Luckily, it is dead simple to include this in our current setup. Let's
+start by including Hogan.js in `monolog.js`:
+
+...
+
+And now we can use Hogan.js on our template in for example
+`NewStatusView`:
+
+...
+
+
 
 Getting ready for production
 ----------------------------
@@ -969,7 +998,8 @@ so we don't have to keep fetching them dynamically in production. When
 using Require.js the natural choice is using its minifier,
 [r.js](https://github.com/jrburke/r.js/).
 
-`buildconfig.js`:
+For Require.js we need to create a config file for the minification,
+`config/buildconfig.js`:
 
 ```javascript
 ({
@@ -1005,6 +1035,12 @@ Run the build using Node.js:
 $ node public/vendor/r.js -o config/buildconfig.js
 ```
 
+Or using Java:
+
+```sh
+$ ...
+```
+
 And now we should see something similar to:
 
 ```
@@ -1028,7 +1064,8 @@ text!modules/status/statusesTemplate.html
 ```
 
 And we'll have a minified JavaScript file in `build/monologue.js`.
-Making a production ready `index.html`:
+Making a production ready `index.html` is as simple as using the
+minified JavaScript file:
 
 ```diff
  <!DOCTYPE html>
@@ -1049,7 +1086,7 @@ Making a production ready `index.html`:
  </html>
 ```
 
-As you can see we only include `monologue.js` and nothing else.
+As you can see we only need to include `monologue.js` and nothing else.
 
 Finishing up
 ------------

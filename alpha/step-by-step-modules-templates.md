@@ -702,7 +702,7 @@ view. `newStatusView.js`:
 To get the HTML into `index.html` we now have to call `render` on the
 view in `monologue.js`:
 
-```
+```diff
  requirejs.config({
      paths: {
          'jquery': 'vendor/jquery-1.8.3'

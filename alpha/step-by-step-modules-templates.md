@@ -112,9 +112,9 @@ it's a pain to reuse and extend the code.
 The code we have above looks good for now, but gradually the size and
 complexity will increase, and suddenly the file is too long and
 unwieldy. In this blog post we'll use Require.js to split the code into
-several files. Require.js is an [AMD][amd] implementation. To get a
-better understanding of AMD, check out [this article][whyamd] in the
-Require.js documentation.
+several files. Require.js uses the Asynchronous Module Definition (AMD)
+API for handling JavaScript modules, which you can read more about in 
+[their documentation][whyamd].
 
 So, let's start using Require.js. First of all we must include the
 library and tell it what will be our main application entry point. In

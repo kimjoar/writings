@@ -105,9 +105,9 @@ And here is the HTML:
 Modules using Require.js
 ------------------------
 
-Most of us have written 1000+ lines of JavaScript code in a single file.
-For large projects this is a pain to work with, it's a pain to test, and
-it's a pain to reuse and extend the code.
+Most of us have written 1000+ lines of JavaScript code in a single file at some point.
+For large projects this is hard to work with, difficult to test, and
+next to impossible reuse and extend.
 
 The code we have above looks good for now, but gradually the size and
 complexity will increase, and suddenly the file is too long and

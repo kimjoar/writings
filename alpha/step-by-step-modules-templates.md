@@ -689,7 +689,7 @@ Uglifying file: /Users/kjbekkelund/dev/monologue/build/monologue.js
 ```
 
 And we'll have a minified JavaScript file in `build/monologue.js`. Now,
-making a production ready `index.html` is now as simple as using the
+making a production ready `index.html` is as simple as using the
 minified JavaScript file:
 
 ```diff

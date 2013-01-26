@@ -217,6 +217,14 @@ setup:
 +});
 ```
 
+In the Require.js config we use `paths` to say where we find a library.
+This lets us require `backbone` instead of `vendor/backbone-0.9.2` all
+over the place. Also, when we update our version of Backbone we only
+have one place we need change the mapping and we are good to go. The
+[`shim`][shim] options is used for those JavaScript libraries we want to
+pull in which do not register as an AMD module, such as Backbone and
+Underscore. jQuery, however, do register as an AMD module.
+
 Splitting out modules
 ---------------------
 
@@ -744,3 +752,4 @@ lot of inspiration in [this setup][js-java-setup].
 [buildconfig]: https://github.com/jrburke/r.js/blob/master/build/example.build.js
 [optimize]: https://github.com/jrburke/r.js/blob/c1be5af39ee8a0c0bdb74ce1df4ffe35277b2f49/build/example.build.js#L80-L91
 [js-java-setup]: https://github.com/kjbekkelund/js-java-setup
+[shim]: http://requirejs.org/docs/api.html#config-shim

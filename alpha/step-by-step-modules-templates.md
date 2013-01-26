@@ -19,7 +19,7 @@ Initial setup
 
 This article starts off where we finished last time around. The app is
 up and running on [heroku][appinit]. Here is the final JavaScript from
-last time:
+last time, `monologue.js`:
 
 ```javascript
 var Status = Backbone.Model.extend({
@@ -100,9 +100,9 @@ And here is the HTML:
 Modules using Require.js
 ------------------------
 
-Most of us have written 1000+ lines of JavaScript code in a single file at some point.
-For large projects this is hard to work with, difficult to test, and
-next to impossible reuse and extend.
+Most of us have written 1000+ lines of JavaScript code in a single file
+at some point. For large projects this is hard to work with, difficult
+to test, and next to impossible to reuse and extend.
 
 The code we have above looks good for now, but gradually the size and
 complexity will increase, and suddenly the file is too long and
@@ -661,10 +661,12 @@ Run the build using Node.js (remember to run from the project root):
 $ node public/vendor/r.js -o config/buildconfig.js
 ```
 
-Or using Java (still, from the project root):
+Or using Java:
 
 ```sh
-$ java -classpath lib/rhino/js.jar:lib/closure/compiler.jar org.mozilla.javascript.tools.shell.Main public/vendor/r.js -o config/buildconfig.js
+$ java -classpath lib/rhino/js.jar:lib/closure/compiler.jar \
+    org.mozilla.javascript.tools.shell.Main \
+    public/vendor/r.js -o config/buildconfig.js
 ```
 
 And now we should see something similar to:

@@ -12,10 +12,10 @@ TODO
   view with no template, and with tagName set to `li`
 
 In [my last step by step article][stepbystep] I took a piece of regular
-jQuery-based JavaScript code and transformed it into idiomatic Backbone
+jQuery-based JavaScript code and transformed it into Backbone
 using Models, Collections, Views and Events.  In this blog post I'll
-build on the code, and step by step create modules using Require.js and
-then show my currently preferred way of handling templates in
+build on the code, and step by step introduce Require.js modules. Then I 
+will show my currently preferred way of handling templates in
 Backbone.js apps. We'll finish off with creating a production ready
 version of the code, minified into a single JavaScript file.
 
@@ -23,7 +23,7 @@ Initial setup
 -------------
 
 This article starts off where we finished last time around. The app is
-up and running [here][appinit], and here is the final JavaScript from
+up and running on [heroku][appinit]. Here is the final JavaScript from
 last time:
 
 ```javascript
@@ -72,7 +72,7 @@ $(document).ready(function() {
 });
 ```
 
-And this is the HTML:
+And here is the HTML:
 
 ```html
 <!DOCTYPE html>
@@ -105,9 +105,9 @@ And this is the HTML:
 Modules using Require.js
 ------------------------
 
-Most of us have written 1000+ lines of JavaScript code in a single file.
-For large projects this is a pain to work with, it's a pain to test, and
-it's a pain to reuse and extend the code.
+Most of us have written 1000+ lines of JavaScript code in a single file at some point.
+For large projects this is hard to work with, difficult to test, and
+next to impossible reuse and extend.
 
 The code we have above looks good for now, but gradually the size and
 complexity will increase, and suddenly the file is too long and

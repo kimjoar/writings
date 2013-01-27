@@ -1,10 +1,10 @@
 Mastering Backbone.js views
 ===========================
 
-I have already [written about]() how I look at views in JavaScript. In
-this blog post I will elaborate further on what views are and the how
-they work, both conceptually and through code, with a primary focus on
-how I use them when building Backbone.js applications.
+I have already [written about][responsible] how I look at views in
+JavaScript. In this blog post I will elaborate further on what views are
+and the how they work, both conceptually and through code, with a
+primary focus on how I use them when building Backbone.js applications.
 
 The Backbone.js documentation states that "Backbone views are almost
 more convention than they are code" — they are basically just simple
@@ -135,4 +135,4 @@ itself.
 Putting it all together
 -----------------------
 
-
+[responsible]: http://open.bekk.no/a-views-responsibility/

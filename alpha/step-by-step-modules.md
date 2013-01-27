@@ -1,16 +1,10 @@
 Step by step to Backbone.js &mdash; Modules with Require.js
 ===========================================================
 
-** THIS IS NOT READY YET! **
-
-TODO
-
-* Push app to Heroku, fix links
-
 In [my last step by step article][stepbystep] I took a piece of regular
 jQuery-based JavaScript code and transformed it into Backbone using
 Models, Collections, Views and Events. In this blog post I'll build on
-the code, and step by step introduce Require.js modules. We'll finish
+the code and step by step introduce Require.js modules. We'll finish
 off with creating a production ready version of the code, minified into
 a single JavaScript file.
 
@@ -18,8 +12,8 @@ Initial setup
 -------------
 
 This article starts off where we finished last time around. The app is
-up and running on [heroku][appinit]. Here is the final JavaScript from
-last time, `monologue.js`:
+[up and running][appinit], and here is the final JavaScript from last
+time, `monologue.js`:
 
 ```javascript
 var Status = Backbone.Model.extend({
@@ -96,6 +90,11 @@ And here is the HTML:
   </body>
 </html>
 ```
+
+You can find this code [on GitHub][monologue]. If you download the code,
+you can run `node app.js` to get a server which responds to the adding
+of statuses, which makes it far easier to follow along in this blog
+post.
 
 Modules using Require.js
 ------------------------
@@ -223,15 +222,16 @@ over the place. Also, when we update our version of Backbone we only
 have one place we need change the mapping and we are good to go. The
 [`shim`][shim] options is used for those JavaScript libraries we want to
 pull in which do not register as an AMD module, such as Backbone and
-Underscore. jQuery, however, do register as an AMD module.
+Underscore. jQuery, however, do register as an AMD module, so we don't
+need to shim it.
 
 Splitting out modules
 ---------------------
 
-Now that we have our base setup and our app is still [up and
-running][apprequirejs], we can start moving the separate parts out of
-`monologue.js`. Lets start by creating a `modules/status` folder, then
-we can start by moving the Status model into this folder:
+Now that we have our base setup and our app is still up and running, we
+can start moving the separate parts out of `monologue.js`. Lets start by
+creating a `modules/status` folder, then we can start by moving the
+Status model into this folder:
 
 ```diff
  requirejs.config({
@@ -724,6 +724,9 @@ Now Require.js will fetch our JavaScript files as they are needed in
 development, while we have a single file which contains everything in
 production.
 
+And we are done! You can find the finished code [on
+GitHub][monologuedone].
+
 Finishing up
 ------------
 
@@ -739,8 +742,7 @@ lot of inspiration in [this setup][js-java-setup].
 
 [responsibility]: http://open.bekk.no/a-views-responsibility/
 [stepbystep]: https://github.com/kjbekkelund/writings/blob/master/published/understanding-backbone.md
-[appinit]: heroku
-[apprequirejs]: heroku
+[appinit]: http://monologue-2.herokuapp.com/
 [amd]: https://github.com/amdjs/amdjs-api/wiki/AMD
 [whyamd]: http://requirejs.org/docs/whyamd.html
 [text]: https://github.com/requirejs/text
@@ -753,3 +755,5 @@ lot of inspiration in [this setup][js-java-setup].
 [optimize]: https://github.com/jrburke/r.js/blob/c1be5af39ee8a0c0bdb74ce1df4ffe35277b2f49/build/example.build.js#L80-L91
 [js-java-setup]: https://github.com/kjbekkelund/js-java-setup
 [shim]: http://requirejs.org/docs/api.html#config-shim
+[monologue]: https://github.com/kjbekkelund/monologue/tree/modules-start
+[monologuedone]: https://github.com/kjbekkelund/monologue/tree/modules-end

@@ -663,10 +663,18 @@ Run the build using Node.js (remember to run from the project root):
 $ node public/vendor/r.js -o config/buildconfig.js
 ```
 
-Or using Java:
+Or using Java on OS X/Linux/Unix:
 
 ```sh
 $ java -classpath lib/rhino/js.jar:lib/closure/compiler.jar \
+    org.mozilla.javascript.tools.shell.Main \
+    public/vendor/r.js -o config/buildconfig.js
+```
+
+Or using Java on Windows:
+
+```sh
+$ java -classpath lib/rhino/js.jar;lib/closure/compiler.jar \
     org.mozilla.javascript.tools.shell.Main \
     public/vendor/r.js -o config/buildconfig.js
 ```

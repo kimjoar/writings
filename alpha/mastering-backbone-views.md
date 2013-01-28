@@ -36,7 +36,7 @@ Creating views
 --------------
 
 A view should never ever attach itself to the DOM. It's always the
-parent view's resposibility to create and attach a view to the DOM.
+parent view's responsibility to create and attach a view to the DOM.
 
 Ehm, what does that mean?
 
@@ -86,7 +86,7 @@ It is important that a view has no knowledge about its subviews except
 for their `el`, other dependencies, and their API, i.e.  the events the
 view trigger. This simplifies testing, it simplifies reuse and it
 simplifies maintenance. A subview is just a black box, and they are used
-to split up the responbilities in an application.
+to split up the responsibilities in an application.
 
 Handling DOM events
 -------------------

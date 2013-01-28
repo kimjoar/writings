@@ -1,6 +1,8 @@
 Mastering Backbone.js views
 ===========================
 
+THIS IS STILL UNDER DEVELOPMENT.
+
 I have already [written about][responsible] how I look at views in
 JavaScript. In this blog post I will elaborate further on what views are
 and the how they work, both conceptually and through code, with a

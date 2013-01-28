@@ -1,6 +1,8 @@
 Creating a simplistic MVC in JavaScript
 =======================================
 
+THIS IS STILL UNDER DEVELOPMENT.
+
 I've been using Backbone.js for several projects that last year, but
 recently I started thinking about how easy it is to create some of the
 core abstractions in Backbone.js.

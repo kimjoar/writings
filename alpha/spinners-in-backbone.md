@@ -1,6 +1,8 @@
 Handling spinners in Backbone.js
 ================================
 
+THIS IS STILL UNDER DEVELOPMENT.
+
 In every application that relies heavily on Ajax to fetch and post
 information, spinners are needed to indicate progress, and for that
 matter, successful completion. Here I'll show how I usually end up

@@ -1,5 +1,5 @@
-Step by step to Backbone.js &mdash; Getting started with Require.js
-===================================================================
+Step by step to Backbone.js &mdash; Require.js modules
+======================================================
 
 In [my last step by step article][stepbystep] I took a piece of regular
 jQuery-based JavaScript code and transformed it into Backbone using

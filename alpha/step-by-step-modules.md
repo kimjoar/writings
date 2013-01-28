@@ -1,5 +1,5 @@
-Step by step to Backbone.js &mdash; Modules with Require.js
-===========================================================
+Step by step to Backbone.js &mdash; Getting started with Require.js
+===================================================================
 
 In [my last step by step article][stepbystep] I took a piece of regular
 jQuery-based JavaScript code and transformed it into Backbone using
@@ -619,7 +619,7 @@ Pretty sweet. This file is now focused on kickstarting our application.
 Outside of this file, none of the other files fetch anything directly
 from the DOM. One of the primary benefits of this, is that it
 significantly increases the testability of the code. I've written [a
-little bit][responsibility] before about this.
+little bit][responsibility] about this before.
 
 Getting ready for production
 ----------------------------
@@ -647,12 +647,6 @@ For Require.js we need to create a config file for the minification,
 
     // name the optimized file
     out: '../build/monologue.js',
-
-    // inlines the text for any text! dependencies
-    inlineText: true,
-
-    // we don't need the text plugin in production, as it is inlined
-    stubModules: ['text'],
 
     // keep 'em comments
     preserveLicenseComments: true

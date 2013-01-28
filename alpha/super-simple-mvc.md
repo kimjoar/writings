@@ -21,7 +21,7 @@ For me these are the most important aspects of Backbone.js:
 Let's go through these in order, and see how we can create a super
 simple, albeit simplistic, MV* library while using some great and widely
 used libraries. (The essence of this is not its brevity, but that it is
-suprisingly easy to do, and that we can learn a lot about Backbone.js
+surprisingly easy to do, and that we can learn a lot about Backbone.js
 and similar libraries in the process.)
 
 Creating new components
@@ -64,7 +64,7 @@ View.extend = function(properties) {
 
     // Create child constructor
     var child = function() {
-        // … which only job is to call the parent construtor with all
+        // … which only job is to call the parent constructor with all
         // the arguments
         parent.apply(this, arguments);
     };
@@ -105,7 +105,7 @@ var View = function() {
   this.initialize.apply(this, arguments);
 };
 
-// Empty initialize which should be overriden in subclasses if it
+// Empty initialize which should be overridden in subclasses if it
 // is needed.
 View.prototype.initialize = function() {};
 ```

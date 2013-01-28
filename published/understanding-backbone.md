@@ -1523,7 +1523,7 @@ there, but there's also a whole lot of crap. Actually, the
 you have a better understanding of how the framework works at a higher
 level. Addy Osmani's
 [Developing Backbone.js Applications](http://addyosmani.github.com/backbone-fundamentals/)
-is another great source.
+is another good source.
 
 Reading the
 [annotated source](http://documentcloud.github.com/backbone/docs/backbone.html)
@@ -1532,6 +1532,11 @@ it works. I found this to be an enlightening experience when I had used
 Backbone.js for some weeks. The Backbone.js example on
 [TodoMVC](https://github.com/addyosmani/todomvc) is another great way to
 learn more.
+
+If you want to get started with Require.js in a Backbone app, you can
+check out
+[the follow-up](https://github.com/kjbekkelund/writings/blob/master/published/step-by-step-modules.md)
+to this blog post.
 
 And, lastly, if you want to get a better understanding of the creation
 of a framework such as Backbone.js, I recommend the magnificent

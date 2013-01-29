@@ -1340,7 +1340,7 @@ Evented views
 
 Now, let's get rid of that nasty `$.proxy` stuff. We can do this by
 letting Backbone.js [delegate our events](http://backbonejs.org/#View-delegateEvents)
-by specifying them in an `events` hash in the view. This hash is on the
+by specifying them in an `events` hash in the view. This hash is of the
 format `{"event selector": "callback"}`:
 
 ```diff

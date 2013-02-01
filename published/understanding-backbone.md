@@ -1529,9 +1529,7 @@ Reading the
 [annotated source](http://documentcloud.github.com/backbone/docs/backbone.html)
 of Backbone.js is also a great way to get a better understanding of how
 it works. I found this to be an enlightening experience when I had used
-Backbone.js for some weeks. The Backbone.js example on
-[TodoMVC](https://github.com/addyosmani/todomvc) is another great way to
-learn more.
+Backbone.js for some weeks.
 
 If you want to get started with Require.js in a Backbone app, you can
 check out

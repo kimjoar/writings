@@ -148,7 +148,7 @@ can be done in two ways, both of which utilize the `viewMixin` method we
 created above:
 
 1. As [mentioned](http://documentcloud.github.com/backbone/#FAQ-extending)
-   in the Backbone docs it's okey to add methods directly to a Backbone
+   in the Backbone docs it's okay to add methods directly to a Backbone
    component. We can use this idea and add `mixin` like this:
 
    ```javascript

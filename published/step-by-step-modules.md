@@ -531,12 +531,12 @@ And then StatusesView:
  
  require([
      'jquery' 
-   , 'backbone'
+-  , 'backbone'
    , 'modules/status/statuses'
    , 'modules/status/newStatusView'
 +  , 'modules/status/statusesView'
 -], function($, Backbone, Statuses, NewStatusView) {
-+], function($, Backbone, Statuses, NewStatusView, StatusesView) {
++], function($, Statuses, NewStatusView, StatusesView) {
 -
 -    var StatusesView = Backbone.View.extend({
 -        initialize: function(options) {

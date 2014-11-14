@@ -222,7 +222,7 @@ over the place. Also, when we update our version of Backbone we only
 have one place we need change the mapping and we are good to go. The
 [`shim`][shim] options is used for those JavaScript libraries we want to
 pull in which do not register as an AMD module, such as Backbone and
-Underscore. jQuery, however, do register as an AMD module, so we don't
+Underscore. jQuery, however, does register as an AMD module, so we don't
 need to shim it.
 
 Splitting out modules

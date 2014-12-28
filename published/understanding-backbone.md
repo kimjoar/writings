@@ -472,12 +472,12 @@ constructor which methods we want to call when the event is triggered:
  });
 ```
 
-Now we can declare in the constructor what we want to happen when a
+Now, we can declare in the constructor what we want to happen when a
 status is added, instead of `addStatus` being responsible for handling
 success. The only responsibility `addStatus` should have is backend
 communication, not updating the DOM.
 
-As we no longer deal with the view in the `success` callback we can move
+As we no longer deal with the view in the `success` callback, we can move
 the triggering of the event into the `add` method on `Statuses`:
 
 ```diff
@@ -658,9 +658,9 @@ them when instantiating the views:
  });
 ```
 
-Our views, `NewStatusView` and `StatusesView` are still difficult to
+Our views, `NewStatusView` and `StatusesView`, are still difficult to
 test because they depend on having the HTML present, e.g. in order to
-find `$('#statuses')`. To remedy this we can pass in its DOM
+find `$('#statuses')`. To remedy this, we can pass in its DOM
 dependencies when we instantiate a view.
 
 ```diff
@@ -719,7 +719,7 @@ dependencies when we instantiate a view.
  });
 ```
 
-Now, this is easy to test! With this change we can use a
+Now, this is easy to test! With this change, we can use a
 [jQuery trick](http://api.jquery.com/jQuery/#jQuery2) to test our views.
 Instead of initiating our views by passing in for example
 `$('#new-status')`, we can pass in the necessary HTML wrapped in jQuery,
@@ -729,7 +729,7 @@ my current project our nearly 200 tests run in less than one second.
 
 Our next step is introducing a helper to clean up our views a little
 bit. Instead of writing `this.el.find` we can create a simple helper so
-we can write `this.$` instead. With this little change it feels like we
+we can write `this.$` instead. With this little change, it feels like we
 are saying, I want to use jQuery to look for something locally on this
 view instead of globally in the entire HTML. And it's so easy to add:
 
@@ -873,7 +873,7 @@ change needed to add Backbone.js views:
 ```
 
 As you can see from the code, we use `Backbone.View.extend` to create a
-new view class in Backbone. Within `extend` we can specify instance
+new view class in Backbone. Within `extend`, we can specify instance
 methods such as `initialize`, which is the name of the constructor.
 
 Now that we have started the move over to Backbone.js views, let's go on
@@ -1119,7 +1119,7 @@ Handling several models
 -----------------------
 
 Now that we have introduced models, we need a concept for a list of
-models, such as the list of statuses in our application. In Backbone.js 
+models, such as the list of statuses in our application. In Backbone.js, 
 this concept is called a collection.
 
 One really cool thing about collections is that they have scoped events.
@@ -1203,11 +1203,11 @@ we rename it from "status:add" to "add".
 
 We can simplify this even more by using Backbone's `create` method. It
 creates a new model instance, adds it to the collection and saves it to
-the server. Therefore we must specify what type of model the collection
+the server. Therefore, we must specify what type of model the collection
 should handle. There are two things we need to change to use Backbone
 collections:
 
-1. When creating the status we need to pass in an options hash with the
+1. When creating the status, we need to pass in an options hash with the
    attributes we want to save, instead of only passing the text.
 2. The built in `create` also triggers an "add" event, but rather than
    passing only the text, as we have done so far, it passes the newly
@@ -1276,7 +1276,7 @@ collections:
 ```
 
 As with `el` earlier, Backbone.js automatically sets `this.collection`
-when `collection` is passed. Therefore we rename `statuses` to
+when `collection` is passed. Therefore, we rename `statuses` to
 `collection` in our view:
 
 ```diff
